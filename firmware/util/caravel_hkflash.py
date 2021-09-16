@@ -97,14 +97,17 @@ spi = SpiController(cs_count=2)
 spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=1)
 
-vendor = slave.exchange([CARAVEL_REG_READ, 0x01], 1)
-print("vendor = {}".format(binascii.hexlify(vendor)))
-
-mfg = slave.exchange([CARAVEL_REG_READ, 0x02], 1)
-print("mfg = {}".format(binascii.hexlify(mfg)))
+print("Caravel data:")
+mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
+# print("mfg = {}".format(binascii.hexlify(mfg)))
+print("   mfg        = {:04x}".format(int.from_bytes(mfg, byteorder='big')))
 
 product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
-print("product = {}".format(binascii.hexlify(product)))
+# print("product = {}".format(binascii.hexlify(product)))
+print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
+
+data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
 
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
