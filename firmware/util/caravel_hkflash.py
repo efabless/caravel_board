@@ -106,17 +106,17 @@ print("mfg = {}".format(binascii.hexlify(mfg)))
 product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
 print("product = {}".format(binascii.hexlify(product)))
 
-slave.write([CARAVEL_REG_WRITE, 0x07, 0x01])
-slave.write([CARAVEL_REG_WRITE, 0x07, 0x00])
+slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
 jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-if jedec[0:1] != bytes.fromhex('ef'):
-    print("Winbond SRAM not found")
-    sys.exit()
+# if jedec[0:1] != bytes.fromhex('ef'):
+#     print("Winbond SRAM not found")
+#     sys.exit()
 
 print("status = 0x{}".format(get_status(slave), '02x'))
 

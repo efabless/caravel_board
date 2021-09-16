@@ -124,7 +124,7 @@ while (k != 'q'):
     k = input()[0]
 
     if k == '1':
-        for reg in [0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a]:
+        for reg in [0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0c]:
             data = slave.exchange([CARAVEL_REG_READ, reg], 1)
             print("reg {} = {}".format(hex(reg), binascii.hexlify(data)))
 
