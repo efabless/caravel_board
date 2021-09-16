@@ -4,6 +4,7 @@ import sys, os
 from pyftdi.spi import SpiController
 from array import array as Array
 import binascii
+import struct
 
 
 SR_WIP = 0b00000001  # Busy/Work-in-progress bit
@@ -88,7 +89,19 @@ spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 # spi.configure('ftdi://ftdi:232h:1/1')
 spi.configure('ftdi://::/1')
-slave = spi.get_port(cs=1, freq=12E6, mode=0)  # Chip select is 1 -- corresponds to D4
+slave = spi.get_port(cs=1)  # Chip select is 1 -- corresponds to D4
+
+print("Caravel data:")
+mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
+# print("mfg = {}".format(binascii.hexlify(mfg)))
+print("   mfg        = {:04x}".format(int.from_bytes(mfg, byteorder='big')))
+
+product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
+# print("product = {}".format(binascii.hexlify(product)))
+print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
+
+data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
 
 k = ''
 
@@ -96,8 +109,8 @@ while (k != 'q'):
 
     print("\n-----------------------------------\n")
     print("Select option:")
-    print("  (1) read CARAVEL product codes ")
-    print("  (2) read CARAVEL SPI registers ")
+    print("  (1) read CARAVEL registers ")
+    print("  (2) read CARAVEL project ID ")
     print("  (3) reset CARAVEL")
     print("  (4) reset Flash")
     print("  (5) read Flash JEDEC codes")
@@ -111,26 +124,19 @@ while (k != 'q'):
     k = input()[0]
 
     if k == '1':
-        # read CARAVEL product codes
-        vendor = slave.exchange([CARAVEL_REG_READ, 0x01], 1)
-        print("vendor = {}".format(binascii.hexlify(vendor)))
-
-        mfg = slave.exchange([CARAVEL_REG_READ, 0x02], 1)
-        print("mfg = {}".format(binascii.hexlify(mfg)))
-
-        product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
-        print("product = {}".format(binascii.hexlify(product)))
-
-    elif k == '2':
         for reg in [0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a]:
             data = slave.exchange([CARAVEL_REG_READ, reg], 1)
             print("reg {} = {}".format(hex(reg), binascii.hexlify(data)))
 
+    elif k == '2':
+            data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+            print("Project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
+
     elif k == '3':
         # reset CARAVEL
         print("Resetting CARAVEL...")
-        slave.write([CARAVEL_REG_WRITE, 0x07, 0x01])
-        slave.write([CARAVEL_REG_WRITE, 0x07, 0x00])
+        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
     elif k == '4':
         # reset Flash
@@ -138,6 +144,7 @@ while (k != 'q'):
         slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
     elif k == '5':
+        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
         jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
         print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
