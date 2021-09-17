@@ -97,6 +97,7 @@ spi = SpiController(cs_count=2)
 spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=1)
 
+print(" ")
 print("Caravel data:")
 mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
 # print("mfg = {}".format(binascii.hexlify(mfg)))
@@ -113,6 +114,8 @@ slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+
+print(" ")
 
 jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))

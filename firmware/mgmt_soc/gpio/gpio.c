@@ -110,6 +110,7 @@ void main()
 	while (1){
 		int x = (reg_mprj_datal & 0xff0000) >> 16;
 		reg_mprj_datal = (x+1) << 24;
+		for (i = 0; i < 30000; i++) {}
 	}
 }
 
