@@ -30,23 +30,39 @@ void main()
 
 	reg_gpio_data = 0;
 	reg_gpio_ena = 0;
-	reg_gpio_pu = 0;
+	reg_gpio_pu = 1;
 	reg_gpio_pd = 0;
 
-	for (i = 0; i < 10; i++) {
-		/* Fast blink for simulation */
-		reg_gpio_data = 1;
-		reg_gpio_data = 0;
-	}
+	reg_mprj_datal = 0xa0000001;
+    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
 
-	while (1) {
-		/* Slow blink for demonstration board */
-		for (i = 0; i < 30000; i++) {
-			reg_gpio_data = 1;
-		}
-		for (i = 0; i < 30000; i++) {
-			reg_gpio_data = 0;
-		}
-	}
+	reg_mprj_io_16 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
+	reg_mprj_io_0 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_3 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_xfer = 1;
+
+
+//	for (i = 0; i < 10; i++) {
+//		/* Fast blink for simulation */
+//		reg_gpio_data = 1;
+//		reg_gpio_data = 0;
+//	}
+
+while (1) {}
+
+//	while (1) {
+//		/* Slow blink for demonstration board */
+//		for (i = 0; i < 30000; i++) {
+//			reg_gpio_data = 1;
+//		}
+//		for (i = 0; i < 30000; i++) {
+////			reg_gpio_data = 0;
+//		}
+//	}
 }
 

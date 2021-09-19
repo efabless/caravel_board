@@ -88,7 +88,7 @@ Ftdi.show_devices()
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 # spi.configure('ftdi://ftdi:232h:1/1')
-spi.configure('ftdi://::/1')
+spi.configure('ftdi://ftdi:232h:1/1')
 slave = spi.get_port(cs=1)  # Chip select is 1 -- corresponds to D4
 
 print("Caravel data:")

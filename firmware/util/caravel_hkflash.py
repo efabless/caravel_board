@@ -94,7 +94,8 @@ if not os.path.isfile(file_path):
    sys.exit()
 
 spi = SpiController(cs_count=2)
-spi.configure('ftdi://::/1')
+# spi.configure('ftdi://::/1')
+spi.configure('ftdi://ftdi:232h:1/1')
 slave = spi.get_port(cs=1)
 
 print(" ")
@@ -200,12 +201,12 @@ with open(file_path, mode='r') as f:
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
-if jedec[0] != int('bf', 16):
-    print("locking registers...")
-    slave.write([CARAVEL_PASSTHRU, 0xaa])
-    slave.write([CARAVEL_PASSTHRU, 0x55])
-    slave.write([CARAVEL_PASSTHRU, 0x06])
-    slave.write([CARAVEL_PASSTHRU, 0x31, 0x01])
+# if jedec[0] != int('bf', 16):
+#     print("locking registers...")
+#     slave.write([CARAVEL_PASSTHRU, 0xaa])
+#     slave.write([CARAVEL_PASSTHRU, 0x55])
+#     slave.write([CARAVEL_PASSTHRU, 0x06])
+#     slave.write([CARAVEL_PASSTHRU, 0x31, 0x01])
 
 report_status(jedec)
 

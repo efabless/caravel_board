@@ -17,15 +17,6 @@
 
 start:
 
-#la x1, 0x21000000
-#la x1, 0x2d000000
-#li x2, 0xe0
-#sw x2, 0(x1)
-#sw x0, 4(x1)
-#sw x0, 8(x1)
-#sw x0, 0xc(x1)
-#j .
-
 # zero-initialize register file
 addi x1, zero, 0
 # x2 (sp) is initialized by reset
