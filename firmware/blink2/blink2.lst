@@ -1,0 +1,49 @@
+
+blink2.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+10000000 <start>:
+10000000:	210005b7          	lui	a1,0x21000
+10000004:	00100093          	li	ra,1
+10000008:	0015a023          	sw	ra,0(a1) # 21000000 <_etext+0x10ffffb4>
+1000000c:	0005a223          	sw	zero,4(a1)
+10000010:	0005a423          	sw	zero,8(a1)
+10000014:	0005a623          	sw	zero,12(a1)
+
+10000018 <bigloop>:
+10000018:	024000ef          	jal	ra,1000003c <delay>
+1000001c:	0005a023          	sw	zero,0(a1)
+10000020:	01c000ef          	jal	ra,1000003c <delay>
+10000024:	0015a023          	sw	ra,0(a1)
+10000028:	00000013          	nop
+1000002c:	00000013          	nop
+10000030:	00c000ef          	jal	ra,1000003c <delay>
+10000034:	0005a023          	sw	zero,0(a1)
+
+10000038 <done>:
+10000038:	00000063          	beqz	zero,10000038 <done>
+
+1000003c <delay>:
+1000003c:	00a00513          	li	a0,10
+
+10000040 <dloop>:
+10000040:	fff50513          	addi	a0,a0,-1
+10000044:	fe051ee3          	bnez	a0,10000040 <dloop>
+10000048:	00008067          	ret
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1941                	addi	s2,s2,-16
+   2:	0000                	unimp
+   4:	7200                	flw	fs0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_ebss+0x14>
+   c:	0000000f          	fence	unknown,unknown
+  10:	7205                	lui	tp,0xfffe1
+  12:	3376                	fld	ft6,376(sp)
+  14:	6932                	flw	fs2,12(sp)
+  16:	7032                	flw	ft0,44(sp)
+  18:	0030                	addi	a2,sp,8

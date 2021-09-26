@@ -53,7 +53,7 @@ endif
 	vvp $<
 
 %.elf: %.c $(FIRMWARE_PATH)/sections.lds $(FIRMWARE_PATH)/start.s
-	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -march=rv32imc -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(FIRMWARE_PATH)/start.s $<
+	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -O0 -march=rv32imc -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ start.s $<
 	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D gpio_mgmt.elf > gpio_mgmt.lst
 
 %.hex: %.elf

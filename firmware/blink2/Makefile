@@ -12,46 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 # SPDX-License-Identifier: Apache-2.0
 
-TOOLCHAIN_PATH = /opt/riscv32imc/bin/
+TOOLCHAIN_PATH = /opt/riscv32imc/bin
+# TOOLCHAIN_PATH = /ef/apps/bin/
 
-PDK_PATH = $(PDK_ROOT)/sky130A
-VERILOG_PATH = ../../../..
-RTL_PATH = $(VERILOG_PATH)/rtl
-BEHAVIOURAL_MODELS = ../../ 
-
-FIRMWARE_PATH = ../..
-#GCC_PATH?=/ef/apps/bin
-GCC_PATH?=$(TOOLCHAIN_PATH)
+FIRMWARE_PATH = ..
+GCC_PATH?=/ef/apps/bin
 GCC_PREFIX?=riscv32-unknown-elf
-
-SIM_DEFINES = -DFUNCTIONAL -DSIM
-
-SIM?=RTL
 
 .SUFFIXES:
 
-PATTERN = gpio
+PATTERN = blink2
 
-all:  ${PATTERN:=.vcd}
+all:  ${PATTERN:=.hex}
 
 hex:  ${PATTERN:=.hex}
 
-%.elf: %.c $(FIRMWARE_PATH)/sections.lds $(FIRMWARE_PATH)/start.s
-	${GCC_PATH}/${GCC_PREFIX}-gcc -march=rv32imc -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(FIRMWARE_PATH)/start.s $<
+%.elf: %.s $(FIRMWARE_PATH)/sections.lds
+	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -O0 -march=rv32i -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $<
+	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D blink2.elf > blink2.lst
 
 %.hex: %.elf
-	${GCC_PATH}/${GCC_PREFIX}-objcopy -O verilog $< $@ 
+	${TOOLCHAIN_PATH}/${GCC_PREFIX}-objcopy -O verilog $< $@
 	# to fix flash base address
-	sed -i 's/@10000000/@00000000/g' $@
+	sed -i '.orig' -e 's/@10000000/@00000000/g' $@
 
-%.bin: %.elf
-	${GCC_PATH}/${GCC_PREFIX}-objcopy -O binary $< /dev/stdout | tail -c +1048577 > $@
-
-flash: gpio.hex
-	python3 ../../util/caravel_hkflash.py gpio.hex
+flash: blink2.hex
+	python3 ../util/caravel_hkflash.py $<
 
 # ---- Clean ----
 

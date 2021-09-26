@@ -10,11 +10,12 @@ PATTERN = blink
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.c ../sections.lds ../start.s
-	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32imc -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
+	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
+	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D blink.elf > blink.lst
 
 %.hex: %.elf
 	$(TOOLCHAIN_PATH)riscv32-unknown-elf-objcopy -O verilog $< $@
-	sed -i 's/@10000000/@00000000/g' $@
+	sed -i '.orig' -e 's/@10000000/@00000000/g' $@
 
 %.bin: %.elf
 	$(TOOLCHAIN_PATH)riscv32-unknown-elf-objcopy -O binary $< $@

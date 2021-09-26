@@ -1,9 +1,13 @@
+#!/usr/bin/env python3
+
 from pyftdi.ftdi import Ftdi
 import time
 import sys, os
 from pyftdi.spi import SpiController
 from array import array as Array
 import binascii
+import struct
+from io import StringIO
 
 
 SR_WIP = 0b00000001  # Busy/Work-in-progress bit
@@ -57,9 +61,15 @@ TIMINGS = {'page': (0.0015, 0.003),  # 1.5/3 ms
 #             SerialFlash.FEAT_SUBSECTERASE |
 #             SerialFlash.FEAT_CHIPERASE)
 
+CARAVEL_PASSTHRU = 0xC4
+CARAVEL_STREAM_READ = 0x40
+CARAVEL_STREAM_WRITE = 0x80
+CARAVEL_REG_READ = 0x48
+CARAVEL_REG_WRITE = 0x88
+
 
 def get_status(device):
-    return int.from_bytes(device.exchange([CMD_READ_STATUS],1), byteorder='big')
+    return int.from_bytes(device.exchange([CARAVEL_PASSTHRU, CMD_READ_STATUS],1), byteorder='big')
 
 
 def report_status(jedec):
@@ -68,7 +78,7 @@ def report_status(jedec):
         print("status reg_1 = {}".format(hex(get_status(slave))))
     else:
         print("status reg_1 = {}".format(hex(get_status(slave))))
-        status = slave.exchange([0x35], 1)
+        status = slave.exchange([CARAVEL_PASSTHRU, 0x35], 1)
         print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
         # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
@@ -77,44 +87,57 @@ def is_busy(device):
     return get_status(device) & SR_WIP
 
 
-class Led:
-    def __init__(self, gpio):
-        self.gpio = gpio
-        self.led = 1
+# This is roundabout but works. . .
+s = StringIO()
+Ftdi.show_devices(out=s)
+devlist = s.getvalue().splitlines()[1:-1]
+gooddevs = []
+for dev in devlist:
+    url = dev.split('(')[0].strip()
+    name = '(' + dev.split('(')[1]
+    if name == '(Single RS232-HS)':
+        gooddevs.append(url)
+if len(gooddevs) == 0:
+    print('Error:  No matching FTDI devices on USB bus!')
+    sys.exit(1)
+elif len(gooddevs) > 1:
+    print('Error:  Too many matching FTDI devices on USB bus!')
+    Ftdi.show_devices()
+    sys.exit(1)
+else:
+    print('Success: Found one matching FTDI device at ' + gooddevs[0])
 
-    def toggle(self):
-        self.led = (self.led+1) & 0x1
-        output = 0b000100000000 | self.led << 11
-        self.gpio.write(output)
-
-
-Ftdi.show_devices()
-
-spi = SpiController(cs_count=2, turbo=True)
-# spi.configure(vendor=0x0403, product=0x6014, interface=1)
-# spi.configure('ftdi://ftdi:232h:0/1')
-spi.configure('ftdi://ftdi:232h:1/1')
+spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
-slave = spi.get_port(cs=1, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
+spi.configure(gooddevs[0])
+#spi.configure('ftdi://ftdi:232h:1/1')
+slave = spi.get_port(cs=1)  # Chip select is 1 -- corresponds to D4
 
-# gpio = spi.get_gpio()
-# gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
-# gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
-# gpio.write(0b000100000000)
-# led = Led(gpio)
+print("Caravel data:")
+mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
+# print("mfg = {}".format(binascii.hexlify(mfg)))
+print("   mfg        = {:04x}".format(int.from_bytes(mfg, byteorder='big')))
 
-time.sleep(1.0)
+product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
+# print("product = {}".format(binascii.hexlify(product)))
+print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
 
-# led.toggle()
-# slave.write([CMD_RESET_CHIP])
-# while (is_busy(slave)):
-#     time.sleep(0.5)
-#     led.toggle()
-# led.toggle()
+data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
 
-# jedec = slave.exchange([CMD_JEDEC_DATA], 3)
-result = slave.exchange([0x00], 4)
-print("result = {}".format(binascii.hexlify(result)))
+if int.from_bytes(mfg, byteorder='big') != 0x0456:
+    exit(2)
+
+k = ''
+
+while (True):
+
+    print("Resetting CARAVEL...")
+    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
+
+    time.sleep(1)
+
 
 spi.terminate()
 

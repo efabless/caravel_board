@@ -33,7 +33,7 @@ void main()
 	reg_gpio_pu = 1;
 	reg_gpio_pd = 0;
 
-	reg_mprj_datal = 0xa0000001;
+	reg_mprj_datal = 0xffffffff;
     reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
 	reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
 	reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;

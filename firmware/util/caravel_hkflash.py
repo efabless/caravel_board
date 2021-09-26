@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 from pyftdi.ftdi import Ftdi
 import time
 import sys, os
 from pyftdi.spi import SpiController
 from array import array as Array
 import binascii
+from io import StringIO
 
 
 SR_WIP = 0b00000001  # Busy/Work-in-progress bit
@@ -93,9 +96,29 @@ if not os.path.isfile(file_path):
    print("File not found.")
    sys.exit()
 
+# This is roundabout but works. . .
+s = StringIO()
+Ftdi.show_devices(out=s)
+devlist = s.getvalue().splitlines()[1:-1]
+gooddevs = []
+for dev in devlist:
+    url = dev.split('(')[0].strip()
+    name = '(' + dev.split('(')[1]
+    if name == '(Single RS232-HS)':
+        gooddevs.append(url)
+if len(gooddevs) == 0:
+    print('Error:  No matching FTDI devices on USB bus!')
+    sys.exit(1)
+elif len(gooddevs) > 1:
+    print('Error:  Too many matching FTDI devices on USB bus!')
+    Ftdi.show_devices()
+    sys.exit(1)
+else:
+    print('Success: Found one matching FTDI device at ' + gooddevs[0])
+
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
-spi.configure('ftdi://ftdi:232h:1/1')
+spi.configure(gooddevs[0])
 slave = spi.get_port(cs=1)
 
 print(" ")
@@ -110,6 +133,9 @@ print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
 
 data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
 print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
+
+if int.from_bytes(mfg, byteorder='big') != 0x0456:
+    exit(2)
 
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
