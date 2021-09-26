@@ -1,6 +1,15 @@
 .section .text
 
 start:
+li x1, 1
+li x2, 0x20000000
+li x3, 0x412	# 9600 using 10MHz clock
+li x4, 0x3f
+sw x3, 0(x2)
+sw x4, 4(x2)
+sw x1, 8(x2)
+done:
+beq x0, x0, done 
 
 # zero-initialize register file
 addi x1, zero, 0
