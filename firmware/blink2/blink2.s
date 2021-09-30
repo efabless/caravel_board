@@ -17,17 +17,21 @@
 
 start:
 
-la x11, 0x21000000
-li x1, 1
-sw x1, 0(x11)   # LED off
-sw x0, 4(x11)
-sw x0, 8(x11)
-sw x0, 12(x11)
+la s2, 0x21000000
+sw zero, 4(s2)
+sw zero, 8(s2)
+sw zero, 12(s2)
 
-#sw x0, 0(x11)   # LED on
-#sw x1, 0(x11)   # LED off
+#sw zero, 0(s2)   # LED on
+#sw s1, 0(s2)   # LED off
 
 bigloop:
+li s1, 1
+sw s1, 0(s2)   # LED off
+nop
+nop
+nop
+
 
 #li x5, 100
 #loop:
@@ -35,8 +39,11 @@ bigloop:
 #bne x5, zero, loop
 call delay
 
-#sw x1, 0(x11)   # LED off
-sw x0, 0(x11)   # LED on
+#sw s1, 0(s2)   # LED off
+sw zero, 0(s2)   # LED on
+nop
+nop
+nop
 
 #li x3, 100
 #loop2:
@@ -44,24 +51,26 @@ sw x0, 0(x11)   # LED on
 #bne x3, zero, loop2
 call delay
 
-#sw x0, 0(x11)   # LED on
-sw x1, 0(x11)   # LED off
+#sw zero, 0(s2)   # LED on
+li s1, 1
+sw s1, 0(s2)   # LED off
 
+nop
 nop
 nop
 
 call delay
-sw x0, 0(x11)   # LED on
+sw zero, 0(s2)   # LED on
 
-#beqz zero, bigloop
+beqz zero, bigloop
 
 done:
 beqz zero, done
 
 delay:
-li x10, 10
+li s3, 3000
 dloop:
-addi x10, x10, -1
-bne x10, x0, dloop
+addi s3, s3, -1
+bne s3, zero, dloop
 ret
 
