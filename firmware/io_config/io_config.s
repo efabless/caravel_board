@@ -17,52 +17,52 @@
 
 start:
 
-la x11, 0x21000000
-li x1, 1
-sw x1, 0(x11)   # LED off
-sw x0, 4(x11)
-sw x0, 8(x11)
-sw x0, 12(x11)
+la s4, 0x21000000
+li s1, 1
+sw s1, 0(s4)   # LED off
+sw zero, 4(s4)
+sw zero, 8(s4)
+sw zero, 12(s4)
 
-li x1, 0x1809        # GPIO_MODE_MGMT_STD_OUTPUT
-#li x1, 0x0c03        # GPIO_MODE_MGMT_STD_INPUT_PULLUP
+li s1, 0x1809        # GPIO_MODE_MGMT_STD_OUTPUT
+#li s1, 0x0c03        # GPIO_MODE_MGMT_STD_INPUT_PULLUP
 
 # configure user IO regs
-la x2, 0x26000024    # reg_mprj_io_0
-sw x1, 0(x2)  # 1
-sw x1, 4(x2)  # 2
-sw x1, 8(x2)  # 3
-sw x1, 12(x2) # 4
-sw x1, 16(x2) # 5
-sw x1, 20(x2) # 5
-sw x1, 24(x2) # 5
-sw x1, 28(x2) # 5
-sw x1, 32(x2) # 5
-sw x1, 36(x2) # 5
-sw x1, 40(x2) # 5
+la s2, 0x26000024    # reg_mprj_io_0
+#sw s1, 0(s2)  # 0
+#sw s1, 4(s2)  # 1
+#sw s1, 8(s2)  # 2
+#sw s1, 12(s2) # 3
+#sw s1, 16(s2) # 4
+#sw s1, 20(s2) # 5
+#sw s1, 24(s2) # 7
+sw s1, 28(s2) # 8
+sw s1, 32(s2) # 9
+sw s1, 36(s2) # 10
+sw s1, 40(s2) # 11
 
-la x6, 0x26000000    # reg_mprj_xfer
-li x1, 1
-sw x1, 0(x6)
+la s6, 0x26000000    # reg_mprj_xfer
+li s1, 1
+sw s1, 0(s6)
 nop
 nop
 nop
 nop
 
 wait:
-lw x7, 0(x6)
+lw s7, 0(x6)
 nop
 nop
-bnez x7, wait
+bnez s7, wait
 nop
 nop
 
 # set data value
-li x12, 0xffffffff
-la x5, 0x2600000c    # reg_mprj_datal
-sw x12, 0(x5)
+li s5, 0xffffff80
+la s3, 0x2600000c    # reg_mprj_datal
+sw s5, 0(s3)
 
-sw x0, 0(x11)   # LED on
+sw zero, 0(s4)   # LED on
 
 nop
 nop
