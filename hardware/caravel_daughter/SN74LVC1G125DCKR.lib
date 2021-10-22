@@ -1,0 +1,30 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# SN74LVC1G125DCKR
+#
+DEF SN74LVC1G125DCKR U 0 40 Y Y 1 L N
+F0 "U" -211 460 50 H V L BNN
+F1 "SN74LVC1G125DCKR" -151 -739 50 H V L BNN
+F2 "SOT65P210X110-5N" 0 0 50 H I L BNN
+F3 "SC-70-5" 0 0 50 H I L BNN
+F4 "76C4082" 0 0 50 H I L BNN
+F5 "Texas Instruments" 0 0 50 H I L BNN
+F6 "SN74LVC1G125DCKR" 0 0 50 H I L BNN
+F7 "1470771" 0 0 50 H I L BNN
+DRAW
+P 2 0 0 16 -500 300 -500 -600 N
+P 2 0 0 16 -500 -600 500 -600 N
+P 2 0 0 16 500 -600 500 300 N
+P 2 0 0 16 500 300 -500 300 N
+X VCC 5 -700 100 200 R 40 40 0 0 W 
+X ~OE 1 -700 -100 200 R 40 40 0 0 I 
+X A 2 -700 -200 200 R 40 40 0 0 I 
+X GND 3 -700 -400 200 R 40 40 0 0 P 
+X Y 4 700 100 200 L 40 40 0 0 O 
+ENDDRAW
+ENDDEF
+#
+# End Library

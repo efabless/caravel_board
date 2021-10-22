@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Caravel_pcb-rescue)(type Legacy)(uri ${KIPRJMOD}/Caravel_pcb-rescue.lib)(options "")(descr ""))
+)

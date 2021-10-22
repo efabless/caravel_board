@@ -1,0 +1,14 @@
+### Module positions - created on Thursday, October 21, 2021 at 08:46:55 PM ###
+### Printed by Pcbnew version kicad (5.1.10-1-10_14)
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val       Package                 PosX       PosY       Rot  Side
+C1        0.1uf     C_0603_1608Metric   134.1120  -100.5840   90.0000  top
+C2        0.1uf     C_0603_1608Metric   136.0170  -100.5840  270.0000  top
+C3        0.1uf     C_0603_1608Metric   137.9220  -100.5840  270.0000  top
+C4        0.1uf     C_0603_1608Metric   136.3701   -86.3473  270.0000  top
+C5        0.1uf     C_0603_1608Metric   138.1303   -86.3473  270.0000  top
+C6        0.1uf     C_0603_1608Metric   134.5438   -86.3346  270.0000  top
+C7        0.1uf     C_0603_1608Metric   132.7658   -86.3346  270.0000  top
+U1        Caravel   Caravel_WCSP        135.8900   -93.3450   90.0000  top
+## End

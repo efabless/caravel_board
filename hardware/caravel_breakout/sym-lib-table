@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name Caravel)(type Legacy)(uri ${KIPRJMOD}/Caravel.lib)(options "")(descr ""))
+  (lib (name Caravel_pcb-cache)(type Legacy)(uri ${KIPRJMOD}/Caravel_pcb-cache.lib)(options "")(descr ""))
+  (lib (name SN74LVC1G125DCKR)(type Legacy)(uri ${KIPRJMOD}/SN74LVC1G125DCKR.lib)(options "")(descr ""))
+  (lib (name Connector)(type Legacy)(uri ${KIPRJMOD}/Connector.lib)(options "")(descr ""))
+  (lib (name MIC5350-SGYMT-TR)(type Legacy)(uri ${KIPRJMOD}/MIC5350-SGYMT-TR/MIC5350-SGYMT-TR.lib)(options "")(descr ""))
+  (lib (name TC2030-IDC-NL)(type Legacy)(uri ${KIPRJMOD}/TC2030-IDC-NL/TC2030-IDC-NL.lib)(options "")(descr ""))
+)
