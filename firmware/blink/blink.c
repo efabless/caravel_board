@@ -21,11 +21,12 @@ void main()
 //    for (j = 0; j < 170000; j++);
 //    for (j = 0; j < 10000; j++);
 
-	for (i = 0; i < 1000; i++) {
+//	for (i = 0; i < 3000; i++) {
+	while(1) {
         reg_gpio_data = 0x0;
-        for (j = 0; j < 500; j++);
+        for (j = 0; j < 3000; j++);
         reg_gpio_data = 0x1;
-        for (j = 0; j < 500; j++);
+        for (j = 0; j < 3000; j++);
 	}
 }
 

@@ -5,13 +5,13 @@ TOOLCHAIN_PATH = /opt/riscv32imc/bin/
 
 .SUFFIXES:
 
-PATTERN = blink
+PATTERN = hello
 
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.c ../sections.lds ../start.s
 	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
-	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D blink.elf > blink.lst
+	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D hello.elf > hello.lst
 
 %.hex: %.elf
 	$(TOOLCHAIN_PATH)riscv32-unknown-elf-objcopy -O verilog $< $@
@@ -23,11 +23,11 @@ hex:  ${PATTERN:=.hex}
 client: client.c
 	gcc client.c -o client
 
-flash: blink.hex
-	python3 ../util/caravel_hkflash.py blink.hex
+flash: hello.hex
+	python3 ../util/caravel_hkflash.py hello.hex
 
-flash2: blink.hex
-	python3 ../util/caravel_flash.py blink.hex
+flash2: hello.hex
+	python3 ../util/caravel_flash.py $<
 
 # ---- Clean ----
 

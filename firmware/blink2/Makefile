@@ -41,6 +41,9 @@ hex:  ${PATTERN:=.hex}
 flash: blink2.hex
 	python3 ../util/caravel_hkflash.py $<
 
+flash2: blink2.hex
+	python3 ../util/caravel_flash.py $<
+
 # ---- Clean ----
 
 clean:

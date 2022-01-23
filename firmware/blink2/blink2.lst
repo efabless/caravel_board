@@ -36,7 +36,7 @@ Disassembly of section .text:
 
 10000060 <delay>:
 10000060:	000019b7          	lui	s3,0x1
-10000064:	bb898993          	addi	s3,s3,-1096 # bb8 <_ebss+0xbb8>
+10000064:	bb898993          	addi	s3,s3,-1096 # bb8 <_ebss-0xfff448>
 
 10000068 <dloop>:
 10000068:	fff98993          	addi	s3,s3,-1
@@ -50,7 +50,7 @@ Disassembly of section .riscv.attributes:
    2:	0000                	unimp
    4:	7200                	flw	fs0,32(a2)
    6:	7369                	lui	t1,0xffffa
-   8:	01007663          	bgeu	zero,a6,14 <_ebss+0x14>
+   8:	01007663          	bgeu	zero,a6,14 <_ebss-0xffffec>
    c:	0000000f          	fence	unknown,unknown
   10:	7205                	lui	tp,0xfffe1
   12:	3376                	fld	ft6,376(sp)

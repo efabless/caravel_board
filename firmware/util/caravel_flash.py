@@ -68,7 +68,7 @@ CARAVEL_REG_WRITE = 0x88
 
 
 def get_status(device):
-    return int.from_bytes(device.exchange([CARAVEL_PASSTHRU, CMD_READ_STATUS],1), byteorder='big')
+    return int.from_bytes(device.exchange([CMD_READ_STATUS],1), byteorder='big')
 
 
 def report_status(jedec):
@@ -129,7 +129,7 @@ else:
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
-slave = spi.get_port(cs=1, freq=12E6, mode=0)
+slave = spi.get_port(cs=0)
 
 gpio = spi.get_gpio()
 # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
@@ -137,49 +137,22 @@ gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
 # gpio.write(0b000100000000)
 led = Led(gpio)
 
-slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
-
-print(" ")
-print("Caravel data:")
-mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
-# print("mfg = {}".format(binascii.hexlify(mfg)))
-print("   mfg        = {:04x}".format(int.from_bytes(mfg, byteorder='big')))
-
-product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
-# print("product = {}".format(binascii.hexlify(product)))
-print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
-
-data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
-print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
-
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
-
-if int.from_bytes(mfg, byteorder='big') != 0x0456:
-    exit(2)
-
-time.sleep(1.0)
-led.toggle()
-
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
-
-slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
-
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
+slave.write([CMD_RESET_CHIP])
 
 print(" ")
 
-jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+jedec = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
 if jedec[0:1] != bytes.fromhex('ef'):
     print("Winbond SRAM not found")
     sys.exit()
 
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
+print("status = 0x{}".format(get_status(slave), '02x'))
 
 print("Erasing chip...")
-slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+slave.write([CMD_WRITE_ENABLE])
+slave.write([CMD_ERASE_CHIP])
 
 while (is_busy(slave)):
     time.sleep(0.5)
@@ -214,8 +187,8 @@ with open(file_path, mode='r') as f:
             # print(binascii.hexlify(buf))
             # print("\ntotal_bytes = {}".format(total_bytes))
 
-            slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            slave.write([CMD_WRITE_ENABLE])
+            wcmd = bytearray((CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             # print(binascii.hexlify(wcmd))
             # wcmd.extend(buf[0:255])
             wcmd.extend(buf)
@@ -241,8 +214,8 @@ with open(file_path, mode='r') as f:
         # print(binascii.hexlify(buf))
         # print("\nnbytes = {}".format(nbytes))
 
-        slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-        wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        slave.write([CMD_WRITE_ENABLE])
+        wcmd = bytearray((CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         wcmd.extend(buf)
         slave.exchange(wcmd)
         while (is_busy(slave)):
@@ -273,8 +246,6 @@ total_bytes = 0
 while (is_busy(slave)):
     time.sleep(0.5)
 
-slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
-
 report_status(jedec)
 
 with open(file_path, mode='r') as f:
@@ -298,7 +269,8 @@ with open(file_path, mode='r') as f:
             # print(binascii.hexlify(buf))
             # print("\ntotal_bytes = {}".format(total_bytes))
 
-            read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             # print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
             if buf == buf2:
@@ -325,7 +297,7 @@ with open(file_path, mode='r') as f:
         # print(binascii.hexlify(buf))
         # print("\nnbytes = {}".format(nbytes))
 
-        read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        read_cmd = bytearray((CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         # print(binascii.hexlify(read_cmd))
         buf2 = slave.exchange(read_cmd, nbytes)
         if buf == buf2:
@@ -338,16 +310,14 @@ with open(file_path, mode='r') as f:
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
-pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
-print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+# pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
+# print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
 
 # print("Setting trim values...\n")
 # slave.write([CARAVEL_REG_WRITE, 0x04, 0x7f])
 
 # pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
 # print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
-
-slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 spi.terminate()
 
