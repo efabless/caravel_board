@@ -1,4 +1,5 @@
-#include "../defs.h"
+//#include "../defs.h"
+#include "../defs_mpw-two-mfix.h"
 
 // --------------------------------------------------------
 // Firmware routines
@@ -23,6 +24,11 @@ void main()
 
 	i = 1;
 
+    reg_mprj_io_1 = GPIO_MODE_USER_STD_BIDIRECTIONAL;  // 0x1803
+    reg_mprj_io_2 = GPIO_MODE_USER_STD_INPUT_NOPULL;   // 0x0403
+    reg_mprj_io_3 = GPIO_MODE_USER_STD_INPUT_NOPULL;
+    reg_mprj_io_4 = GPIO_MODE_USER_STD_INPUT_NOPULL;
+
 //    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -44,13 +50,13 @@ void main()
     reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;
 
-//    reg_mprj_datal = 0;
+    reg_mprj_datal = 0;
 
-    reg_uart_clkdiv = 1041;
+    reg_uart_clkdiv = 1042;
     reg_uart_enable = 1;
 
-//    reg_mprj_xfer = 1;
-//    while (reg_mprj_xfer == 1);
+    reg_mprj_xfer = 1;
+    while (reg_mprj_xfer == 1);
 
 	// Enable GPIO (all output, ena = 0)
 	reg_gpio_ena = 0x0;
@@ -58,7 +64,7 @@ void main()
 	reg_gpio_pd = 0x0;
 	reg_gpio_data = 0x1;
 
-//	reg_mprj_datal = 0x00000000;
+	reg_mprj_datal = 0x00000000;
 
     print("Hello!\n");
 //    for (j = 0; j < 170000; j++);
@@ -66,13 +72,13 @@ void main()
 
 //	for (i = 0; i < 3000; i++) {
 	while(1) {
-//        reg_mprj_datal = 0x00040000;
+        reg_mprj_datal = 0x00080000;
         reg_gpio_data = 0x0;
 
         for (j = 0; j < 3000; j++);
 
         reg_gpio_data = 0x1;
-//       	reg_mprj_datal = 0x00000000;
+       	reg_mprj_datal = 0x00000000;
 
         for (j = 0; j < 3000; j++);
 

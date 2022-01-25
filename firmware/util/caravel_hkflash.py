@@ -181,6 +181,10 @@ print("Erasing chip...")
 slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
 slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
 
+for i in range(10):
+    time.sleep(0.5)
+    led.toggle()
+
 while (is_busy(slave)):
     time.sleep(0.5)
     led.toggle()
