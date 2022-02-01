@@ -94,7 +94,8 @@ class Led:
     def toggle(self):
         self.led = (self.led+1) & 0x1
         output = 0b000100000000 | self.led << 11
-        self.gpio.write(output)
+        if (self.gpio):
+            self.gpio.write(output)
 
 if len(sys.argv) < 2:
    print("Usage: raptor_flash.py <file>")
@@ -129,15 +130,17 @@ else:
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
+# slave = spi.get_port(cs=1, freq=12E6, mode=0)
 slave = spi.get_port(cs=1, freq=12E6, mode=0)
 
-gpio = spi.get_gpio()
-# gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
-gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
-# gpio.write(0b000100000000)
-led = Led(gpio)
+# gpio = spi.get_gpio()
+# # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
+# gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
+# # gpio.write(0b000100000000)
+# led = Led(gpio)
+led = Led(None)
 
-slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+# slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
 
 print(" ")
 print("Caravel data:")
@@ -152,16 +155,14 @@ print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
 data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
 print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
 
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
-
 if int.from_bytes(mfg, byteorder='big') != 0x0456:
     exit(2)
 
 time.sleep(1.0)
 led.toggle()
 
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
-
+print(" ")
+print("Resetting Flash...")
 slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
 print("status = 0x{:02x}".format(get_status(slave), '02x'))
@@ -175,13 +176,11 @@ if jedec[0:1] != bytes.fromhex('ef'):
     print("Winbond SRAM not found")
     sys.exit()
 
-print("status = 0x{:02x}".format(get_status(slave), '02x'))
-
 print("Erasing chip...")
 slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
 slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
 
-for i in range(10):
+for i in range(15):
     time.sleep(0.5)
     led.toggle()
 
@@ -256,13 +255,6 @@ with open(file_path, mode='r') as f:
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
-# if jedec[0] != int('bf', 16):
-#     print("locking registers...")
-#     slave.write([CARAVEL_PASSTHRU, 0xaa])
-#     slave.write([CARAVEL_PASSTHRU, 0x55])
-#     slave.write([CARAVEL_PASSTHRU, 0x06])
-#     slave.write([CARAVEL_PASSTHRU, 0x31, 0x01])
-
 report_status(jedec)
 
 print("************************************")
@@ -277,7 +269,8 @@ total_bytes = 0
 while (is_busy(slave)):
     time.sleep(0.5)
 
-slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+# slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+# slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 report_status(jedec)
 
@@ -352,6 +345,10 @@ print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
 # print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
 
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
+
+led.toggle()
+time.sleep(0.3)
+led.toggle()
 
 spi.terminate()
 

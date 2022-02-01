@@ -9,8 +9,9 @@ PATTERN = hello
 
 hex:  ${PATTERN:=.hex}
 
-%.elf: %.c ../sections.lds ../start.s
-	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
+#%.elf: %.c ../sections.lds ../start.s spi_io.c spi_io.h ../print_io.c ../print_io.h
+%.elf: %.c ../sections.lds ../start.s ../print_io.c ../print_io.h
+	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
 	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D hello.elf > hello.lst
 
 %.hex: %.elf
