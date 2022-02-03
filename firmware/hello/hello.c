@@ -1,7 +1,7 @@
 //#include "../defs.h"
 #include "../defs_mpw-two-mfix.h"
 #include "../print_io.h"
-#include "spi_io.h"
+//#include "spi_io.h"
 
 
 // --------------------------------------------------------
