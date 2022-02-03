@@ -11,28 +11,28 @@ void main()
 
 	i = 1;
 
-    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
-
-    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
-
-    reg_mprj_io_27 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_26 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_25 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_24 = GPIO_MODE_MGMT_STD_OUTPUT;
-
-    reg_mprj_io_23 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_22 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_21 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
+//
+//    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
+//
+//    reg_mprj_io_27 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_26 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_25 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_24 = GPIO_MODE_MGMT_STD_OUTPUT;
+//
+//    reg_mprj_io_23 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_22 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_21 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_18 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_17 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_16 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -56,11 +56,8 @@ void main()
 
 //    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
 
-    reg_mprj_datal = 0;
-
-    reg_mprj_xfer = 1;
-    while (reg_mprj_xfer == 1);
-
+//    reg_mprj_datal = 0;
+//
 //    reg_mprj_xfer = 1;
 //    while (reg_mprj_xfer == 1);
 
@@ -72,14 +69,14 @@ void main()
 
 	while(1) {
         reg_gpio_data = 0x0;
-        reg_mprj_datal = 0x00000000;
-        reg_mprj_datah = 0x00000000;
+//        reg_mprj_datal = 0x00000000;
+//        reg_mprj_datah = 0x00000000;
         for (j = 0; j < 3000; j++);
 
         reg_gpio_data = 0x1;
-        reg_mprj_datal = 0xffff0000;
+//        reg_mprj_datal = 0xffff0000;
 //        reg_mprj_datal = 0xffffff00;
-        reg_mprj_datah = 0xffffffff;
+//        reg_mprj_datah = 0xffffffff;
         for (j = 0; j < 3000; j++);
 	}
 

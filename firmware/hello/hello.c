@@ -160,36 +160,36 @@ void main()
             for (j = 0; j < 5000; j++);
         }
 
-//	    for (i = 0; i < n; i++) {
-//	        print(msg[i]);
-//	        for (j = 0; j < 5000; j++);
-//	        reg_gpio_data = 0x0;
-//            for (j = 0; j < 5000; j++);
-//	        reg_gpio_data = 0x1;
-//	    }
+	    for (i = 0; i < n; i++) {
+	        print(msg[i]);
+	        for (j = 0; j < 5000; j++);
+	        reg_gpio_data = 0x0;
+            for (j = 0; j < 5000; j++);
+	        reg_gpio_data = 0x1;
+	    }
 
         for (j = 0; j < 10000; j++);
 
-        for (i=0; i < 2; i++) {
-            reg_gpio_data = 0x0;
-            for (j = 0; j < 3000; j++);
-            reg_gpio_data = 0x1;
-            for (j = 0; j < 5000; j++);
-        }
+//        for (i=0; i < 2; i++) {
+//            reg_gpio_data = 0x0;
+//            for (j = 0; j < 3000; j++);
+//            reg_gpio_data = 0x1;
+//            for (j = 0; j < 5000; j++);
+//        }
 
-        i = 0;
-        while (i < 38) {
-            for (j = i; j < i+4; j++) {
-//                print("|"); putchar(0x2d); // clear screen
-                print_dec(j); print(" : 0x"); print_hex(reg_mprj_io_0 + j*4, 4); print("\n");
+//        i = 0;
+//        while (i < 38) {
+//            for (j = i; j < i+4; j++) {
+////                print("|"); putchar(0x2d); // clear screen
 //                print_dec(j); print(" : 0x"); print_hex(reg_mprj_io_0 + j*4, 4); print("\n");
-//                print_dec(j); print(" : 0x"); print_hex(reg_mprj_io_0 + j*4, 4); print("\n");
-                for (k = 0; k < 10000; k++);
-            }
-            i += 4;
-        }
-
-        for (j = 0; j < 30000; j++);
+////                print_dec(j); print(" : 0x"); print_hex(reg_mprj_io_0 + j*4, 4); print("\n");
+////                print_dec(j); print(" : 0x"); print_hex(reg_mprj_io_0 + j*4, 4); print("\n");
+//                for (k = 0; k < 10000; k++);
+//            }
+//            i += 4;
+//        }
+//
+//        for (j = 0; j < 30000; j++);
 
     }
 
