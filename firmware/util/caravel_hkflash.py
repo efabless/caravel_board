@@ -130,8 +130,8 @@ else:
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
-# slave = spi.get_port(cs=1, freq=12E6, mode=0)
 slave = spi.get_port(cs=1, freq=12E6, mode=0)
+# slave = spi.get_port(cs=1, freq=6E6, mode=0)
 
 # gpio = spi.get_gpio()
 # # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
@@ -141,6 +141,7 @@ slave = spi.get_port(cs=1, freq=12E6, mode=0)
 led = Led(None)
 
 # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+# slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 print(" ")
 print("Caravel data:")
@@ -219,6 +220,7 @@ with open(file_path, mode='r') as f:
 
             slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
             wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             # print(binascii.hexlify(wcmd))
             # wcmd.extend(buf[0:255])
             wcmd.extend(buf)
@@ -246,6 +248,7 @@ with open(file_path, mode='r') as f:
 
         slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
         wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         wcmd.extend(buf)
         slave.exchange(wcmd)
         while (is_busy(slave)):

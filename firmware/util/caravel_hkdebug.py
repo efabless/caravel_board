@@ -141,15 +141,21 @@ while (k != 'q'):
     print("  (5) read Flash JEDEC codes")
     print("  (6) start flash erase")
     print("  (7) check flash status")
-    print("  (8) lock registers")
-    print("  (9) read pll trim")
+    print("  (8) engage DLL")
+    print("  (9) read DLL trim")
+    print(" (10) disengage DLL")
+    print(" (11) DCO mode")
+    print(" (12) full trim")
+    print(" (13) zero trim")
+    print(" (14) set register value")
+    print("  (q) quit")
 
     print("\n")
 
-    k = input()[0]
+    k = input()
 
     if k == '1':
-        for reg in [0x00, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0c]:
+        for reg in [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12]:
             data = slave.exchange([CARAVEL_REG_READ, reg], 1)
             print("reg {} = {}".format(hex(reg), binascii.hexlify(data)))
 
@@ -189,15 +195,46 @@ while (k != 'q'):
         print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 
     elif k == '8':
-        print("locking registers...")
-        slave.write([CARAVEL_PASSTHRU, 0xaa])
-        slave.write([CARAVEL_PASSTHRU, 0x55])
-        slave.write([CARAVEL_PASSTHRU, 0x06])
-        slave.write([CARAVEL_PASSTHRU, 0x31, 0x01])
+        print("engaging DLL...")
+        slave.write([CARAVEL_REG_WRITE, 0x08, 0x01])
+        slave.write([CARAVEL_REG_WRITE, 0x09, 0x00])
 
     elif k == '9':
-        pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04], 1)
+        pll_trim = slave.exchange([CARAVEL_STREAM_READ, 0x0d], 4)
         print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+
+    elif k == '10':
+        print("disengaging DLL...")
+        slave.write([CARAVEL_REG_WRITE, 0x09, 0x01])
+        slave.write([CARAVEL_REG_WRITE, 0x08, 0x00])
+
+    elif k == '11':
+        print("Clock DCO mode...")
+        slave.write([CARAVEL_REG_WRITE, 0x08, 0x03])
+        slave.write([CARAVEL_REG_WRITE, 0x09, 0x00])
+
+    elif k == '12':
+        print("DCO mode full trim...")
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0d, 0xff])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0e, 0xff])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0f, 0xff])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x10, 0xff])
+
+    elif k == '13':
+        print("DCO mode zero trim...")
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0d, 0x00])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0e, 0x00])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0f, 0x00])
+        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x10, 0x00])
+
+    elif k == '14':
+        print("Register?")
+        r = input()
+        reg = int(r, 0)
+        print("Value?")
+        v = input()
+        val = int(v, 0)
+        pll_trim = slave.exchange([CARAVEL_STREAM_WRITE, reg, val], 0)
 
     elif k == 'q':
         print("Exiting...")
