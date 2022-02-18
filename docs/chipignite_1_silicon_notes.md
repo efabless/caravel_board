@@ -19,6 +19,7 @@ The board requires the following modifications:
 The boards have been programmed with the blink firmware example in the repo.  
 
 Example firmware includes a make target `flash` for programing the flash on the evaluation board.  
+
 The target uses a script `firmware/util/caravel_hkflash.py`.  In some cases, you may need to hold the reset button (jumper `SW1`) while programming the flash.
 Occasionally, I've had to comment or uncomment line 144 in `caravel_hkflash.py` which affects whether to hold Caravel in reset before erasing and programming the flash.
 
