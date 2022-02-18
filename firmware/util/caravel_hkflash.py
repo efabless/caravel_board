@@ -141,7 +141,6 @@ slave = spi.get_port(cs=1, freq=12E6, mode=0)
 led = Led(None)
 
 # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
-# slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
 print(" ")
 print("Caravel data:")
@@ -173,7 +172,8 @@ print(" ")
 jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-if jedec[0:1] != bytes.fromhex('ef'):
+# if jedec[0:1] != bytes.fromhex('ef'):
+if jedec[0:1] != bytes.fromhex('e6'):
     print("Winbond SRAM not found")
     sys.exit()
 

@@ -7,10 +7,10 @@
 #
 
 gpio_0  = 0x0403	# user input
-gpio_1  = 0x1809	# management output (SDO)
+gpio_1  = 0x1803	# management output (SDO)
 gpio_2  = 0x0403	# management input  (SDI)
-gpio_3  = 0x0403	# management input  (SCK)
-gpio_4  = 0x0403	# management input  (CSB)
+gpio_3  = 0x0402	# management input  (SCK)
+gpio_4  = 0x0402	# management input  (CSB)
 gpio_5  = 0x0402	# management input  (UART Rx)
 gpio_6  = 0x1808	# management output (UART Tx)
 gpio_7  = 0x0403	# user input
@@ -92,25 +92,25 @@ gpio_16_bits = list(gpio_16_bin)
 gpio_17_bits = list(gpio_17_bin)
 gpio_18_bits = list(gpio_18_bin)
 
-gpio_0_actual  = gpio_0_bits
-gpio_1_actual  = gpio_1_bits
-gpio_2_actual  = gpio_2_bits
-gpio_3_actual  = gpio_3_bits
-gpio_4_actual  = gpio_4_bits
-gpio_5_actual  = gpio_5_bits
-gpio_6_actual  = gpio_6_bits
-gpio_7_actual  = gpio_7_bits
-gpio_8_actual  = gpio_8_bits
-gpio_9_actual  = gpio_9_bits
-gpio_10_actual = gpio_10_bits
-gpio_11_actual = gpio_11_bits
-gpio_12_actual = gpio_12_bits
-gpio_13_actual = gpio_13_bits
-gpio_14_actual = gpio_14_bits
-gpio_15_actual = gpio_15_bits
-gpio_16_actual = gpio_16_bits
-gpio_17_actual = gpio_17_bits
-gpio_18_actual = gpio_18_bits
+gpio_0_actual  = gpio_0_bits[:]
+gpio_1_actual  = gpio_1_bits[:]
+gpio_2_actual  = gpio_2_bits[:]
+gpio_3_actual  = gpio_3_bits[:]
+gpio_4_actual  = gpio_4_bits[:]
+gpio_5_actual  = gpio_5_bits[:]
+gpio_6_actual  = gpio_6_bits[:]
+gpio_7_actual  = gpio_7_bits[:]
+gpio_8_actual  = gpio_8_bits[:]
+gpio_9_actual  = gpio_9_bits[:]
+gpio_10_actual = gpio_10_bits[:]
+gpio_11_actual = gpio_11_bits[:]
+gpio_12_actual = gpio_12_bits[:]
+gpio_13_actual = gpio_13_bits[:]
+gpio_14_actual = gpio_14_bits[:]
+gpio_15_actual = gpio_15_bits[:]
+gpio_16_actual = gpio_16_bits[:]
+gpio_17_actual = gpio_17_bits[:]
+gpio_18_actual = gpio_18_bits[:]
 
 # Analyze here and compensate for bit slippage
 
@@ -155,24 +155,24 @@ dm_17_actual = gpio_18_bits[12:13] + gpio_17_bits[1:3]
 
 # Copy slipped bit up
 
-gpio_1_actual[1]  = gpio_0_bits[12]
-gpio_2_actual[1]  = gpio_1_bits[12]
-gpio_3_actual[1]  = gpio_2_bits[12]
-gpio_4_actual[1]  = gpio_3_bits[12]
-gpio_5_actual[1]  = gpio_4_bits[12]
-gpio_6_actual[1]  = gpio_5_bits[12]
-gpio_7_actual[1]  = gpio_6_bits[12]
-gpio_8_actual[1]  = gpio_7_bits[12]
-gpio_9_actual[1]  = gpio_8_bits[12]
-gpio_10_actual[1] = gpio_9_bits[12]
-gpio_11_actual[1] = gpio_10_bits[12]
-gpio_12_actual[1] = gpio_11_bits[12]
-gpio_13_actual[1] = gpio_12_bits[12]
-gpio_14_actual[1] = gpio_13_bits[12]
-gpio_15_actual[1] = gpio_14_bits[12]
-gpio_16_actual[1] = gpio_15_bits[12]
-gpio_17_actual[1] = gpio_16_bits[12]
-gpio_18_actual[1] = gpio_17_bits[12]
+gpio_0_actual[1]  = gpio_1_bits[12]
+gpio_1_actual[1]  = gpio_2_bits[12]
+gpio_2_actual[1]  = gpio_3_bits[12]
+gpio_3_actual[1]  = gpio_4_bits[12]
+gpio_4_actual[1]  = gpio_5_bits[12]
+gpio_5_actual[1]  = gpio_6_bits[12]
+gpio_6_actual[1]  = gpio_7_bits[12]
+gpio_7_actual[1]  = gpio_8_bits[12]
+gpio_8_actual[1]  = gpio_9_bits[12]
+gpio_9_actual[1]  = gpio_10_bits[12]
+gpio_10_actual[1] = gpio_11_bits[12]
+gpio_11_actual[1] = gpio_12_bits[12]
+gpio_12_actual[1] = gpio_13_bits[12]
+gpio_13_actual[1] = gpio_14_bits[12]
+gpio_14_actual[1] = gpio_15_bits[12]
+gpio_15_actual[1] = gpio_16_bits[12]
+gpio_16_actual[1] = gpio_17_bits[12]
+gpio_17_actual[1] = gpio_18_bits[12]
 
 gpio_0_good = True
 gpio_1_good = True
@@ -517,24 +517,24 @@ print('GPIO 18: good' if gpio_18_good else 'GPIO 18: bad')
 
 # Remove slipped bit, compressing output from 13 bits to 12
 
-gpio_0_out = gpio_1_actual[11:12]   + gpio_0_actual[1:13]
-gpio_1_out = gpio_2_actual[10:12]   + gpio_1_actual[1:12]
-gpio_2_out = gpio_3_actual[9:12]    + gpio_2_actual[1:11]
-gpio_3_out = gpio_4_actual[8:12]    + gpio_3_actual[1:10]
-gpio_4_out = gpio_5_actual[7:12]    + gpio_4_actual[1:9]
-gpio_5_out = gpio_6_actual[6:12]    + gpio_5_actual[1:8]
-gpio_6_out = gpio_7_actual[5:12]    + gpio_6_actual[1:7]
-gpio_7_out = gpio_8_actual[4:12]    + gpio_7_actual[1:6]
-gpio_8_out = gpio_9_actual[3:12]    + gpio_8_actual[1:5]
-gpio_9_out = gpio_10_actual[2:12]   + gpio_9_actual[1:4]
-gpio_10_out = gpio_11_actual[1:12]  + gpio_10_actual[1:3]
-gpio_11_out = gpio_12_actual[0:12]  + gpio_11_actual[1:2]
-gpio_12_out = gpio_14_actual[11:12] + gpio_13_actual[1:13]
-gpio_13_out = gpio_15_actual[10:12] + gpio_14_actual[1:12]
-gpio_14_out = gpio_16_actual[9:12]  + gpio_15_actual[1:11]
-gpio_15_out = gpio_17_actual[8:12]  + gpio_16_actual[1:10]
-gpio_16_out = gpio_18_actual[7:12]  + gpio_17_actual[1:9]
-gpio_17_out = list('000000')        + gpio_18_actual[1:8]
+gpio_0_out = gpio_1_actual[12:13]   + gpio_0_actual[1:13]
+gpio_1_out = gpio_2_actual[11:13]   + gpio_1_actual[1:12]
+gpio_2_out = gpio_3_actual[10:13]   + gpio_2_actual[1:11]
+gpio_3_out = gpio_4_actual[9:13]    + gpio_3_actual[1:10]
+gpio_4_out = gpio_5_actual[8:13]    + gpio_4_actual[1:9]
+gpio_5_out = gpio_6_actual[7:13]    + gpio_5_actual[1:8]
+gpio_6_out = gpio_7_actual[6:13]    + gpio_6_actual[1:7]
+gpio_7_out = gpio_8_actual[5:13]    + gpio_7_actual[1:6]
+gpio_8_out = gpio_9_actual[4:13]    + gpio_8_actual[1:5]
+gpio_9_out = gpio_10_actual[3:13]   + gpio_9_actual[1:4]
+gpio_10_out = gpio_11_actual[2:13]  + gpio_10_actual[1:3]
+gpio_11_out = gpio_12_actual[1:13]  + gpio_11_actual[1:2]
+gpio_12_out = gpio_14_actual[12:13] + gpio_13_actual[1:13]
+gpio_13_out = gpio_15_actual[11:13] + gpio_14_actual[1:12]
+gpio_14_out = gpio_16_actual[10:13] + gpio_15_actual[1:11]
+gpio_15_out = gpio_17_actual[9:13]  + gpio_16_actual[1:10]
+gpio_16_out = gpio_18_actual[8:13]  + gpio_17_actual[1:9]
+gpio_17_out = list('00000')         + gpio_18_actual[0:8]
 gpio_18_out = list('0000000000000')
 
 # Convert back to strings
@@ -563,22 +563,22 @@ gpio_18_config = ''.join(gpio_18_out)
 print('')
 print('Output:')
 print('')
-print('reg_mprj_io_0  = 0x' + '{0:0>4x}'.format(int(gpio_0_config, 2)))
-print('reg_mprj_io_1  = 0x' + '{0:0>4x}'.format(int(gpio_1_config, 2)))
-print('reg_mprj_io_2  = 0x' + '{0:0>4x}'.format(int(gpio_2_config, 2)))
-print('reg_mprj_io_3  = 0x' + '{0:0>4x}'.format(int(gpio_3_config, 2)))
-print('reg_mprj_io_4  = 0x' + '{0:0>4x}'.format(int(gpio_4_config, 2)))
-print('reg_mprj_io_5  = 0x' + '{0:0>4x}'.format(int(gpio_5_config, 2)))
-print('reg_mprj_io_6  = 0x' + '{0:0>4x}'.format(int(gpio_6_config, 2)))
-print('reg_mprj_io_7  = 0x' + '{0:0>4x}'.format(int(gpio_7_config, 2)))
-print('reg_mprj_io_8  = 0x' + '{0:0>4x}'.format(int(gpio_8_config, 2)))
-print('reg_mprj_io_9  = 0x' + '{0:0>4x}'.format(int(gpio_9_config, 2)))
-print('reg_mprj_io_10 = 0x' + '{0:0>4x}'.format(int(gpio_10_config, 2)))
-print('reg_mprj_io_11 = 0x' + '{0:0>4x}'.format(int(gpio_11_config, 2)))
-print('reg_mprj_io_12 = 0x' + '{0:0>4x}'.format(int(gpio_12_config, 2)))
-print('reg_mprj_io_13 = 0x' + '{0:0>4x}'.format(int(gpio_13_config, 2)))
-print('reg_mprj_io_14 = 0x' + '{0:0>4x}'.format(int(gpio_14_config, 2)))
-print('reg_mprj_io_15 = 0x' + '{0:0>4x}'.format(int(gpio_15_config, 2)))
-print('reg_mprj_io_16 = 0x' + '{0:0>4x}'.format(int(gpio_16_config, 2)))
-print('reg_mprj_io_17 = 0x' + '{0:0>4x}'.format(int(gpio_17_config, 2)))
-print('reg_mprj_io_18 = 0x' + '{0:0>4x}'.format(int(gpio_18_config, 2)))
+print('reg_mprj_io_0  = 0x' + '{0:0>4x};'.format(int(gpio_0_config, 2)))
+print('reg_mprj_io_1  = 0x' + '{0:0>4x};'.format(int(gpio_1_config, 2)))
+print('reg_mprj_io_2  = 0x' + '{0:0>4x};'.format(int(gpio_2_config, 2)))
+print('reg_mprj_io_3  = 0x' + '{0:0>4x};'.format(int(gpio_3_config, 2)))
+print('reg_mprj_io_4  = 0x' + '{0:0>4x};'.format(int(gpio_4_config, 2)))
+print('reg_mprj_io_5  = 0x' + '{0:0>4x};'.format(int(gpio_5_config, 2)))
+print('reg_mprj_io_6  = 0x' + '{0:0>4x};'.format(int(gpio_6_config, 2)))
+print('reg_mprj_io_7  = 0x' + '{0:0>4x};'.format(int(gpio_7_config, 2)))
+print('reg_mprj_io_8  = 0x' + '{0:0>4x};'.format(int(gpio_8_config, 2)))
+print('reg_mprj_io_9  = 0x' + '{0:0>4x};'.format(int(gpio_9_config, 2)))
+print('reg_mprj_io_10 = 0x' + '{0:0>4x};'.format(int(gpio_10_config, 2)))
+print('reg_mprj_io_11 = 0x' + '{0:0>4x};'.format(int(gpio_11_config, 2)))
+print('reg_mprj_io_12 = 0x' + '{0:0>4x};'.format(int(gpio_12_config, 2)))
+print('reg_mprj_io_13 = 0x' + '{0:0>4x};'.format(int(gpio_13_config, 2)))
+print('reg_mprj_io_14 = 0x' + '{0:0>4x};'.format(int(gpio_14_config, 2)))
+print('reg_mprj_io_15 = 0x' + '{0:0>4x};'.format(int(gpio_15_config, 2)))
+print('reg_mprj_io_16 = 0x' + '{0:0>4x};'.format(int(gpio_16_config, 2)))
+print('reg_mprj_io_17 = 0x' + '{0:0>4x};'.format(int(gpio_17_config, 2)))
+print('reg_mprj_io_18 = 0x' + '{0:0>4x};'.format(int(gpio_18_config, 2)))
