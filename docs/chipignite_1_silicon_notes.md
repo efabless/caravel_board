@@ -30,7 +30,9 @@ Note that you should use the `defs_mpw-two-mfix.h` header file for setting the G
 
 ### GPIO Configuration
 
-By default - all GPIO (5 - 37) are set to user mode bi-directional - which means you should be able to access them from your user project area.
+By default - all GPIO (5 - 37) are set to user mode bi-directional - which means you should be able to access them from your user project area.  
+
+If your project always sets the OEB lines high (output disabled) for GPIO that are supposed to be inputs, then the configuration should be correct for your user project on startup without applying a configuration from software.
 
 #### Upper IO range -- IO[19] to IO[37]
 
