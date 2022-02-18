@@ -140,7 +140,9 @@ slave = spi.get_port(cs=1, freq=12E6, mode=0)
 # led = Led(gpio)
 led = Led(None)
 
+# in some cases, you may need to comment or uncomment this line
 # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+# ------------
 
 print(" ")
 print("Caravel data:")
