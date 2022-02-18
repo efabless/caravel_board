@@ -61,6 +61,8 @@ Configuring an IO in your firmware would look like as follows...
 > reg_mprj_xfer = 1;
 > while (reg_mprj_xfer == 1);
 
+To set the state of an output, you need to set the corresponding bit in the reg_mprj_datal (IO 0 to 31) or reg_mprj_datah (IO 32 to 37) register.
+
 If you are having difficulty programing the upper IOs, you can try providing a slower clock source (5MHz).
  This can be configured by providing a clock signal on xclk input on the board and jumpering J6.  You may need to power-cycle the board and then reset after programming and applying the slower clock.
 
