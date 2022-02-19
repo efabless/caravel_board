@@ -65,6 +65,8 @@ Configuring an IO in your firmware would look like as follows...
 
 To set the state of an output, you need to set the corresponding bit in the reg_mprj_datal (IO 0 to 31) or reg_mprj_datah (IO 32 to 37) register.
 
+**Important note!  GPIOs 1 to 4 have a reversed bit for management disable that requires swapping the values for "USER" and "MGMT" for these four pins.**
+
 If you are having difficulty programing the upper IOs, you can try providing a slower clock source (5MHz).
  This can be configured by providing a clock signal on xclk input on the board and jumpering J6.  You may need to power-cycle the board and then reset after programming and applying the slower clock.
 
@@ -76,6 +78,6 @@ If you would like to program the lower IOs, you need to manipulate the IO config
 
 To do so, you can use a utility locate at `firmware/util/slippage.py`.  You need to change the desired IO configuration in the top of the script.  
 
-*** Note that due to the bit slippage issue, you cannot configure to adjactent IOs to be connected to the management area.
+**Note: due to the bit slippage issue, you cannot configure to adjactent IOs to be connected to the management area.**
 
 Once you have the adjusted values, put those in your code for configuring the respective IOs.  After issuing the transfer, you need to set the memory mapped registers back to the unadjusted values you intended to configure.

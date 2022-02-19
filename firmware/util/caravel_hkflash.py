@@ -174,8 +174,8 @@ print(" ")
 jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-# if jedec[0:1] != bytes.fromhex('ef'):
-if jedec[0:1] != bytes.fromhex('e6'):
+if jedec[0:1] != bytes.fromhex('ef'):
+# if jedec[0:1] != bytes.fromhex('e6'):
     print("Winbond SRAM not found")
     sys.exit()
 
