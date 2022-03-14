@@ -81,3 +81,13 @@ To do so, you can use a utility locate at `firmware/util/slippage.py`.  You need
 **Note: due to the bit slippage issue, you cannot configure to adjactent IOs to be connected to the management area.**
 
 Once you have the adjusted values, put those in your code for configuring the respective IOs.  After issuing the transfer, you need to set the memory mapped registers back to the unadjusted values you intended to configure.
+
+### Caravel_User_Project_Analog
+
+For project using caravel_user_project_analog, you should note the mapping of the IOs in the wrapper is different from the standard wrapper.
+
+IO 0 thru 13  --> standard IOs mapping to mprj_io[13:0]
+IO 14 thru 24 --> bare analog pins (no ESD) mapping to io_analog [10:0]
+IO 25 thru 37 --> standard IOs mapping to mprj_io[26:14]
+
+See the comments in the [user_analog_project_wrapper.v](https://github.com/efabless/caravel_user_project_analog/blob/main/verilog/rtl/user_analog_project_wrapper.v) for more details.
