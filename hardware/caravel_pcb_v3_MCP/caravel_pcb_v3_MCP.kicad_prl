@@ -62,11 +62,11 @@
       35,
       36
     ],
-    "visible_layers": "fffffff_ffffffff",
+    "visible_layers": "ffdffff_ffffffff",
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "caravel_board_V2.kicad_prl",
+    "filename": "caravel_pcb_v3_MCP.kicad_prl",
     "version": 3
   },
   "project": {
