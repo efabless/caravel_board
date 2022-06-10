@@ -36,6 +36,7 @@
       8,
       9,
       10,
+      11,
       12,
       13,
       14,
@@ -62,7 +63,7 @@
       36
     ],
     "visible_layers": "7ffffff_80000001",
-    "zone_display_mode": 0
+    "zone_display_mode": 1
   },
   "meta": {
     "filename": "caravel_breakout_QFN.kicad_prl",

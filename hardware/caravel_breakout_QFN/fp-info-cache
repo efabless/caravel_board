@@ -1,4 +1,4 @@
-20257659704567533
+20260971518916047
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -6237,7 +6237,21 @@ capacitor tantalum
 2
 2
 Caravel_Board
+Caravel_Breakout_Connectors_2x14
+
+
+0
+29
+15
+Caravel_Board
 caravel_breakout
+
+
+0
+112
+56
+Caravel_Board
+caravel_breakout_v1
 
 
 0
