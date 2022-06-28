@@ -1,0 +1,66 @@
+### Module positions - created on Tuesday, June 28, 2022 at 01:33:20 PM ###
+### Printed by Pcbnew version (6.0.5-0)
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val                            Package                               PosX       PosY       Rot  Side
+C1        0.01uf_-_CC0805JRX7R9BB103     C_0805_2012Metric                 128.5240   -88.3920  180.0000  top
+C2        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 134.4422   -80.3148  180.0000  top
+C3        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 133.7310   -83.0580   90.0000  top
+C4        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 111.7600   -78.7400    0.0000  top
+C5        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 111.7600   -80.7720    0.0000  top
+C6        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 111.7600   -82.8040    0.0000  top
+C7        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 111.7600   -84.8360    0.0000  top
+C8        0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 111.7600   -86.8680    0.0000  top
+C9        100uf_-_GRM31CR60J107ME39L     C_1206_3216Metric                 147.2692   -68.9610  -90.0000  top
+C10       100uf_-_GRM31CR60J107ME39L     C_1206_3216Metric                 150.1140   -83.6422  -90.0000  top
+C11       100uf_-_GRM31CR60J107ME39L     C_1206_3216Metric                 149.8092   -68.9610  -90.0000  top
+C12       100uf_-_GRM31CR60J107ME39L     C_1206_3216Metric                 147.3708   -83.6422  -90.0000  top
+C13       10uf_-_CC0805KKX5R8BB106       C_0805_2012Metric                 144.9324   -69.5198  -90.0000  top
+C14       10uf_-_CC0805KKX5R8BB106       C_0805_2012Metric                 144.8816   -84.2518  -90.0000  top
+C15       0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 160.1235  -115.4430   90.0000  top
+C16       22uf_-_CC0805MKX5R5BB226       C_0805_2012Metric                 161.4780   -73.5330  180.0000  top
+C17       22uf_-_CC0805MKX5R5BB226       C_0805_2012Metric                 160.5940   -92.4814    0.0000  top
+C18       10uf_-_CC0805KKX5R8BB106       C_0805_2012Metric                 161.4780   -75.5650  180.0000  top
+C19       10uf_-_CC0805KKX5R8BB106       C_0805_2012Metric                 160.5940   -90.4494    0.0000  top
+C20       1uf                            C_0805_2012Metric                 161.4780   -77.6478  180.0000  top
+C21       1uf                            C_0805_2012Metric                 160.5940   -88.4174    0.0000  top
+C22       0.1uf_-_CC0805KRX7R9BB104      C_0805_2012Metric                 116.0272   -73.2790  -90.0000  top
+D1        LED_-_17-215SURC/S530-A2/TR8   LED_1206_3216Metric               122.5550   -88.6460  -90.0000  top
+D2        LED_-_17-215SURC/S530-A2/TR8   LED_1206_3216Metric               116.7130   -86.7410  180.0000  top
+D3        LED_-_17-215SURC/S530-A2/TR8   LED_1206_3216Metric               155.1705  -112.6490    0.0000  top
+J1        USB_B_Micro_-_10118193-0001LF  FCI_10118193-0001LF               138.0000   -60.3250  180.0000  top
+J2        Conn_01x02_Female              PinHeader_1x02_P2.54mm_Vertical   165.9890   -65.7910  180.0000  top
+J3        Conn_01x02_Female              PinHeader_1x02_P2.54mm_Vertical   156.9720   -68.5850  180.0000  top
+J5        Conn_01x02_Male                PinHeader_1x02_P2.54mm_Vertical   156.9535  -118.9990  -90.0000  top
+J6        Conn_01x02_Male                PinHeader_1x02_P2.54mm_Vertical   164.0605  -109.7280    0.0000  top
+J7        Conn_01x06_Female              PinHeader_1x06_P2.54mm_Vertical   127.7620   -60.7060  -90.0000  top
+J8        Conn_01x02_Male                PinHeader_1x02_P2.54mm_Vertical   154.6860   -76.7130  180.0000  top
+J9        Conn_01x02_Male                PinHeader_1x02_P2.54mm_Vertical   154.7368   -89.2860  180.0000  top
+J10       Conn_01x27_Female              PinHeader_1x27_P2.54mm_Vertical   101.8540   -61.0616    0.0000  top
+J11       Conn_01x20_Female              PinHeader_1x27_P2.54mm_Vertical   174.3456  -127.1016  180.0000  top
+R1        10k_-_RC0805FR-0710KL          R_0805_2012Metric                 125.6030   -89.0270  -90.0000  top
+R2        12K_1%_-_0805W8F1202T5E        R_0805_2012Metric                 116.9670   -76.5810    0.0000  top
+R3        150_-_0805W8J0151T5E           R_0805_2012Metric                 120.3960   -89.2810   90.0000  top
+R4        150_-_0805W8J0151T5E           R_0805_2012Metric                 115.3160   -83.5660   90.0000  top
+R5        10k                            R_0805_2012Metric                 161.6710   -62.9772    0.0000  top
+R6        10k                            R_0805_2012Metric                 156.1592   -62.9772    0.0000  top
+R7        10k_-_RC0805FR-0710KL          R_0805_2012Metric                 122.3010   -72.6440  180.0000  top
+R8        10k_-_RC0805FR-0710KL          R_0805_2012Metric                 126.3904   -69.8500   90.0000  top
+R9        10k_-_RC0805FR-0710KL          R_0805_2012Metric                 126.3904   -66.1924  -90.0000  top
+R10       10k_-_RC0805FR-0710KL          R_0805_2012Metric                 111.7600   -64.7700  180.0000  top
+R11       82_-_0805W8F820JT5E            R_0805_2012Metric                 159.3615  -112.5220  180.0000  top
+R12       10k_-_RC0805FR-0710KL          R_0805_2012Metric                 111.7600   -66.8020  180.0000  top
+R13       10k_-_RC0805FR-0710KL          R_0805_2012Metric                 111.7600   -68.8340  180.0000  top
+SW1       SW_Push_-_SKQGADE010           SW4-SMD-5.2X5.2X1.5MM             160.5807  -100.1014    0.0000  top
+T1        Logo                           logo                              113.6650  -123.0630    0.0000  top
+T2        Logo                           ef_logo                           113.7920  -118.1100    0.0000  top
+U1        FT232H                         QFN50P800X800X90-49N              124.0790   -81.6610  -90.0000  top
+U2        SN74LVC1G125DCKR               SOT65P210X110-5N                  156.2100   -60.5388  180.0000  top
+U3        SN74LVC1G125DCKR               SOT65P210X110-5N                  161.9250   -60.5388  180.0000  top
+U4        AZ1117CH-1.8TRG1               SOT-223                           146.5580   -75.8190  180.0000  top
+U5        AZ1117-3.3                     SOT-223                           146.9136   -90.1446  180.0000  top
+U6        caravel_breakout               caravel_breakout_flexy            134.6200  -113.5380    0.0000  top
+U7        W25Q32FVSS                     SOIC127P790X216-8N                119.6340   -68.1990  180.0000  top
+X1        DSC6001_10MHZ                  DSC6001JE1A-010.0000              159.5647  -107.1626  180.0000  top
+Y1        CSTNE12M0GH5L000R0             CSTNE12M0GH5L000R0                127.6350   -73.7870    0.0000  top
+## End
