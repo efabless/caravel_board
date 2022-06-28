@@ -5999,7 +5999,7 @@
     (uuid 992b5010-a26d-41dd-b0c4-3690c286ab42)
     (property "Reference" "U1" (id 0) (at 68.58 115.57 0))
     (property "Value" "FT232H" (id 1) (at 73.66 115.57 0))
-    (property "Footprint" "Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm" (id 2) (at 85.09 151.13 0)
+    (property "Footprint" "Package_DFN_QFN:QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm" (id 2) (at 85.09 151.13 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ftdichip.com/Products/ICs/FT232H.htm" (id 3) (at 85.09 151.13 0)
@@ -7127,7 +7127,7 @@
       (reference "T2") (unit 1) (value "Logo") (footprint "Caravel_Board:ef_logo")
     )
     (path "/992b5010-a26d-41dd-b0c4-3690c286ab42"
-      (reference "U1") (unit 1) (value "FT232H") (footprint "Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm")
+      (reference "U1") (unit 1) (value "FT232H") (footprint "Package_DFN_QFN:QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm")
     )
     (path "/2694ce6e-725b-4dc5-b62e-3db1157c7f54"
       (reference "U2") (unit 1) (value "SN74LVC1G125DCKR") (footprint "strive_foot_prints:SOT65P210X110-5N")
