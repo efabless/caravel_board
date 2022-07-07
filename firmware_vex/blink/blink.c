@@ -93,7 +93,6 @@ void main()
     for (i = 0; i < 50000; i++);
 
 	while (1) {
-		/* Slow blink for demonstration board */
 		for (i = 0; i < 50000; i++);
         reg_gpio_out = 1;
 //        reg_mprj_datal = 0x00000000;

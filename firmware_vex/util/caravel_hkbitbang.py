@@ -67,6 +67,7 @@ CARAVEL_STREAM_WRITE = 0x80
 CARAVEL_REG_READ = 0x48
 CARAVEL_REG_WRITE = 0x88
 
+n_clks = 0
 
 def get_status(device):
     return int.from_bytes(device.exchange([CARAVEL_PASSTHRU, CMD_READ_STATUS],1), byteorder='big')
@@ -86,6 +87,23 @@ def report_status(jedec):
 def is_busy(device):
     return get_status(device) & SR_WIP
 
+def one_clock():
+    global n_clks
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x16])
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
+    n_clks += 1
+
+
+def set_io_bit_low(value):
+    # next bit is low
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, value])
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
+
+
+def set_io_bit_high(value):
+    # next bit is high
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, value])
+    slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x66])
 
 # This is roundabout but works. . .
 s = StringIO()
@@ -133,101 +151,100 @@ k = ''
 while (k != 'q'):
 
     print("\n-----------------------------------\n")
+    print("Clocks sent = {}".format(n_clks))
     print("Select option:")
-    print("  (1) read CARAVEL registers ")
-    print("  (2) read CARAVEL project ID ")
-    print("  (3) reset CARAVEL")
-    print("  (4) reset Flash")
-    print("  (5) read Flash JEDEC codes")
-    print("  (6) start flash erase")
-    print("  (7) check flash status")
-    print("  (8) engage DLL")
-    print("  (9) read DLL trim")
-    print(" (10) disengage DLL")
-    print(" (11) DCO mode")
-    print(" (12) full trim")
-    print(" (13) zero trim")
-    print(" (14) set register value")
+    print("  (r) reset CARAVEL")
+    print("  (b) enable bitbang mode")
+    print("  (c) set IO config (0x1809)")
+    print("  (1) bitbang 1 clock")
+    print("  (5) bitbang 5 clocks")
+    print("  (0) bitbang 13 clocks")
+    print("  (l) bitbang load")
+    print("  (s) set register value")
     print("  (q) quit")
 
     print("\n")
 
     k = input()
 
-    if k == '1':
-        for reg in [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12]:
-            data = slave.exchange([CARAVEL_REG_READ, reg], 1)
-            print("reg {} = {}".format(hex(reg), binascii.hexlify(data)))
-
-    elif k == '2':
-            data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
-            print("Project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
-
-    elif k == '3':
+    if k == 'r':
         # reset CARAVEL
         print("Resetting CARAVEL...")
-        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
-        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
+        slave.write([CARAVEL_STREAM_WRITE, 0x0b, 0x01])
+        slave.write([CARAVEL_STREAM_WRITE, 0x0b, 0x00])
+        n_clks = 0
 
-    elif k == '4':
-        # reset Flash
-        print("Resetting Flash...")
-        slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+    elif k == 'b':
+        print("enable bitbang mode...")
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x66])
+
+    elif k == 'c':
+        # Apply data 0x1809 (management standard output) to
+        # first block of user 1 and user 2 (GPIO 0 and 37)
+        # bits 0, 1, 9, and 12 are "1" (data go in backwards)
+        # or should it be bits 0, 3, 11 and 12 ??
+        print("set IO configuration...")
+        set_io_bit_low(0x76)  # bit 0
+
+        # set_io_bit_low(0x76)  # bit 1
+        set_io_bit_low(0x16)  # bit 1
+
+        set_io_bit_high(0x16)  # bit 2
+
+        # set_io_bit_low(0x16)  # bit 3
+        set_io_bit_low(0x76)  # bit 3
+
+        set_io_bit_low(0x16)  # bit 4
+        set_io_bit_low(0x16)  # bit 5
+        set_io_bit_low(0x16)  # bit 6
+        set_io_bit_low(0x16)  # bit 7
+        set_io_bit_high(0x16)  # bit 8
+
+        # set_io_bit_low(0x76)  # bit 9
+        set_io_bit_low(0x16)  # bit 9
+
+        set_io_bit_high(0x16)  # bit 10
+
+        # set_io_bit_high(0x16)  # bit 11
+        set_io_bit_high(0x76)  # bit 11
+
+        set_io_bit_low(0x76)  # bit 12
+
+
+    elif k == '1':
+        print("bitbang 1 clock...")
+        one_clock()
 
     elif k == '5':
-        slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
-        jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
-        print("JEDEC = {}".format(binascii.hexlify(jedec)))
+        print("bitbang 5 clocks...")
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
 
-    elif k == '6':
-        # erase Flash
-        print("Starting Flash erase...")
-        slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-        slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+    elif k == '0':
+        print("bitbang 13 clocks...")
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
+        one_clock()
 
-    elif k == '7':
-        if is_busy(slave):
-            print("Flash is busy.")
-        else:
-            print("Flash is NOT busy.")
-        print("status reg_1 = {}".format(hex(get_status(slave))))
-        status = slave.exchange([CARAVEL_PASSTHRU, 0x35], 1)
-        print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
+    elif k == 'l':
+        print("bitbang load...")
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x0e])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
 
-    elif k == '8':
-        print("engaging DLL...")
-        slave.write([CARAVEL_REG_WRITE, 0x08, 0x01])
-        slave.write([CARAVEL_REG_WRITE, 0x09, 0x00])
-
-    elif k == '9':
-        pll_trim = slave.exchange([CARAVEL_STREAM_READ, 0x0d], 4)
-        print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
-
-    elif k == '10':
-        print("disengaging DLL...")
-        slave.write([CARAVEL_REG_WRITE, 0x09, 0x01])
-        slave.write([CARAVEL_REG_WRITE, 0x08, 0x00])
-
-    elif k == '11':
-        print("Clock DCO mode...")
-        slave.write([CARAVEL_REG_WRITE, 0x08, 0x03])
-        slave.write([CARAVEL_REG_WRITE, 0x09, 0x00])
-
-    elif k == '12':
-        print("DCO mode full trim...")
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0d, 0xff])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0e, 0xff])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0f, 0xff])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x10, 0xff])
-
-    elif k == '13':
-        print("DCO mode zero trim...")
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0d, 0x00])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0e, 0x00])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x0f, 0x00])
-        pll_trim = slave.exchange([CARAVEL_REG_WRITE, 0x10, 0x00])
-
-    elif k == '14':
+    elif k == 's':
         print("Register?")
         r = input()
         reg = int(r, 0)
