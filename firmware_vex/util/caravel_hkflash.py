@@ -130,7 +130,8 @@ else:
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
-slave = spi.get_port(cs=1, freq=12E6, mode=0)
+# slave = spi.get_port(cs=0, freq=12E6, mode=0)  # new caravel board
+slave = spi.get_port(cs=1, freq=12E6, mode=0)  # old caravel board
 # slave = spi.get_port(cs=1, freq=6E6, mode=0)
 
 # gpio = spi.get_gpio()
