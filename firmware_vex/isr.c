@@ -7,9 +7,9 @@
 #include <uart.h>
 #include <defs.h>
 
-void isr(void);
+//void isr(void);
 
-#ifdef CONFIG_CPU_HAS_INTERRUPT
+//#ifdef CONFIG_CPU_HAS_INTERRUPT
 
 uint16_t flag;
 
@@ -21,7 +21,7 @@ void isr(void)
 //
 	irq_setmask(0);
 //
-//    reg_timer0_irq_en = 0; // disable interrupt
+    reg_timer0_irq_en = 0; // disable interrupt
 //    reg_debug_irq_en = 0;
 
 //    reg_reset = 1;
@@ -29,9 +29,14 @@ void isr(void)
 //    asm volatile ("ebreak");
 //    asm volatile ("srai x0, x0, 7");
 
-   reg_la1_data = 0xa;
-   reg_la0_data = 0x20000;
-   flag = 1;
+//   reg_la1_data = 0xa;
+//   reg_la0_data = 0x20000;
+   reg_timer0_update = 1;
+   if (reg_timer0_value == 0)
+       flag = 1;
+   else
+       reg_timer0_irq_en = 1;
+
 
 //	if(irqs & (1 << TIMER0_INTERRUPT)) {
 ////		uart_isr();
@@ -47,8 +52,8 @@ void isr(void)
 //#endif
 }
 
-#else
-
-void isr(void){};
-
-#endif
+//#else
+//
+//void isr(void){};
+//
+//#endif

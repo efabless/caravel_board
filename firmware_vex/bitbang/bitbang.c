@@ -39,17 +39,19 @@ void main()
     reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
     reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
     reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
-    reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
+    reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x66;
     reg_mprj_xfer = 0x76; reg_mprj_xfer = 0x06; // bit - 3
     reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
-    reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x06;
+    reg_mprj_xfer = 0x16; reg_mprj_xfer = 0x66;
     reg_mprj_xfer = 0x76; reg_mprj_xfer = 0x06; // bit - 0
 
-    clock(13); // IO[36]
-    clock(11); // IO[35]
+//    clock(13); // IO[37]
+
+    clock(12); // IO[36]
+    clock(12); // IO[35]
+//    clock(12); // IO[34]
 
     reg_mprj_xfer = 0x0e; reg_mprj_xfer = 0x06; // load
-
 
 	while (1) {
         reg_gpio_out = 1; // OFF

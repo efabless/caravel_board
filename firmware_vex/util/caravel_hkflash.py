@@ -96,6 +96,7 @@ class Led:
         output = 0b000100000000 | self.led << 11
         if (self.gpio):
             self.gpio.write(output)
+            time.sleep(0.2)
 
 if len(sys.argv) < 2:
    print("Usage: raptor_flash.py <file>")
@@ -130,16 +131,17 @@ else:
 spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
-# slave = spi.get_port(cs=0, freq=12E6, mode=0)  # new caravel board
-slave = spi.get_port(cs=1, freq=12E6, mode=0)  # old caravel board
+slave = spi.get_port(cs=0, freq=12E6, mode=0)  # new caravel board
+# slave = spi.get_port(cs=1, freq=12E6, mode=0)  # old caravel board
 # slave = spi.get_port(cs=1, freq=6E6, mode=0)
 
-# gpio = spi.get_gpio()
+gpio = spi.get_gpio()
 # # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
-# gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
+gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
 # # gpio.write(0b000100000000)
-# led = Led(gpio)
-led = Led(None)
+led = Led(gpio)
+# led = Led(None)
+led.toggle()
 
 # in some cases, you may need to comment or uncomment this line
 slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
@@ -151,9 +153,13 @@ mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
 # print("mfg = {}".format(binascii.hexlify(mfg)))
 print("   mfg        = {:04x}".format(int.from_bytes(mfg, byteorder='big')))
 
+led.toggle()
+
 product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
 # print("product = {}".format(binascii.hexlify(product)))
 print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
+
+led.toggle()
 
 data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
 print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))

@@ -4,7 +4,8 @@
 //#include <stdint.h>
 //#include <stdbool.h>
 
-#include "defs_mpw-two-mfix.h"
+//#include "defs_mpw-two-mfix.h"
+#include <defs.h>
 
 void putchar(uint32_t c);
 void print(const char *p);

@@ -129,7 +129,7 @@ spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
 #spi.configure('ftdi://ftdi:232h:1/1')
-slave = spi.get_port(cs=1)  # Chip select is 1 -- corresponds to D4
+slave = spi.get_port(cs=0, freq=1000)
 
 print("Caravel data:")
 mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
@@ -153,9 +153,11 @@ while (k != 'q'):
     print("\n-----------------------------------\n")
     print("Clocks sent = {}".format(n_clks))
     print("Select option:")
-    print("  (r) reset CARAVEL")
+    print("  (r) reset registers")
     print("  (b) enable bitbang mode")
+    print("  (t) reset load test")
     print("  (c) set IO config (0x1809)")
+    print("  (x) set IO config (0x1fff)")
     print("  (1) bitbang 1 clock")
     print("  (5) bitbang 5 clocks")
     print("  (0) bitbang 13 clocks")
@@ -169,14 +171,22 @@ while (k != 'q'):
 
     if k == 'r':
         # reset CARAVEL
-        print("Resetting CARAVEL...")
-        slave.write([CARAVEL_STREAM_WRITE, 0x0b, 0x01])
-        slave.write([CARAVEL_STREAM_WRITE, 0x0b, 0x00])
+        print("Reset registers...")
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x02])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
         n_clks = 0
 
     elif k == 'b':
         print("enable bitbang mode...")
         slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x66])
+
+    elif k == 't':
+        print("reset test...")
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x02])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x06])
+        slave.write([CARAVEL_STREAM_WRITE, 0x13, 0x0a])
 
     elif k == 'c':
         # Apply data 0x1809 (management standard output) to
@@ -184,32 +194,35 @@ while (k != 'q'):
         # bits 0, 1, 9, and 12 are "1" (data go in backwards)
         # or should it be bits 0, 3, 11 and 12 ??
         print("set IO configuration...")
-        set_io_bit_low(0x76)  # bit 0
+        set_io_bit_high(0x76)  # bit 12 - H
+        set_io_bit_low(0x76)   # bit 11 - H
+        set_io_bit_low(0x16)   # bit 10
+        set_io_bit_low(0x16)   # bit 9
+        set_io_bit_low(0x16)   # bit 8
+        set_io_bit_low(0x16)   # bit 7
+        set_io_bit_low(0x16)   # bit 6
+        set_io_bit_low(0x16)   # bit 5
+        set_io_bit_high(0x16)  # bit 4
+        set_io_bit_low(0x76)   # bit 3  - H
+        set_io_bit_low(0x16)   # bit 2
+        set_io_bit_high(0x16)  # bit 1
+        set_io_bit_low(0x76)   # bit 0  - H
 
-        # set_io_bit_low(0x76)  # bit 1
-        set_io_bit_low(0x16)  # bit 1
-
-        set_io_bit_high(0x16)  # bit 2
-
-        # set_io_bit_low(0x16)  # bit 3
-        set_io_bit_low(0x76)  # bit 3
-
-        set_io_bit_low(0x16)  # bit 4
-        set_io_bit_low(0x16)  # bit 5
-        set_io_bit_low(0x16)  # bit 6
-        set_io_bit_low(0x16)  # bit 7
-        set_io_bit_high(0x16)  # bit 8
-
-        # set_io_bit_low(0x76)  # bit 9
-        set_io_bit_low(0x16)  # bit 9
-
-        set_io_bit_high(0x16)  # bit 10
-
-        # set_io_bit_high(0x16)  # bit 11
-        set_io_bit_high(0x76)  # bit 11
-
-        set_io_bit_low(0x76)  # bit 12
-
+    elif k == 'x':
+        print("set IO configuration...")
+        set_io_bit_high(0x76)  # bit 12 - H
+        set_io_bit_high(0x76)  # bit 11 - H
+        set_io_bit_high(0x76)  # bit 10 - H
+        set_io_bit_high(0x76)  # bit 9  - H
+        set_io_bit_high(0x76)  # bit 8  - H
+        set_io_bit_high(0x76)  # bit 7  - H
+        set_io_bit_high(0x76)  # bit 6  - H
+        set_io_bit_high(0x76)  # bit 5  - H
+        set_io_bit_high(0x76)  # bit 4  - H
+        set_io_bit_high(0x76)  # bit 3  - H
+        set_io_bit_high(0x76)  # bit 2  - H
+        set_io_bit_high(0x76)  # bit 1  - H
+        set_io_bit_low(0x76)   # bit 0  - H
 
     elif k == '1':
         print("bitbang 1 clock...")
