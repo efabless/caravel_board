@@ -1,0 +1,78 @@
+Development of C code to automatically program the I/O in spite
+of the two different types of hold violations in the GPIO serial
+programming block.
+
+----------------------------------------------------------------
+
+There are two types of error.  On the right side (GPIO 19 to 37),
+there is a data-independent hold violation at the serial shift
+register data input of each GPIO control block.  This causes
+each bit out of a GPIO data output to be clocked into the
+following GPIO control block one cycle early.  In effect, the
+serial chain is advanced forward by 1 bit, so there are only
+12 bits per GPIO instead of 13, and the last bit of every GPIO
+is always the same as the first bit of the next GPIO.  On the
+left side (GPIO 0 to 18) is a mix of data-independent hold
+violations (exactly like the right side) and data-dependent
+hold violations in which a transition 1->0 is propagated
+forward by one bit, but the transition 0->1 is not.  This
+results in 13 bits for these GPIO blocks, but when the data
+stream passes through these blocks, runs of "1" values get
+shortened by one bit for each block.
+
+To program all (?) channels of the chip to useful states, the
+allowed states will be limited to five:  (1) management input,
+(2) management output, (3) user input, (4) user bidirectional,
+and (5) disabled.  Bit streams will be chosen such that the
+last and first bits are always the same.
+
+The bit stream will be as follows, and will ignore the state of
+the slow slew, trip point, and analog registers, which will be
+marked "NC".  NC[0] (HLDH) can be either value 0 or 1.  NC[6:1]
+should be set to zero if possible, but can be set to 1 if
+necessary.  DM is ideally 001 for input, 110 for output, and 000
+to disable both.  But DM may be any value except 000 for the
+input function as long as OEB is set to 1.  For the output
+function, DM can be 111, 110, 011, or 010 (combinations of
+strong and weak pull-up/pull-down).
+
+	    		DM[2:0] NC[6:1] IENB  NC[0] OEB ENA
+management output	110	000000  X     X     0   1
+management input        001     000000  0     X     1   1
+user output             110     000000  X     X     0   0
+user bidirectional      110     000000  0     X     0   0 
+user input		001     000000  0     X     1   0
+disabled		000	000000  X     X     X   X
+
+These values will work:
+
+management output	110	000000  0     0     0   1
+management input        100     000000  0     0     1   1
+user output/bidir       011     000000  0     0     0   0
+user input		001     000000  0     0     1   0
+disabled		000	000000  0     0     0   0
+
+In terms of hex value:
+
+management output	0x1801
+management input        0x1003
+user output/bidir       0x0c00
+user input		0x0402
+disabled		0x0000
+
+The C routine to be run on Caravel will accomplish the following:
+(1) The user will program the five values above as they would do
+    normally.
+(2) Instead of applying the transfer bit, the user will call a
+    predefined C function that will get linked into the program at
+    compile time.
+(3) The program will read the register values into memory, apply
+    corrections for the hold violations, set the registers to the
+    new values, initiate the transfer, wait for the transfer to
+    finish, and then set the register values back to the original
+    values set by the user.
+
+For future versions of the caravel chip without hold violations,
+the routine can be modified to just apply the transfer bit and
+wait for completion.
+
