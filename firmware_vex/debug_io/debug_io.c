@@ -110,8 +110,12 @@ void blink_long() {
     reg_gpio_out = 1; delay(wait); // OFF
 }
 
-//void set_registers() {
-//
+void set_registers() {
+
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
+
 //    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_21 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -131,8 +135,8 @@ void blink_long() {
 //    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
-//
-//}
+
+}
 
 void main()
 {
@@ -147,15 +151,16 @@ void main()
     blink_long();
 
     reg_mprj_datah = 0x0000003f;
-    reg_mprj_datal = 0xffffff00;
+    reg_mprj_datal = 0xffffffff;
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 5; i++)
     {
         clock11();
     }
-    for (i = 0; i < 180; i++)
+    for (i = 0; i < 0; i++)
     {
-        clock10();
+//        clock10();
+        clock01();
     }
 
     load();
@@ -168,7 +173,8 @@ void main()
 
     for (j = 0; j < 60; j++)
     {
-        clock10();
+//        clock10();
+        clock01();
         load();
         blink_long();
     }
