@@ -241,6 +241,11 @@
     (pad "S4" smd rect locked (at -1.2 0 180) (size 1.9 1.9) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 5e29ccad-50c5-4012-a0ed-81d25d7456a6))
     (pad "S5" thru_hole oval locked (at -3.3 0 180) (size 0.9 1.8) (drill oval 0.5 1.2) (layers *.Cu *.Mask) (tstamp 3d2f0e14-1595-48e8-99b9-9f25fd8c1fad))
     (pad "S6" thru_hole oval locked (at 3.3 0 180) (size 0.9 1.8) (drill oval 0.5 1.2) (layers *.Cu *.Mask) (tstamp a0de9102-7545-4ffb-b902-7984a25e7daa))
+    (model "${KICAD6_3DMODEL_DIR}/Connector_USB.3dshapes/USB_Micro-B_Molex_47346-0001.step"
+      (offset (xyz 0 2 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (footprint "Capacitor_SMD:C_0805_2012Metric" (layer "F.Cu")
@@ -2518,6 +2523,11 @@
           (xy 119.818 101.784)
         )
       )
+    )
+    (model "${KICAD6_3DMODEL_DIR}/Package_DFN_QFN.3dshapes/QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 -90))
     )
   )
 
