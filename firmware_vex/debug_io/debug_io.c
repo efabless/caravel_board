@@ -25,7 +25,8 @@ void delay(const int d)
 
 }
 
-#define     WAIT     100000
+//#define     WAIT     100000
+#define     WAIT     50000
 
 //void bb_mode()
 //{
@@ -146,6 +147,12 @@ void main()
 
 //    bb_mode();
 
+    reg_gpio_mode1 = 1;
+    reg_gpio_mode0 = 0;
+    reg_gpio_ien = 1;
+    reg_gpio_oe = 1;
+    reg_gpio_out = 1; // OFF
+
     blink_short();
     blink_short();
     blink_long();
@@ -153,6 +160,7 @@ void main()
     reg_mprj_datah = 0x0000003f;
     reg_mprj_datal = 0xffffffff;
 
+    // clear shift register with zeros and load before starting test
     for (i = 0; i < 300; i++)
     {
         clock00();
@@ -160,14 +168,14 @@ void main()
 
     load();
 
+    // load one's to avoid issue with the debug port
     for (i = 0; i < 5; i++)
     {
         clock11();
     }
     for (i = 0; i < 0; i++)
     {
-        clock10();
-//        clock01();
+        clock11();
     }
 
     load();
@@ -180,8 +188,7 @@ void main()
 
     for (j = 0; j < 60; j++)
     {
-        clock10();
-//        clock01();
+        clock11();
         load();
         blink_long();
     }
