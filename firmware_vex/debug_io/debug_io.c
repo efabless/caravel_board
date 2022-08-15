@@ -153,14 +153,21 @@ void main()
     reg_mprj_datah = 0x0000003f;
     reg_mprj_datal = 0xffffffff;
 
+    for (i = 0; i < 300; i++)
+    {
+        clock00();
+    }
+
+    load();
+
     for (i = 0; i < 5; i++)
     {
         clock11();
     }
     for (i = 0; i < 0; i++)
     {
-//        clock10();
-        clock01();
+        clock10();
+//        clock01();
     }
 
     load();
@@ -173,8 +180,8 @@ void main()
 
     for (j = 0; j < 60; j++)
     {
-//        clock10();
-        clock01();
+        clock10();
+//        clock01();
         load();
         blink_long();
     }
