@@ -9,6 +9,8 @@
 // Firmware routines
 // --------------------------------------------------------
 
+#include "../util/gpio_config_stream.c"
+
 void delay(const int d)
 {
 
@@ -25,7 +27,9 @@ void delay(const int d)
 
 }
 
-#define     WAIT     100000
+//#define     WAIT     100000
+#define     WAIT     50000
+//#define     WAIT     20000
 
 //void bb_mode()
 //{
@@ -70,9 +74,11 @@ void clock01()
 
 void load()
 {
-    reg_mprj_xfer = 0x06; reg_mprj_xfer = 0x0e;
+    reg_mprj_xfer = 0x06;
     delay(WAIT);
-    reg_mprj_xfer = 0x0e; reg_mprj_xfer = 0x06;		// Apply load
+    reg_mprj_xfer = 0x0e; 	// Apply load
+    delay(WAIT);
+    reg_mprj_xfer = 0x06;
     delay(WAIT);
 }
 
@@ -110,11 +116,40 @@ void blink_long() {
     reg_gpio_out = 1; delay(wait); // OFF
 }
 
+void gpio_config_stream(int *cfg, int n)
+//void gpio_config_stream(int *cfg_l, int *cfg_h, int n)
+{
+    int i = 0;
+    char value, bit_h, bit_l;
+    while (i < n)
+    {
+//        value = 0x16;
+//        bit_h = cfg_h[i/8] << i % 8;
+//        bit_l = cfg_l[i/8] << i % 8;
+//        value |= bit_h << 2;
+//        value |= bit_l << 1;
+        reg_mprj_xfer = 0x06;
+        delay(WAIT);
+//        reg_mprj_xfer = value;
+        reg_mprj_xfer = cfg[i];
+        delay(WAIT);
+        i++;
+    }
+}
+
+void *memcpy(void *dest, const void *src, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        ((char*)dest)[i] = ((char*)src)[i];
+    }
+}
+
 void set_registers() {
 
-    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
 
 //    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -125,18 +160,51 @@ void set_registers() {
 //    reg_mprj_io_25 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_26 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_27 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_34 = 0x0403;
+    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_37 = 0x0403;
 
 }
+
+//void clock_short()
+//{
+//        // clock an 0x1801 pattern based an a data-independent hold
+//        clock11();
+//        clock11();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+////        clock11();
+//}
+
+//int gpio_reg = {
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//    0b1100000000001,
+//};
 
 void main()
 {
@@ -146,6 +214,12 @@ void main()
 
 //    bb_mode();
 
+    reg_gpio_mode1 = 1;
+    reg_gpio_mode0 = 0;
+    reg_gpio_ien = 1;
+    reg_gpio_oe = 1;
+    reg_gpio_out = 1; // OFF
+
     blink_short();
     blink_short();
     blink_long();
@@ -153,14 +227,10 @@ void main()
     reg_mprj_datah = 0x0000003f;
     reg_mprj_datal = 0xffffffff;
 
-    for (i = 0; i < 5; i++)
+    // clear shift register with zeros and load before starting test
+    for (i = 0; i < 300; i++)
     {
-        clock11();
-    }
-    for (i = 0; i < 0; i++)
-    {
-//        clock10();
-        clock01();
+        clock00();
     }
 
     load();
@@ -169,17 +239,189 @@ void main()
     blink_short();
     blink_long();
 
-    delay(3000000);
+    // load one's to avoid issue with the debug port
+//    for (i = 0; i < 5; i++)
+//    {
+//        clock11();
+//    }
+//    for (i = 0; i < 0; i++)
+//    {
+//        clock11();
+//    }
 
-    for (j = 0; j < 60; j++)
-    {
-//        clock10();
-        clock01();
-        load();
-        blink_long();
-    }
+//        // clock an 0x1801 pattern
+//        clock11();
+//        clock11();
+//        clock11();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+//        clock01();
+////        clock11();
 
-	while (1) {}
+//    // clock an clock IO 28
+//    clock11();
+//    clock11();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock11();
+//
+//    // clock IO 29
+//    clock11();
+//    clock11();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+////    clock11();
+//
+////    // clock IO 34
+//    clock10();
+//    clock10();
+//    clock11();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock10();
+////    clock11();
+//
+//    // clock IO 36 thru 35
+//    for (i = 0; i < 2; i++)
+//    {
+//        // clock an 0x1801 pattern
+//        clock11();
+//        clock11();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+//        clock00();
+////        clock11();
+//
+//    }
+
+//    // clock IO 37 + 0
+//    clock11();
+//    clock10();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock01();
+//    clock11();
+
+//    // clock IO 37 + 0
+//    clock11();
+//    clock10();
+//    clock10();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock00();
+//    clock01();
+//    clock11();
+
+//    for (i = 0; i < 11; i++)
+//    {
+//        for (j = 0; j < 13)
+//        {
+//        }
+//    }
+
+//    gpio_config_stream(config_l, config_h, n_bits);
+    gpio_config_stream(config_combined, n_bits);
+
+    load();
+
+//    // clock an 0x1801 pattern
+//    clock11();
+//    clock11();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock11();
+//
+//    // clock an 0x1801 pattern
+////    clock11();
+//    clock11();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock01();
+//    clock11();
+
+//    load();
+
+    blink_short();
+    blink_short();
+    blink_long();
+    blink_long();
+
+//    delay(3000000);
+//
+//    for (j = 0; j < 0; j++)
+//    {
+//        clock01();
+//        load();
+//        blink_long();
+//    }
+
+	while (1) {
+//	    reg_gpio_out = ~ (reg_mprj_datah  >> 5);
+	    reg_gpio_out = ~ (reg_mprj_datah  >> 2);
+        delay(1000000);
+	}
 
 }
 
