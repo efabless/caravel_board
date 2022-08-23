@@ -20,27 +20,14 @@ class HoldType(Enum):
 
 # gpio names and incoming hold violation types
 
-# gpio_h = [
-#     ['IO[37]', HoldType.NONE],    # <<<< this must be set to NONE
-#     ['IO[36]', HoldType.NONE],
-#     ['IO[35]', HoldType.NONE],
-#     ['IO[34]', HoldType.NONE],
-#     ['IO[33]', HoldType.NONE],
-#     ['IO[32]', HoldType.NONE],
-#     ['IO[31]', HoldType.NONE],
-#     ['IO[30]', HoldType.NONE],
-#     ['IO[29]', HoldType.NONE],
-#     ['IO[28]', HoldType.NONE],
-# ]
-
 gpio_h = [
     ['IO[37]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[36]', HoldType.INDEPENDENT],
-    ['IO[35]', HoldType.INDEPENDENT],
-    ['IO[34]', HoldType.INDEPENDENT],
-    ['IO[33]', HoldType.INDEPENDENT],
-    ['IO[32]', HoldType.INDEPENDENT],
-    ['IO[31]', HoldType.DEPENDENT],
+    ['IO[36]', HoldType.NONE],
+    ['IO[35]', HoldType.NONE],
+    ['IO[34]', HoldType.NONE],
+    ['IO[33]', HoldType.NONE],
+    ['IO[32]', HoldType.NONE],
+    ['IO[31]', HoldType.NONE],
     ['IO[30]', HoldType.NONE],
     ['IO[29]', HoldType.NONE],
     ['IO[28]', HoldType.NONE],
@@ -48,14 +35,14 @@ gpio_h = [
 
 gpio_l = [
     ['IO[00]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[01]', HoldType.INDEPENDENT],
-    ['IO[02]', HoldType.INDEPENDENT],
-    ['IO[03]', HoldType.INDEPENDENT],
-    ['IO[04]', HoldType.INDEPENDENT],
-    ['IO[05]', HoldType.INDEPENDENT],
-    ['IO[06]', HoldType.DEPENDENT],
-    ['IO[07]', HoldType.DEPENDENT],
-    ['IO[08]', HoldType.DEPENDENT],
+    ['IO[01]', HoldType.NONE],
+    ['IO[02]', HoldType.NONE],
+    ['IO[03]', HoldType.NONE],
+    ['IO[04]', HoldType.NONE],
+    ['IO[05]', HoldType.NONE],
+    ['IO[06]', HoldType.NONE],
+    ['IO[07]', HoldType.NONE],
+    ['IO[08]', HoldType.NONE],
     ['IO[09]', HoldType.NONE],
 ]
 

@@ -9,6 +9,8 @@
 
 from bitstring import Bits, BitArray, BitStream
 from enum import Enum
+from gpio_config_stream import config_h, config_l
+from gpio_config_def import gpio_h, gpio_l
 
 
 def print_header():
@@ -95,31 +97,31 @@ class HoldType(Enum):
 #     ['IO[28]', HoldType.INDEPENDENT],
 # ]
 
-gpio_h = [
-    ['IO[37]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[36]', HoldType.INDEPENDENT],
-    ['IO[35]', HoldType.INDEPENDENT],
-    ['IO[34]', HoldType.INDEPENDENT],
-    ['IO[33]', HoldType.INDEPENDENT],
-    ['IO[32]', HoldType.INDEPENDENT],
-    ['IO[31]', HoldType.DEPENDENT],
-    ['IO[30]', HoldType.NONE],
-    ['IO[29]', HoldType.NONE],
-    ['IO[28]', HoldType.NONE],
-]
-
-gpio_l = [
-    ['IO[00]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[01]', HoldType.INDEPENDENT],
-    ['IO[02]', HoldType.INDEPENDENT],
-    ['IO[03]', HoldType.INDEPENDENT],
-    ['IO[04]', HoldType.INDEPENDENT],
-    ['IO[05]', HoldType.INDEPENDENT],
-    ['IO[06]', HoldType.DEPENDENT],
-    ['IO[07]', HoldType.NONE],
-    ['IO[08]', HoldType.NONE],
-    ['IO[09]', HoldType.NONE],
-]
+# gpio_h = [
+#     ['IO[37]', HoldType.NONE],    # <<<< this must be set to NONE
+#     ['IO[36]', HoldType.INDEPENDENT],
+#     ['IO[35]', HoldType.INDEPENDENT],
+#     ['IO[34]', HoldType.INDEPENDENT],
+#     ['IO[33]', HoldType.INDEPENDENT],
+#     ['IO[32]', HoldType.INDEPENDENT],
+#     ['IO[31]', HoldType.DEPENDENT],
+#     ['IO[30]', HoldType.NONE],
+#     ['IO[29]', HoldType.NONE],
+#     ['IO[28]', HoldType.NONE],
+# ]
+#
+# gpio_l = [
+#     ['IO[00]', HoldType.NONE],    # <<<< this must be set to NONE
+#     ['IO[01]', HoldType.INDEPENDENT],
+#     ['IO[02]', HoldType.INDEPENDENT],
+#     ['IO[03]', HoldType.INDEPENDENT],
+#     ['IO[04]', HoldType.INDEPENDENT],
+#     ['IO[05]', HoldType.INDEPENDENT],
+#     ['IO[06]', HoldType.DEPENDENT],
+#     ['IO[07]', HoldType.NONE],
+#     ['IO[08]', HoldType.NONE],
+#     ['IO[09]', HoldType.NONE],
+# ]
 
 # config_h = [ BitStream('0b1000000000011') ] * 10
 # config_h = [ BitStream('0b1111111111110') ] * 10
@@ -150,52 +152,34 @@ gpio_l = [
 #     BitStream('0b1000000000011'),
 # ]
 
-config_h = [
-    BitStream('0b1000000000011'),  # 37
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),   # 33
-    BitStream('0b000000000011'),   # 32
-    BitStream('0b1000000000011'),  # 31
-    BitStream('0b1000000000011'),
-    BitStream('0b1000000000011'),
-    BitStream('0b1000000000011'),
-]
-
-config_l = [
-    BitStream('0b1000000000011'),  # 37
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),
-    BitStream('0b000000000011'),   # 33
-    BitStream('0b000000000011'),   # 32
-    BitStream('0b1000000000011'),  # 31
-    BitStream('0b1000000000011'),
-    BitStream('0b1000000000011'),
-    BitStream('0b1000000000011'),
-]
+# config_h = [
+#     BitStream('0b1000000000011'),  # 37
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),   # 33
+#     BitStream('0b000000000011'),   # 32
+#     BitStream('0b1000000000011'),  # 31
+#     BitStream('0b1000000000011'),
+#     BitStream('0b1000000000011'),
+#     BitStream('0b1000000000011'),
+# ]
+#
+# config_l = [
+#     BitStream('0b1000000000011'),  # 37
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),
+#     BitStream('0b000000000011'),   # 33
+#     BitStream('0b000000000011'),   # 32
+#     BitStream('0b1000000000011'),  # 31
+#     BitStream('0b1000000000011'),
+#     BitStream('0b1000000000011'),
+#     BitStream('0b1000000000011'),
+# ]
 
 # ------------------------------------------
 
-print()
-print_header()
-
-print("cfgh:", end=" ")
-for x in config_h:
-    if len(x) < 13:
-        print("_"+x.bin, end=" ")
-    else:
-        print(x.bin, end=" ")
-print()
-print("cfgl:", end=" ")
-for x in config_l:
-    if len(x) < 13:
-        print("_"+x.bin, end=" ")
-    else:
-        print(x.bin, end=" ")
-print()
-print()
 print_header()
 
 print("  0h:", end=" ")
@@ -204,46 +188,50 @@ for x in gpio_h_reg:
 print()
 
 clock = 1
+n_clocks = len(config_h)
 # iterate through each IO in reverse order
-for k in reversed(range(10)):
+# for k in reversed(range(10)):
+for k in reversed(range(len(config_h))):
 # for k in range(10):
 
     # shift based on the number of bits in the config stream for that register
     # from msb to lsb
-    for j in reversed(range(len(config_h[k]))):
-        print("{:3d}h:".format(clock), end=" ")
-        clock += 1
-        saved_bit = last_bit = prev_last_bit = 0
+    # for j in reversed(range(len(config_h[k]))):
+    # while clock <= n_clocks:
+    print("{:3d}h:".format(clock), end=" ")
+    clock += 1
+    saved_bit = last_bit = prev_last_bit = 0
 
-        # iterate through each gpio
-        for i in range(len(gpio_h_reg)):
+    # iterate through each gpio
+    for i in range(len(gpio_h_reg)):
 
-            # store bit to be shifted off    
-            saved_bit = gpio_h_reg[i][12]
+        # store bit to be shifted off
+        saved_bit = gpio_h_reg[i][12]
 
-            # right shift all bits in the register
-            gpio_h_reg[i].ror(1)
+        # right shift all bits in the register
+        gpio_h_reg[i].ror(1)
 
-            if gpio_h[i][1] == HoldType.INDEPENDENT:
-                # shift in bit from previous gpio register, skipping the first bit
-                gpio_h_reg[i][1] = last_bit
-                gpio_h_reg[i][0] = prev_last_bit
+        if gpio_h[i][1] == HoldType.INDEPENDENT:
+            # shift in bit from previous gpio register, skipping the first bit
+            gpio_h_reg[i][1] = last_bit
+            gpio_h_reg[i][0] = prev_last_bit
 
-            elif gpio_h[i][1] == HoldType.DEPENDENT and prev_last_bit == 0:
-                    gpio_h_reg[i][0] = 0
+        elif gpio_h[i][1] == HoldType.DEPENDENT and prev_last_bit == 0:
+                gpio_h_reg[i][0] = 0
 
-            else:
-                # shift in bit from previous gpio register
-                gpio_h_reg[i][0] = last_bit
+        else:
+            # shift in bit from previous gpio register
+            gpio_h_reg[i][0] = last_bit
 
-            last_bit = saved_bit
-            prev_last_bit = gpio_h_reg[i][12]
-        
-        # shift in next bit from configuration stream    
-        gpio_h_reg[0][0] = config_h[k][j]
-        
-        for x in gpio_h_reg:
-            print(x.bin, end=" ")
-        print()
+        last_bit = saved_bit
+        prev_last_bit = gpio_h_reg[i][12]
+
+    # shift in next bit from configuration stream
+    # gpio_h_reg[0][0] = config_h[k][j]
+    gpio_h_reg[0][0] = config_h[k]
+
+    for x in gpio_h_reg:
+        print(x.bin, end=" ")
+    print()
 
 print_header()

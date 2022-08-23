@@ -1,7 +1,8 @@
 #!/bin/env python3
 #
-# gpio_config_builder.py ---  Build a pair of configuration bit streams for GPIO on MPW-2 accounting for
-#                          hold violations between gpio blocks.
+# gpio_config_builder.py
+#          Build a pair of configuration bit streams for GPIO on MPW-2 accounting for
+#          hold violations between gpio blocks.
 #
 # Input:   Hold violations between each GPIO and desired
 # Output:  Configuration bitsteams for upper and lower gpio chains
@@ -19,6 +20,7 @@ from gpio_config_def import NUM_IO, ConfigType, HoldType, config_h, config_l, gp
 
 stream_h = BitStream()
 stream_l = BitStream()
+stream_combined = []
 
 
 def build_stream_dependent(stream, config):
@@ -94,11 +96,48 @@ for k in reversed(range(NUM_IO)):
     if gpio_l[k][1] == HoldType.DEPENDENT:
         correct_dd_holds(stream_l)
 
-    # correct_dd_holds(stream_l, dd_holds_l)
+n_bits = max(len(stream_h), len(stream_l))
+if len(stream_h) < n_bits:
+    stream_h.append(Bits(length=n_bits-len(stream_h)))
+if len(stream_l) < n_bits:
+    stream_l.append(Bits(length=n_bits-len(stream_l)))
+
+for k in range(n_bits):
+    # stream_combined.append(0x16)
+    stream_combined.append(0x16 + (stream_l[k] << 5) + (stream_h[k] << 6))
+
 
 print("stream_h   = " + stream_h.bin)
 print("stream_l   = " + stream_l.bin)
 print()
 print("dd_holds_h = {}".format(dd_holds_h))
 print("dd_holds_l = {}".format(dd_holds_l))
+print("n_bits = {}".format(n_bits))
 
+f = open("gpio_config_stream.py", "w")
+f.write("from bitstring import Bits, BitArray, BitStream\n")
+f.write("from enum import Enum\n")
+f.write("\n")
+f.write("config_h = BitStream('0b" + stream_h.bin + "')\n")
+f.write("config_l = BitStream('0b" + stream_l.bin + "')\n")
+f.close()
+
+f = open("gpio_config_stream.c", "w")
+f.write("\n")
+f.write("int config_h[] = {")
+for x in stream_h.cut(8):
+    f.write("0x" + x.hex + ", ")
+f.write("};\n")
+f.write("int config_l[] = {")
+for x in stream_l.cut(8):
+    f.write("0x" + x.hex + ", ")
+f.write("};\n")
+f.write("int config_combined[] = {")
+for x in stream_combined:
+    f.write("0x{:2x}, ".format(x))
+f.write("};\n")
+f.write("int n_bits = " + str(n_bits) + ";\n")
+f.close()
+
+from bitstring import Bits, BitArray, BitStream
+from enum import Enum
