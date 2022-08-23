@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 37,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_nets": [],
@@ -62,11 +62,11 @@
       35,
       36
     ],
-    "visible_layers": "ffdfeff_ffffffff",
+    "visible_layers": "0001120_ffffffff",
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "Caravel_breakout_WCSP.kicad_prl",
+    "filename": "Caravel_breakout_v2.kicad_prl",
     "version": 3
   },
   "project": {
