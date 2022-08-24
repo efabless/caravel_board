@@ -221,7 +221,7 @@ with open(file_path, mode='r') as f:
 
         x = f.readline()
 
-        if nbytes >= 256:
+        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
             total_bytes += nbytes
             # print('\n----------------------\n')
             # print(binascii.hexlify(buf))
@@ -301,7 +301,8 @@ with open(file_path, mode='r') as f:
 
         x = f.readline()
 
-        if nbytes >= 256:
+        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
+
             total_bytes += nbytes
             # print('\n----------------------\n')
             # print(binascii.hexlify(buf))

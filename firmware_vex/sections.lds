@@ -35,7 +35,7 @@ SECTIONS
 
 	.rodata :
 	{
-		. = ALIGN(8);
+		. = ALIGN(256);
 		_frodata = .;
 		*(.rodata .rodata.* .gnu.linkonce.r.*)
 		*(.rodata1)
@@ -45,7 +45,7 @@ SECTIONS
 
 	.data :
 	{
-		. = ALIGN(8);
+		. = ALIGN(256);
 		_fdata = .;
 		*(.data .data.* .gnu.linkonce.d.*)
 		*(.data1)
@@ -53,11 +53,11 @@ SECTIONS
 		*(.sdata .sdata.* .gnu.linkonce.s.*)
 		. = ALIGN(8);
 		_edata = .;
-	} > dff AT > flash
+	} > sram AT > flash
 
 	.bss :
 	{
-		. = ALIGN(8);
+		. = ALIGN(256);
 		_fbss = .;
 		*(.dynsbss)
 		*(.sbss .sbss.* .gnu.linkonce.sb.*)
@@ -68,7 +68,7 @@ SECTIONS
 		. = ALIGN(8);
 		_ebss = .;
 		_end = .;
-	} > dff
+	} > sram
 }
 
 PROVIDE(_fstack = ORIGIN(sram) + LENGTH(sram));
