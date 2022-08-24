@@ -10,30 +10,30 @@
 from bitstring import Bits, BitArray, BitStream
 from enum import Enum
 from gpio_config_stream import config_h, config_l
-from gpio_config_def import gpio_h, gpio_l
+from gpio_config_def import H_NONE, H_DEPENDENT, H_INDEPENDENT, gpio_h, gpio_l
 
 
 def print_header():
-    print("   h:", end=" ")
-    for x in gpio_h:
-        if x[1] == HoldType.INDEPENDENT:
+    print("    :", end=" ")
+    for z in gpio_h:
+        if z[1] == H_INDEPENDENT:
             print("I", end="")
-        elif x[1] == HoldType.DEPENDENT:
+        elif z[1] == H_DEPENDENT:
             print("D", end="")
         else:
             print("_", end="")
-        print("___" + x[0] + "___", end=" ")
+        print("___" + z[0] + "___", end=" ")
     print()
-    print("   l:", end=" ")
-    for x in gpio_l:
-        if x[1] == HoldType.INDEPENDENT:
-            print("I", end="")
-        elif x[1] == HoldType.DEPENDENT:
-            print("D", end="")
-        else:
-            print("_", end="")
-        print("___" + x[0] + "___", end=" ")
-    print()
+    # print("   l:", end=" ")
+    # for x in gpio_l:
+    #     if x[1] == HoldType.INDEPENDENT:
+    #         print("I", end="")
+    #     elif x[1] == HoldType.DEPENDENT:
+    #         print("D", end="")
+    #     else:
+    #         print("_", end="")
+    #     print("___" + x[0] + "___", end=" ")
+    # print()
 
 
 # gpio shift registers
@@ -62,12 +62,6 @@ gpio_low_reg = [
     BitArray(length=13),
     BitArray(length=13),
 ]
-
-# defines these cases of hold violations
-class HoldType(Enum):
-    NONE = 0
-    DEPENDENT = 1
-    INDEPENDENT = 2
 
 # gpio names and incoming hold violation types
 
@@ -182,7 +176,7 @@ class HoldType(Enum):
 
 print_header()
 
-print("  0h:", end=" ")
+print("   0:", end=" ")
 for x in gpio_h_reg:
     print(x.bin, end=" ")
 print()
@@ -191,14 +185,15 @@ clock = 1
 n_clocks = len(config_h)
 # iterate through each IO in reverse order
 # for k in reversed(range(10)):
-for k in reversed(range(len(config_h))):
+# for k in reversed(range(len(config_h))):
+for k in range(len(config_h)):
 # for k in range(10):
 
     # shift based on the number of bits in the config stream for that register
     # from msb to lsb
     # for j in reversed(range(len(config_h[k]))):
     # while clock <= n_clocks:
-    print("{:3d}h:".format(clock), end=" ")
+    print(" {:3d}:".format(clock), end=" ")
     clock += 1
     saved_bit = last_bit = prev_last_bit = 0
 
@@ -211,12 +206,12 @@ for k in reversed(range(len(config_h))):
         # right shift all bits in the register
         gpio_h_reg[i].ror(1)
 
-        if gpio_h[i][1] == HoldType.INDEPENDENT:
+        if gpio_h[i][1] == H_INDEPENDENT:
             # shift in bit from previous gpio register, skipping the first bit
             gpio_h_reg[i][1] = last_bit
             gpio_h_reg[i][0] = prev_last_bit
 
-        elif gpio_h[i][1] == HoldType.DEPENDENT and prev_last_bit == 0:
+        elif gpio_h[i][1] == H_DEPENDENT and prev_last_bit == 0:
                 gpio_h_reg[i][0] = 0
 
         else:
@@ -225,6 +220,7 @@ for k in reversed(range(len(config_h))):
 
         last_bit = saved_bit
         prev_last_bit = gpio_h_reg[i][12]
+
 
     # shift in next bit from configuration stream
     # gpio_h_reg[0][0] = config_h[k][j]

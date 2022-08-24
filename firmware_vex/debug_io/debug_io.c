@@ -9,44 +9,36 @@
 // Firmware routines
 // --------------------------------------------------------
 
-#include "../util/gpio_config_stream.c"
+#include "../util/gpio_config.c"
 
-void delay(const int d)
-{
-
-    /* Configure timer for a single-shot countdown */
-	reg_timer0_config = 0;
-	reg_timer0_data = d;
-    reg_timer0_config = 1;
-
-    // Loop, waiting for value to reach zero
-   reg_timer0_update = 1;  // latch current value
-   while (reg_timer0_value > 0) {
-           reg_timer0_update = 1;
-   }
-
-}
-
-//#define     WAIT     100000
-#define     WAIT     50000
-//#define     WAIT     20000
-
-//void bb_mode()
+//void delay(const int d)
 //{
-//    // Enable bit-bang mode
-//    reg_mprj_xfer = 0x06;			// Enable bit-bang mode
-//    reg_mprj_xfer = 0x02;           // Pulse reset
-//    reg_mprj_xfer = 0x06;
+//
+//    /* Configure timer for a single-shot countdown */
+//	reg_timer0_config = 0;
+//	reg_timer0_data = d;
+//    reg_timer0_config = 1;
+//
+//    // Loop, waiting for value to reach zero
+//   reg_timer0_update = 1;  // latch current value
+//   while (reg_timer0_value > 0) {
+//           reg_timer0_update = 1;
+//   }
 //
 //}
+//
+////#define     WAIT     100000
+//#define     WAIT     50000
+////#define     WAIT     20000
 
-void clock11()
-{
-    reg_mprj_xfer = 0x66;
-    delay(WAIT);
-    reg_mprj_xfer = 0x76;
-    delay(WAIT);
-}
+
+//void clock11()
+//{
+//    reg_mprj_xfer = 0x66;
+//    delay(WAIT);
+//    reg_mprj_xfer = 0x76;
+//    delay(WAIT);
+//}
 
 void clock00()
 {
@@ -56,31 +48,31 @@ void clock00()
     delay(WAIT);
 }
 
-void clock10()
-{
-    reg_mprj_xfer = 0x46;
-    delay(WAIT);
-    reg_mprj_xfer = 0x56;
-    delay(WAIT);
-}
+//void clock10()
+//{
+//    reg_mprj_xfer = 0x46;
+//    delay(WAIT);
+//    reg_mprj_xfer = 0x56;
+//    delay(WAIT);
+//}
+//
+//void clock01()
+//{
+//    reg_mprj_xfer = 0x26;
+//    delay(WAIT);
+//    reg_mprj_xfer = 0x36;
+//    delay(WAIT);
+//}
 
-void clock01()
-{
-    reg_mprj_xfer = 0x26;
-    delay(WAIT);
-    reg_mprj_xfer = 0x36;
-    delay(WAIT);
-}
-
-void load()
-{
-    reg_mprj_xfer = 0x06;
-    delay(WAIT);
-    reg_mprj_xfer = 0x0e; 	// Apply load
-    delay(WAIT);
-    reg_mprj_xfer = 0x06;
-    delay(WAIT);
-}
+//void load()
+//{
+//    reg_mprj_xfer = 0x06;
+//    delay(WAIT);
+//    reg_mprj_xfer = 0x0e; 	// Apply load
+//    delay(WAIT);
+//    reg_mprj_xfer = 0x06;
+//    delay(WAIT);
+//}
 
 void putchar(char c)
 {
@@ -116,35 +108,6 @@ void blink_long() {
     reg_gpio_out = 1; delay(wait); // OFF
 }
 
-void gpio_config_stream(int *cfg, int n)
-//void gpio_config_stream(int *cfg_l, int *cfg_h, int n)
-{
-    int i = 0;
-    char value, bit_h, bit_l;
-    while (i < n)
-    {
-//        value = 0x16;
-//        bit_h = cfg_h[i/8] << i % 8;
-//        bit_l = cfg_l[i/8] << i % 8;
-//        value |= bit_h << 2;
-//        value |= bit_l << 1;
-        reg_mprj_xfer = 0x06;
-        delay(WAIT);
-//        reg_mprj_xfer = value;
-        reg_mprj_xfer = cfg[i];
-        delay(WAIT);
-        i++;
-    }
-}
-
-void *memcpy(void *dest, const void *src, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        ((char*)dest)[i] = ((char*)src)[i];
-    }
-}
-
 void set_registers() {
 
 //    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -166,12 +129,12 @@ void set_registers() {
     reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_34 = 0x0403;
+    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_34 = 0x0403;
     reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_37 = 0x0403;
+    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_37 = 0x0403;
 
 }
 
@@ -210,7 +173,7 @@ void main()
 {
 	int i, j, k;
 
-//    set_registers();
+    set_registers();
 
 //    bb_mode();
 
@@ -228,7 +191,7 @@ void main()
     reg_mprj_datal = 0xffffffff;
 
     // clear shift register with zeros and load before starting test
-    for (i = 0; i < 300; i++)
+    for (i = 0; i < 250; i++)
     {
         clock00();
     }
@@ -239,188 +202,20 @@ void main()
     blink_short();
     blink_long();
 
-    // load one's to avoid issue with the debug port
-//    for (i = 0; i < 5; i++)
-//    {
-//        clock11();
-//    }
-//    for (i = 0; i < 0; i++)
-//    {
-//        clock11();
-//    }
-
-//        // clock an 0x1801 pattern
-//        clock11();
-//        clock11();
-//        clock11();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-//        clock01();
-////        clock11();
-
-//    // clock an clock IO 28
-//    clock11();
-//    clock11();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock11();
-//
-//    // clock IO 29
-//    clock11();
-//    clock11();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-////    clock11();
-//
-////    // clock IO 34
-//    clock10();
-//    clock10();
-//    clock11();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock10();
-////    clock11();
-//
-//    // clock IO 36 thru 35
-//    for (i = 0; i < 2; i++)
-//    {
-//        // clock an 0x1801 pattern
-//        clock11();
-//        clock11();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-//        clock00();
-////        clock11();
-//
-//    }
-
-//    // clock IO 37 + 0
-//    clock11();
-//    clock10();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock01();
-//    clock11();
-
-//    // clock IO 37 + 0
-//    clock11();
-//    clock10();
-//    clock10();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock00();
-//    clock01();
-//    clock11();
-
-//    for (i = 0; i < 11; i++)
-//    {
-//        for (j = 0; j < 13)
-//        {
-//        }
-//    }
-
-//    gpio_config_stream(config_l, config_h, n_bits);
-    gpio_config_stream(config_combined, n_bits);
-
-    load();
-
-//    // clock an 0x1801 pattern
-//    clock11();
-//    clock11();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock11();
-//
-//    // clock an 0x1801 pattern
-////    clock11();
-//    clock11();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock01();
-//    clock11();
-
-//    load();
+//    gpio_config_stream(config_combined, n_bits);
+    gpio_config_stream();
 
     blink_short();
     blink_short();
     blink_long();
     blink_long();
 
-//    delay(3000000);
-//
-//    for (j = 0; j < 0; j++)
-//    {
-//        clock01();
-//        load();
-//        blink_long();
-//    }
 
 	while (1) {
 //	    reg_gpio_out = ~ (reg_mprj_datah  >> 5);
-	    reg_gpio_out = ~ (reg_mprj_datah  >> 2);
-        delay(1000000);
+//	    reg_gpio_out = ~ (reg_mprj_datah  >> 2);
+//        delay(1000000);
+        blink_long();
 	}
 
 }

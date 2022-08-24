@@ -12,71 +12,74 @@ from enum import Enum
 # number of IO in the configuration stream for each chain
 NUM_IO = 10
 
+
 # defines these cases of hold violations
-class HoldType(Enum):
-    NONE = 0
-    DEPENDENT = 1
-    INDEPENDENT = 2
+# class HoldType(Enum):
+H_NONE = 0
+H_DEPENDENT = 1
+H_INDEPENDENT = 2
 
 # gpio names and incoming hold violation types
 
+
 gpio_h = [
-    ['IO[37]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[36]', HoldType.NONE],
-    ['IO[35]', HoldType.NONE],
-    ['IO[34]', HoldType.NONE],
-    ['IO[33]', HoldType.NONE],
-    ['IO[32]', HoldType.NONE],
-    ['IO[31]', HoldType.NONE],
-    ['IO[30]', HoldType.NONE],
-    ['IO[29]', HoldType.NONE],
-    ['IO[28]', HoldType.NONE],
+    ['IO[37]', H_NONE],    # <<<< this must be set to NONE
+    ['IO[36]', H_INDEPENDENT],
+    ['IO[35]', H_INDEPENDENT],
+    ['IO[34]', H_INDEPENDENT],
+    ['IO[33]', H_NONE],
+    ['IO[32]', H_NONE],
+    ['IO[31]', H_NONE],
+    ['IO[30]', H_NONE],
+    ['IO[29]', H_NONE],
+    ['IO[28]', H_NONE],
 ]
 
 gpio_l = [
-    ['IO[00]', HoldType.NONE],    # <<<< this must be set to NONE
-    ['IO[01]', HoldType.NONE],
-    ['IO[02]', HoldType.NONE],
-    ['IO[03]', HoldType.NONE],
-    ['IO[04]', HoldType.NONE],
-    ['IO[05]', HoldType.NONE],
-    ['IO[06]', HoldType.NONE],
-    ['IO[07]', HoldType.NONE],
-    ['IO[08]', HoldType.NONE],
-    ['IO[09]', HoldType.NONE],
+    ['IO[00]', H_NONE],    # <<<< this must be set to NONE
+    ['IO[01]', H_NONE],
+    ['IO[02]', H_NONE],
+    ['IO[03]', H_NONE],
+    ['IO[04]', H_NONE],
+    ['IO[05]', H_NONE],
+    ['IO[06]', H_NONE],
+    ['IO[07]', H_NONE],
+    ['IO[08]', H_NONE],
+    ['IO[09]', H_NONE],
 ]
 
 
 # defines these cases of hold violations
-class ConfigType(Enum):
-    MGMT_OUT = 0
-    MGMT_IN = 1
-    USER_BIDIR = 2
+# class ConfigType(Enum):
+C_MGMT_OUT = 0
+C_MGMT_IN = 1
+C_USER_BIDIR = 2
+C_DISABLE = 2
 
 config_h = [
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
 ]
 
 config_l = [
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
-    ConfigType.MGMT_OUT,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
+    C_DISABLE,
 ]
 
 
