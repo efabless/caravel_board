@@ -40,7 +40,7 @@ void load()
 }
 
 //void gpio_config_stream(int cfg[], int n)
-void gpio_config_stream()
+void gpio_config_io()
 {
     int i = 0;
 //    bb_mode();

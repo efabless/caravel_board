@@ -9,7 +9,7 @@
 // Firmware routines
 // --------------------------------------------------------
 
-#include "../util/gpio_config.c"
+#include "../util/gpio_config_io.c"
 
 //void delay(const int d)
 //{
@@ -202,8 +202,7 @@ void main()
     blink_short();
     blink_long();
 
-//    gpio_config_stream(config_combined, n_bits);
-    gpio_config_stream();
+    gpio_config_io();
 
     blink_short();
     blink_short();
