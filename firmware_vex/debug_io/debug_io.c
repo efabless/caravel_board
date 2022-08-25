@@ -1,4 +1,5 @@
 #include "../defs.h"
+#include "../gpio_config/gpio_config_io.c"
 //#include "../local_defs.h"
 //#include "../stub.c"
 
@@ -8,8 +9,6 @@
 // --------------------------------------------------------
 // Firmware routines
 // --------------------------------------------------------
-
-#include "../util/gpio_config_io.c"
 
 //void delay(const int d)
 //{
