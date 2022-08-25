@@ -110,8 +110,12 @@ void blink_long() {
 
 void set_registers() {
 
-//    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-//    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_5 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;
 //    reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
 
 //    reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;

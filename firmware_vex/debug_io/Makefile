@@ -16,7 +16,10 @@ PATTERN = debug_io
 
 hex:  ${PATTERN:=.hex}
 
-%.elf: %.c ../sections.lds ../crt0_vex.S
+../util/gpio_config_data.c: ../util/gpio_config_def.py
+	cd ../util; python3 ../util/gpio_config_builder.py
+
+%.elf: %.c ../sections.lds ../crt0_vex.S ../util/gpio_config_data.c
 	#$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D debug_io.elf > debug_io.lst
@@ -33,6 +36,7 @@ client: client.c
 
 flash: debug_io.hex
 	python3 ../util/caravel_hkflash.py debug_io.hex
+	python3 ../util/caravel_hkstop.py
 
 flash2: debug_io.hex
 	python3 ../util/caravel_flash.py debug_io.hex
