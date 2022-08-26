@@ -190,12 +190,12 @@ void main()
 //    reg_mprj_io_0  = GPIO_MODE_MGMT_STD_ANALOG;
 
 //    gpio_program();
-    gpio_program_local();
+//    gpio_program_local();
 
-    reg_uart_enable = 1;
+//    reg_uart_enable = 1;
 
 //    print("Hello World !!");
-    putchar('x');
+//    putchar('x');
 
 	while (1) {
 
