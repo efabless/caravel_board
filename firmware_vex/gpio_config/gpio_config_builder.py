@@ -13,7 +13,7 @@ from enum import Enum
 
 # import gpio and configuration definitions
 from gpio_config_def import NUM_IO, C_MGMT_IN, C_MGMT_OUT, C_USER_BIDIR, C_DISABLE, C_ALL_ONES, \
-                            H_DEPENDENT, H_INDEPENDENT, H_NONE, config_h, config_l, gpio_h, gpio_l
+                            H_DEPENDENT, H_INDEPENDENT, H_NONE, H_SPECIAL, config_h, config_l, gpio_h, gpio_l
 
 
 # ------------------------------------------
@@ -63,9 +63,13 @@ def build_stream_none(stream, config):
         stream.append('0b0010000000010')
 
 
-def correct_dd_holds(stream):
-    for x in range(len(stream)-1):
-        if stream[x] == 0 and stream[x+1] == 1:
+def build_stream_special(stream, config):
+    stream.append(config)
+
+
+def correct_dd_holds(stream, bpos):
+    for x in reversed(range(1,bpos)):
+        if stream[x] == 0 and stream[x-1] == 1:
             stream[x] = 1
 
 
@@ -81,6 +85,8 @@ for k in reversed(range(NUM_IO)):
         build_stream_dependent(stream_h, config_h[k])
     elif gpio_h[k][1] == H_INDEPENDENT:
         build_stream_independent(stream_h, config_h[k])
+    elif gpio_h[k][1] == H_SPECIAL:
+        build_stream_special(stream_h, config_h[k])
     else:
         build_stream_none(stream_h, config_h[k])
 
@@ -89,14 +95,26 @@ for k in reversed(range(NUM_IO)):
         build_stream_dependent(stream_l, config_l[k])
     elif gpio_l[k][1] == H_INDEPENDENT:
         build_stream_independent(stream_l, config_l[k])
+    elif gpio_l[k][1] == H_SPECIAL:
+        build_stream_special(stream_l, config_l[k])
     else:
         build_stream_none(stream_l, config_l[k])
 
+bpos_h = len(stream_h)
+bpos_l = len(stream_l)
 for k in reversed(range(NUM_IO)):
     if gpio_h[k][1] == H_DEPENDENT:
-        correct_dd_holds(stream_h)
+        correct_dd_holds(stream_h, bpos_h)
     if gpio_l[k][1] == H_DEPENDENT:
-        correct_dd_holds(stream_l)
+        correct_dd_holds(stream_l, bpos_l)
+    if gpio_h[k][1] == H_INDEPENDENT:
+        bpos_h -= 12
+    else:
+        bpos_h -= 13
+    if gpio_l[k][1] == H_INDEPENDENT:
+        bpos_l -= 12
+    else:
+        bpos_l -= 13
 
 n_bits = max(len(stream_h), len(stream_l))
 if len(stream_h) < n_bits:

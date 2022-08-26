@@ -176,7 +176,7 @@ void main()
 {
 	int i, j, k;
 
-    set_registers();
+//    set_registers();
 
 //    bb_mode();
 

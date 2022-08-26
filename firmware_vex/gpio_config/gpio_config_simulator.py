@@ -10,7 +10,7 @@
 from bitstring import Bits, BitArray, BitStream
 from enum import Enum
 from gpio_config_data import config_h, config_l
-from gpio_config_def import H_NONE, H_DEPENDENT, H_INDEPENDENT, gpio_h, gpio_l, NUM_IO
+from gpio_config_def import H_NONE, H_DEPENDENT, H_INDEPENDENT, H_SPECIAL, gpio_h, gpio_l, NUM_IO
 
 
 def print_header(gpio):
@@ -20,6 +20,8 @@ def print_header(gpio):
             print("I", end="")
         elif z[1] == H_DEPENDENT:
             print("D", end="")
+        elif z[1] == H_SPECIAL:
+            print("S", end="")
         else:
             print("_", end="")
         print("___" + z[0] + "___", end=" ")
