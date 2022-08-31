@@ -39,11 +39,24 @@ void load()
     delay(WAIT);
 }
 
+void clear_registers()
+{
+    // clear shift register with zeros and load before starting test
+    for (int i = 0; i < 250; i++)
+    {
+        reg_mprj_xfer = 0x06;
+        delay(WAIT);
+        reg_mprj_xfer = 0x16;
+        delay(WAIT);
+    }
+    load();
+}
+
 //void gpio_config_stream(int cfg[], int n)
 void gpio_config_io()
 {
     int i = 0;
-//    bb_mode();
+    bb_mode();
     while (i < n_bits)
     {
         reg_mprj_xfer = config_stream[i];

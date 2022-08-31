@@ -53,7 +53,7 @@ SECTIONS
 		*(.sdata .sdata.* .gnu.linkonce.s.*)
 		. = ALIGN(8);
 		_edata = .;
-	} > sram AT > flash
+	} > dff AT > flash
 
 	.bss :
 	{
