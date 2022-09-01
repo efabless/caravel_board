@@ -52,7 +52,6 @@ void clear_registers()
     load();
 }
 
-//void gpio_config_stream(int cfg[], int n)
 void gpio_config_io()
 {
     int i = 0;
@@ -60,11 +59,10 @@ void gpio_config_io()
     while (i < n_bits)
     {
         reg_mprj_xfer = config_stream[i];
-        i++;
         delay(WAIT);
-        reg_mprj_xfer = config_stream[i];
-        i++;
+        reg_mprj_xfer = config_stream[i] + 0x10;
         delay(WAIT);
+        i++;
     }
     load();
 }

@@ -68,10 +68,10 @@ SECTIONS
 		. = ALIGN(8);
 		_ebss = .;
 		_end = .;
-	} > sram
+	} > dff
 }
 
-PROVIDE(_fstack = ORIGIN(sram) + LENGTH(sram));
+PROVIDE(_fstack = ORIGIN(dff) + LENGTH(dff));
 
 PROVIDE(_fdata_rom = LOADADDR(.data));
 PROVIDE(_edata_rom = LOADADDR(.data) + SIZEOF(.data));

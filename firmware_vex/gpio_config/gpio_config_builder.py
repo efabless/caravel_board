@@ -143,7 +143,7 @@ for k in range(NUM_IO):
 for k in range(n_bits):
     value = (stream_l[k] << 5) + (stream_h[k] << 6)
     config_stream.append(0x06 + value)
-    config_stream.append(0x16 + value)
+    # config_stream.append(0x16 + value)
 
 #
 #  create output files
@@ -188,7 +188,8 @@ for x in config_stream:
     f.write("0x{:02x}, ".format(x))
 f.write("};\n")
 
-f.write("int n_bits = " + str(n_bits*2) + ";\n")
+# f.write("int n_bits = " + str(n_bits*2) + ";\n")
+f.write("int n_bits = " + str(n_bits) + ";\n")
 f.close()
 
 from bitstring import Bits, BitArray, BitStream
