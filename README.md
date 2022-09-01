@@ -9,11 +9,13 @@ You will need python 3.6 or later.
 
 To program Caravel, connect the evaluation board using a USB micro B connector.
 
-> pip3 install pyftdi
->
-> cd firmware/blink
->
-> make clean flash
+```bash
+pip3 install pyftdi
+
+cd firmware/blink
+
+make clean flash
+```
 
 ### Install Toolchain for Compiling Code
 
@@ -41,5 +43,5 @@ provides menu-driven debug through the housekeeping SPI interface for Caravel.
 
 The current evaluation board for Caravel can be found at 
 
-> hardware/caravel_pcb_v1
+> hardware/caravel_pcb_v4_FTDI
 
