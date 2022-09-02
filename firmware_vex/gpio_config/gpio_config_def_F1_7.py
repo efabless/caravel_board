@@ -9,6 +9,10 @@
 from bitstring import Bits, BitArray, BitStream
 from enum import Enum
 
+#############
+##  Configuration file for MPW-2 part F1-7
+#############
+
 # number of IO in the configuration stream for each chain
 NUM_IO = 19
 

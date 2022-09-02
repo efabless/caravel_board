@@ -55,7 +55,8 @@ void clear_registers()
 void gpio_config_io()
 {
     int i = 0;
-    bb_mode();
+//    bb_mode();
+    clear_registers();
     while (i < n_bits)
     {
         reg_mprj_xfer = config_stream[i];

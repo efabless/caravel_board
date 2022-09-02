@@ -9,6 +9,10 @@
 from bitstring import Bits, BitArray, BitStream
 from enum import Enum
 
+#############
+##  Configuration file for MPW-2 part F1-7
+#############
+
 # number of IO in the configuration stream for each chain
 NUM_IO = 19
 
@@ -74,6 +78,9 @@ C_MGMT_IN = 1
 C_USER_BIDIR = 2
 C_DISABLE = 3
 C_ALL_ONES = 4
+C_USER_BIDIR_WPU = 5
+C_USER_BIDIR_WPD = 6
+C_USER_IN_NP = 7
 
 config_h = [
     C_MGMT_OUT,  #37
@@ -107,16 +114,16 @@ config_l = [
     C_MGMT_OUT,
     C_MGMT_OUT,
     C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
-    C_MGMT_OUT,
+    C_DISABLE,
+    C_USER_BIDIR,  #8
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,
+    C_USER_BIDIR_WPU,  #15
+    C_USER_BIDIR,
     C_MGMT_OUT,
     C_MGMT_OUT,
 ]
