@@ -117,11 +117,11 @@ config_l = [
     C_MGMT_OUT,
     C_MGMT_OUT,
     C_MGMT_IN,   #8
-    C_USER_BIDIR_WPD,   #9
-    C_USER_BIDIR_WPD,   #10
-    C_USER_BIDIR_WPD,   #11
-    C_USER_BIDIR_WPD,   #12
-    C_USER_BIDIR_WPD,   #13
+    C_MGMT_IN,   #9
+    C_MGMT_IN,   #10
+    C_MGMT_IN,   #11
+    C_MGMT_IN,   #12
+    C_DISABLE,   #13
     C_USER_BIDIR_WPD,   #14
     C_USER_BIDIR_WPD,   #15
     C_USER_BIDIR,       #16

@@ -12,7 +12,7 @@ TOOLCHAIN_PREFIX=riscv64
 
 .SUFFIXES:
 
-PATTERN = freq_test
+PATTERN = freq_test pwm_test
 
 hex:  ${PATTERN:=.hex}
 
@@ -22,7 +22,7 @@ hex:  ${PATTERN:=.hex}
 %.elf: %.c ../sections.lds ../crt0_vex.S ../gpio_config/gpio_config_data.c
 	#$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
-	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D freq_test.elf > freq_test.lst
+	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D $@ > $*.lst
 
 %.hex: %.elf
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O verilog $< $@
@@ -38,8 +38,9 @@ flash: freq_test.hex
 	python3 ../util/caravel_hkflash.py freq_test.hex
 	python3 ../util/caravel_hkstop.py
 
-flash2: freq_test.hex
-	python3 ../util/caravel_flash.py freq_test.hex
+flash_pwm: pwm_test.hex
+	python3 ../util/caravel_hkflash.py pwm_test.hex
+	python3 ../util/caravel_hkstop.py
 
 # ---- Clean ----
 

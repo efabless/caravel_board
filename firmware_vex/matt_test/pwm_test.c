@@ -87,16 +87,13 @@ void main()
     // activate the project by setting the 1st bit of 2nd bank of LA
     reg_la1_iena = 0;
     reg_la1_oenb = 0;
-//    reg_la1_data = 1 << 1;
-    reg_la1_data = 0x02;
+    reg_la1_data = 0x01;  // 1st project
 
     // reset design with 0bit of 1st bank of LA
     reg_la0_iena = 0;
     reg_la0_oenb = 0;
     reg_la0_data = 1;
-    delay(3000000);
     reg_la0_data = 0;
-    delay(3000000);
 
     // no need for anything else as this design is free running.
 
@@ -112,6 +109,7 @@ void main()
 //        delay(5);
 //        reg_mprj_datal = 0x00000000;
 //        delay(5);
+        blink_long();
     }
 
 }
