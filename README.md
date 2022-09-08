@@ -45,3 +45,7 @@ The current evaluation board for Caravel can be found at
 
 > hardware/caravel_pcb_v4_FTDI
 
+- The clock is driven by X1 with a frequency of 10MHz. To drive the clock with custom frequnecy, disable X1 through J6 and use the external pin for `xclk`
+- The voltage regulator U5 and U6 supply `1.8V` and `3.3V` through J8 and J9. The traces have to be cut if they are supplied externally.
+- `vccd1` is connected to `1.8V` through J3. The trace has to be cut if it is supplied externally
+- `vddio` is connected to `3.3V` through J5. The trace has to be cut if it is supplied externally
