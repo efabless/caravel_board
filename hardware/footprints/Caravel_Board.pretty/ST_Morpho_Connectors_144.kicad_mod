@@ -4,7 +4,7 @@
   (descr "ST Morpho and Zio Connectors 144 With STLink")
   (tags "ST Morpho Zio Connector 144 STLink")
   (attr through_hole)
-  (fp_text reference "REF**" (at -0.045 0.13) (layer "F.SilkS")
+  (fp_text reference "REF**" (at -0.045 0.13) (layer "Dwgs.User")
     (effects (font (size 1 1) (thickness 0.15)))
     (tstamp da69eb09-ec83-4b3e-bdf9-d77166d0884d)
   )
