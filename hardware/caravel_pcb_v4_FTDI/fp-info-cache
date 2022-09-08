@@ -1,4 +1,4 @@
-20544425356318035
+20544426739332839
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -6265,19 +6265,19 @@ QFN64_(9x9)_0.5_CL_Test_Socket
 65
 65
 Caravel_Board
+SOT-353F
+SOT-353, SC-70-5
+SOT-353 SC-70-5
+0
+5
+5
+Caravel_Board
 ST_Morpho_Connectors_144
 ST Morpho and Zio Connectors 144 With STLink
 ST Morpho Zio Connector 144 STLink
 0
-248
-248
-Caravel_Board
-ST_Morpho_and_Zio_Connectors_144_STLink
-ST Morpho and Zio Connectors 144 With STLink
-ST Morpho Zio Connector 144 STLink
-0
-248
-248
+144
+144
 Caravel_Board
 caravel_breakout
 
