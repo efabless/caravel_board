@@ -1,16 +1,22 @@
 
+DEV=/dev/cu.usbmodem34203
+
 # copies scripts to nucleo
 copy:
-	mpremote connect /dev/tty.usbmodem34203 cp main.py :
-	mpremote connect /dev/tty.usbmodem34203 soft-reset
+	mpremote connect ${DEV} cp main.py flash.py :
+	mpremote connect ${DEV} soft-reset
+
+copy-hex:
+	mpremote connect ${DEV} cp blink.hex :
 
 # runs script from the local filesystem
 run:
-	mpremote connect /dev/tty.usbmodem34203 run main.py
+	mpremote connect ${DEV} soft-reset
+	mpremote connect ${DEV} run main.py
 
 # enter repl on nucleo
 repl:
-	mpremote connect /dev/tty.usbmodem34203 repl
+	mpremote connect ${DEV} repl
 
 # flash micropython firmware image.  this firmware image has been rebuilt to add pins for the Caravel Nucleo Hat
 image:
