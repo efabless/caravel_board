@@ -87,25 +87,14 @@ class Led:
 #   print("File not found.")
 #   sys.exit()
 
-# spi = SpiController(cs_count=2)
-# spi.configure('ftdi://::/1')
-# spi.configure(gooddevs[0])
-# slave = spi.get_port(cs=0, freq=12E6, mode=0)  # new caravel board
-# slave = spi.get_port(cs=1, freq=12E6, mode=0)  # old caravel board
-# slave = spi.get_port(cs=1, freq=6E6, mode=0)
-
-# gpio = spi.get_gpio()
-# # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
-# gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
-# # gpio.write(0b000100000000)
-
-
 class SPI:
     def __init__(self):
-        self.cs = Pin('SPI4_CS', mode=Pin.OUT, value=1)
-        self.sck = Pin('SPI4_SCK', mode=Pin.OUT, value=0)
-        self.mosi = Pin('SPI4_MOSI', mode=Pin.OUT)
-        self.miso = Pin('SPI4_MISO', mode=Pin.IN)
+        self.cs = Pin('SPI5_CS', mode=Pin.OUT, value=1)
+        self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
+        self.mosi = Pin('SPI5_MOSI', mode=Pin.OUT)
+        self.miso = Pin('SPI5_MISO', mode=Pin.IN)
+        #self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)
+        #self.miso = Pin('SPI5_MOSI', mode=Pin.IN)
         self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
 
     def write(self, buf):
@@ -150,7 +139,7 @@ def check():
 
     slave = SPI()
     # in some cases, you may need to comment or uncomment this line
-    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+    #slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
     # ------------
 
     print(" ")
@@ -206,8 +195,8 @@ def flash(file_path):
     #print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data,'big'))[::-1], 2)))
     print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, 'big')), 2)))
 
-    if int.from_bytes(mfg, 'big') != 0x0456:
-        exit(2)
+    # if int.from_bytes(mfg, 'big') != 0x0456:
+    #     exit(2)
 
     time.sleep(1.0)
     led.toggle()
