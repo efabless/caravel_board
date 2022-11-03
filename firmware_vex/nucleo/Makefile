@@ -1,5 +1,6 @@
 
-DEV=/dev/cu.usbmodem34203
+DEV=/dev/cu.usbmodem3103
+#DEV=/dev/cu.usbmodem34203
 
 # copies scripts to nucleo
 copy:

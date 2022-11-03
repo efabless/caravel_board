@@ -91,10 +91,19 @@ class SPI:
     def __init__(self):
         self.cs = Pin('SPI5_CS', mode=Pin.OUT, value=1)
         self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
-        self.mosi = Pin('SPI5_MOSI', mode=Pin.OUT)
-        self.miso = Pin('SPI5_MISO', mode=Pin.IN)
+        
+        # -- new board
+        self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)
+        self.miso = Pin('SPI5_MOSI', mode=Pin.IN)
+        
+        # -- new board
+        #self.mosi = Pin('SPI5_MOSI', mode=Pin.OUT)
+        #self.miso = Pin('SPI5_MISO', mode=Pin.IN)
+        
+        # -- old board
         #self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)
         #self.miso = Pin('SPI5_MOSI', mode=Pin.IN)
+        
         self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
 
     def write(self, buf):
