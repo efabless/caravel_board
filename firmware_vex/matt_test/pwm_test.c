@@ -1,5 +1,5 @@
 #include "../defs.h"
-#include "../gpio_config/gpio_config_io.c"
+#include "./gpio_config_io.c"
 //#include "../local_defs.h"
 //#include "../stub.c"
 
@@ -67,15 +67,15 @@ void main()
 	*/
 
     // 1 input for input signal
-//	reg_mprj_io_8 =   GPIO_MODE_USER_STD_INPUT_NOPULL;
-	reg_mprj_io_8 =   GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_8 =   GPIO_MODE_USER_STD_INPUT_NOPULL;
+//	reg_mprj_io_8 =   GPIO_MODE_MGMT_STD_OUTPUT;
 
     // 7 outputs for segments, starting at 9
-	reg_mprj_io_9 =   GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_10 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_11 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_12 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_13 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_9 =   GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_10 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_11 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_12 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_13 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
 	reg_mprj_io_14 =  GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_15 =  GPIO_MODE_USER_STD_OUTPUT;
 
@@ -93,6 +93,7 @@ void main()
     reg_la0_iena = 0;
     reg_la0_oenb = 0;
     reg_la0_data = 1;
+    delay(50000);
     reg_la0_data = 0;
 
     // no need for anything else as this design is free running.
