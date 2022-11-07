@@ -1,8 +1,3 @@
-#from caravel import *
-#import fileinput
-#import signal
-
-
 class Gpio:
     def __init__(self):
         self.array = []
@@ -68,6 +63,14 @@ def run_builder(gpio_l, gpio_h, input):
         )
 
 
+def manipulate_hex(file):
+    bak_file = open(f"{file}.bak", "w")
+    source_file = open(f"{file}", "r")
+    for line in source_file:
+        bak_file.write(line) 
+    bak_file.close()
+    source_file.close()
+
 def modify_hex(hex_file, c_file, first_line=1):
     c_file = open(c_file, "r")
     hex_data = []
@@ -84,42 +87,46 @@ def modify_hex(hex_file, c_file, first_line=1):
                 indx = aline.find("=")
                 arr_size = aline[indx + 1 : -1].strip()
                 if int(arr_size) > 255:
-                    logging.error(" Array size should be less that 255")
-                    sys.exit()
+                    print(" Array size should be less that 255")
+                    exit(1)
     for i in data:
         hex_data.append(i[2:])
 
-    with fileinput.input(hex_file, inplace=True, backup=".bak") as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                if line.startswith("@"):
-                    if first_line > 0:
-                        print(line)
-                        first_line = first_line - 1
+    manipulate_hex(hex_file)
+    bak_file = open(f"{hex_file}.bak", "r")
+    source_file = open(f"{hex_file}", "w")
+    for line in bak_file:
+        line = line.strip()
+        if line:
+            if line.startswith("@"):
+                if first_line > 0:
+                    source_file.write(line)
+                    first_line = first_line - 1
+                else:
+                    source_file.write(line)
+                    flag = True
+            elif flag == False:
+                source_file.write(line)
+            elif flag == True:
+                count = 0
+                for d in hex_data:
+                    if count < 16:
+                        new_hex_data = new_hex_data + " " + d
+                        count = count + 1
                     else:
-                        print(line)
-                        flag = True
-                elif flag == False:
-                    print(line)
-                elif flag == True:
-                    count = 0
-                    for d in hex_data:
-                        if count < 16:
-                            new_hex_data = new_hex_data + " " + d
-                            count = count + 1
-                        else:
-                            print(new_hex_data[1:])
-                            new_hex_data = ""
-                            count = 1
-                            new_hex_data = new_hex_data + " " + d
-                    while len(new_hex_data[1:].split()) < 16:
-                        new_hex_data = new_hex_data + " " + "00"
-                    print(new_hex_data[1:])
-                    print(
-                        f"{str(hex(int(arr_size)))[2:].capitalize()} 00 00 00 00 00 00 00 "
-                    )
-                    break
+                        source_file.write(new_hex_data[1:])
+                        new_hex_data = ""
+                        count = 1
+                        new_hex_data = new_hex_data + " " + d
+                while len(new_hex_data[1:].split()) < 16:
+                    new_hex_data = new_hex_data + " " + "00"
+                source_file.write(new_hex_data[1:])
+                source_file.write(
+                    f"{str(hex(int(arr_size)))[2:].capitalize()} 00 00 00 00 00 00 00 "
+                )
+                break
+    bak_file.close()
+    source_file.close()
 
 
 def exec_flash(test):
@@ -425,7 +432,7 @@ def choose_test(
         test.test_name = test_name
         run_builder(gpio_l.array, gpio_h.array, input_test)
         modify_hex(
-            f"caravel_board/firmware_vex/{test_name}/{test_name}.hex",
+            f"{test_name}.hex",
             "gpio_config_data.c",
         )
         exec_flash(test)
