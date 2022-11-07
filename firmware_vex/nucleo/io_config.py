@@ -13,7 +13,7 @@ def manipulate_hex(file):
     bak_file = open(f"{file}.bak", "w")
     source_file = open(f"{file}", "r")
     for line in source_file:
-        bak_file.write(line) 
+        bak_file.write(f"{line}") 
     bak_file.close()
     source_file.close()
 
@@ -46,13 +46,13 @@ def modify_hex(hex_file, c_file, first_line=1):
         if line:
             if line.startswith("@"):
                 if first_line > 0:
-                    source_file.write(line)
+                    source_file.write(f"{line}\n")
                     first_line = first_line - 1
                 else:
-                    source_file.write(line)
+                    source_file.write(f"{line}\n")
                     flag = True
             elif flag == False:
-                source_file.write(line)
+                source_file.write(f"{line}\n")
             elif flag == True:
                 count = 0
                 for d in hex_data:
@@ -60,15 +60,15 @@ def modify_hex(hex_file, c_file, first_line=1):
                         new_hex_data = new_hex_data + " " + d
                         count = count + 1
                     else:
-                        source_file.write(new_hex_data[1:])
+                        source_file.write(f"{new_hex_data[1:]}\n")
                         new_hex_data = ""
                         count = 1
                         new_hex_data = new_hex_data + " " + d
                 while len(new_hex_data[1:].split()) < 16:
                     new_hex_data = new_hex_data + " " + "00"
-                source_file.write(new_hex_data[1:])
+                source_file.write(f"{new_hex_data[1:]}\n")
                 source_file.write(
-                    f"{str(hex(int(arr_size)))[2:].capitalize()} 00 00 00 00 00 00 00 "
+                    f"{str(hex(int(arr_size)))[2:].capitalize()} 00 00 00 00 00 00 00 \n"
                 )
                 break
     bak_file.close()
