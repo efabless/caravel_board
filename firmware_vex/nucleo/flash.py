@@ -93,8 +93,8 @@ class SPI:
         self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
         
         # -- new board
-        self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)
-        self.miso = Pin('SPI5_MOSI', mode=Pin.IN)
+        self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)   # PF9 = IO[2] = caravel input
+        self.miso = Pin('SPI5_MOSI', mode=Pin.IN)    # PF8 = IO[1] = caravel output
         
         # -- new board
         #self.mosi = Pin('SPI5_MOSI', mode=Pin.OUT)
@@ -143,7 +143,7 @@ class SPI:
 
 def check():
     led = Led()
-    # led = Led(None)
+    #led = Led(None)
     led.toggle()
 
     slave = SPI()

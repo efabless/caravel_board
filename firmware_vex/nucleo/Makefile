@@ -5,7 +5,7 @@ DEV=/dev/cu.usbmodem3103
 # copies scripts to nucleo
 copy:
 	mpremote connect ${DEV} repl
-	mpremote connect ${DEV} cp main.py flash.py i2c.py :
+	mpremote connect ${DEV} cp main.py flash.py i2c.py io_config.py:
 
 copy-hex:
 	mpremote connect ${DEV} cp debug_io.hex :

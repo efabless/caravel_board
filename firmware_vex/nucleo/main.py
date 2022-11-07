@@ -1,4 +1,4 @@
-from machine import Pin, SPI, SoftSPI, sleep, SoftI2C
+from machine import Pin, SPI, SoftSPI, sleep, SoftI2C, reset
 from pyb import LED, Timer
 from time import sleep
 from i2c import I2C
@@ -83,7 +83,7 @@ en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
 en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
 # setup user LEDs
-led_green = LED(1)
+#led_green = LED(1)
 #led_blue = LED(2)
 #led_red = LED(3)
 
@@ -122,19 +122,20 @@ en_3v3.on()
 en_1v8.on()
 sleep(1)
 
-check()
+#check()
 
-#flash("debug_io.hex")
+reset()
+flash("blink.hex")
 
 rst.on()
 
 #setup_io()
 
-gpio_l = Gpio()
-gpio_h = Gpio()
-start_time = 0
-test = {}
-test = Test()
+#gpio_l = Gpio()
+#gpio_h = Gpio()
+#start_time = 0
+#test = {}
+#test = Test()
 
 #choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time, "junk")
 
@@ -143,14 +144,14 @@ print("\nRunning...")
 while False:
     #sleep(0.5)
     #print(".")
-    led_green.toggle()
+    #led_green.toggle()
     # write_io_all(1)
-    _data = "{:038b}".format(read_io_all())
+#    _data = "{:038b}".format(read_io_all())
     data = ""
     for x in _data:
         data = x + data
-    print("{} {} {} {} {} {} {} {} {} {}".format(\
-        data[0:4],data[4:8],data[8:12],data[12:16],data[16:20],data[20:24],data[24:28],data[28:32],data[32:36],data[36:38]))
+#    print("{} {} {} {} {} {} {} {} {} {}".format(\
+#        data[0:4],data[4:8],data[8:12],data[12:16],data[16:20],data[20:24],data[24:28],data[28:32],data[32:36],data[36:38]))
     #sleep(0.5)
     #print(".")
     #led_green.toggle()

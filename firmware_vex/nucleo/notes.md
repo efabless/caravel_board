@@ -26,3 +26,6 @@ https://docs.micropython.org/en/latest/library/machine.html
 
 building firmware
 https://github.com/micropython/micropython/blob/master/ports/stm32/README.md
+
+install thonny
+install addon --> adafruit-board-kt
