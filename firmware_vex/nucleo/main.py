@@ -1,161 +1,277 @@
-from machine import Pin, SPI, SoftSPI, sleep, SoftI2C, reset
-from pyb import LED, Timer
-from time import sleep
-from i2c import I2C
-from flash import flash, check
-from io_config import choose_test, Gpio
+from nucleo_api import *
+import os
+import gpio_config_builder
+def run_builder(gpio_l, gpio_h):
+    gpio_l = ",".join(gpio_l)
+    gpio_h = ",".join(gpio_h)
+    gpio_config_builder.build_config(gpio_l, gpio_h)
 
-class prog_supply:
+
+def manipulate_hex(file):
+    bak_file = open(f"{file}.bak", "w")
+    source_file = open(f"{file}", "r")
+    for line in source_file:
+        bak_file.write(f"{line}") 
+    bak_file.close()
+    source_file.close()
+
+def modify_hex(hex_file, c_file, first_line=1):
+    c_file = open(c_file, "r")
+    hex_data = []
+    new_hex_data = ""
+    flag = False
+    for aline in c_file:
+        aline = aline.strip()
+        if aline:
+            if aline.startswith("char"):
+                idx = aline.find("{")
+                line = aline[idx + 1 : -4]
+                data = [item.strip() for item in line.split(",")]
+            if aline.startswith("int"):
+                indx = aline.find("=")
+                arr_size = aline[indx + 1 : -1].strip()
+                if int(arr_size) > 255:
+                    print(" Array size should be less that 255")
+                    exit(1)
+    for i in data:
+        hex_data.append(i[2:])
+
+    manipulate_hex(hex_file)
+    bak_file = open(f"{hex_file}.bak", "r")
+    source_file = open(f"{hex_file}", "w")
+    for line in bak_file:
+        line = line.strip()
+        if line:
+            if line.startswith("@"):
+                if first_line > 0:
+                    source_file.write(f"{line}\n")
+                    first_line = first_line - 1
+                else:
+                    source_file.write(f"{line}\n")
+                    flag = True
+            elif flag == False:
+                source_file.write(f"{line}\n")
+            elif flag == True:
+                count = 0
+                for d in hex_data:
+                    if count < 16:
+                        new_hex_data = new_hex_data + " " + d
+                        count = count + 1
+                    else:
+                        source_file.write(f"{new_hex_data[1:]}\n")
+                        new_hex_data = ""
+                        count = 1
+                        new_hex_data = new_hex_data + " " + d
+                while len(new_hex_data[1:].split()) < 16:
+                    new_hex_data = new_hex_data + " " + "00"
+                source_file.write(f"{new_hex_data[1:]}\n")
+                source_file.write(
+                    f"{str(hex(int(arr_size)))[2:]} 00 00 00 00 00 00 00 \n"
+                )
+                break
+    bak_file.close()
+    source_file.close()
+
+
+def exec_flash(test):
+    print("   Flashing CPU")
+    test.apply_reset()
+    test.powerup_sequence()
+    test.flash(f"{test.test_name}.hex")
+    test.powerup_sequence()
+    test.release_reset()
+
+
+def run_test(test, chain):
+    phase = 0
+    io_pulse = 0
+    rst = 0
+    end_pulses = 0
+    while end_pulses < 2:
+        pulse_count = test.receive_packet()
+        if phase == 0 and pulse_count == 1:
+            print("Start test")
+            phase = phase + 1
+        elif phase > 0 and pulse_count == 1:
+            rst = rst + 1
+            end_pulses = end_pulses + 1
+        elif pulse_count > 1:
+            end_pulses = 0
+            print(chain)
+            if chain == "low":
+                channel = (pulse_count - 2) + (9 * rst)
+            elif chain == "high":
+                channel = 37 - (pulse_count - 2)
+                rst = 1
+            elif rst == 1 and chain == "high":
+                channel = 28 - (pulse_count - 2)
+            phase = phase + 1
+            print(f"start sending pulses to gpio[{channel}]")
+            state = "HI"
+            timeout = time.time() + 0.05
+            accurate_delay(15)
+            while 1:
+                accurate_delay(30)
+                x = Dio(f"IO_{channel}").get_value()
+                if state == "LOW":
+                    if x == True:
+                        state = "HI"
+                elif state == "HI":
+                    if x == False:
+                        state = "LOW"
+                        io_pulse = io_pulse + 1
+                if io_pulse == 4:
+                    io_pulse = 0
+                    print(f"gpio[{channel}] Passed")
+                    break
+                if time.time() > timeout:
+                    print(f"Timeout failure on gpio[{channel}]!")
+                    return False, channel
+    return True, None
+
+
+def change_config(channel, gpio_l, gpio_h, voltage, start_time, test):
+    end_time = (time.time() - start_time) / 60.0
+    if channel > 18:
+        if gpio_h.get_config(37 - channel) == "H_INDEPENDENT":
+            gpio_h.set_config(37 - channel, "H_DEPENDENT")
+            gpio_h.increment_fail_count(37 - channel)
+        elif gpio_h.get_config(37 - channel) == "H_DEPENDENT":
+            gpio_h.set_config(37 - channel, "H_INDEPENDENT")
+            gpio_h.increment_fail_count(37 - channel)
+        if gpio_h.get_fail_count(37 - channel) > 1:
+            gpio_h.gpio_failed()
+            print(f"gpio[{channel}] not working")
+            print("Final configuration for gpio_l: ", gpio_l.array)
+            print("Final configuration for gpio_h: ", gpio_h.array)
+            print(
+                "Configuring the ios took: ",
+                (time.time() - start_time) / 60.0,
+                "minutes",
+            )
+            f = open(f"configuration.txt", "a")
+            f.write(f"voltage: {voltage}\n")
+            f.write("Final configuration: \n")
+            f.write(
+                f"configuration failed in gpio[{channel}], anything after is invalid\n"
+            )
+            f.write(f"gpio from 37 to 19: {gpio_h.array}\n")
+            f.write(f"Execution time: {end_time} minutes\n")
+            f.close()
+            test.turn_off_devices()
+
+    else:
+        if gpio_l.get_config(channel) == "H_INDEPENDENT":
+            gpio_l.set_config(channel, "H_DEPENDENT")
+            gpio_l.increment_fail_count(channel)
+        elif gpio_l.get_config(channel) == "H_DEPENDENT":
+            gpio_l.set_config(channel, "H_INDEPENDENT")
+            gpio_l.increment_fail_count(channel)
+        if gpio_l.get_fail_count(channel) > 1:
+            gpio_l.gpio_failed()
+            print(f"gpio[{channel}] not working")
+            print("Final configuration for gpio_l: ", gpio_l.array)
+            print("Final configuration for gpio_h: ", gpio_h.array)
+            print(
+                "Configuring the ios took: ",
+                (time.time() - start_time) / 60.0,
+                "minutes",
+            )
+            f = open(f"configuration.txt", "a")
+            f.write(f"voltage: {voltage}\n")
+            f.write("Final configuration: \n")
+            f.write(
+                f"configuration failed in gpio[{channel}], anything after is invalid\n"
+            )
+            f.write(f"gpio from 0 to 18: {gpio_l.array}\n")
+            f.write(f"Execution time: {end_time} minutes\n")
+            f.close()
+            test.turn_off_devices()
+    return gpio_l, gpio_h
+
+
+def choose_test(
+    test,
+    test_name,
+    gpio_l,
+    gpio_h,
+    start_time,
+    chain="low",
+    high=False
+):
+    test_result = False
+    while not test_result:
+        test.test_name = test_name
+        run_builder(gpio_l.array, gpio_h.array)
+        modify_hex(
+            f"{test_name}.hex",
+            "gpio_config_data.c",
+        )
+        exec_flash(test)
+        if not high:
+            test_result, channel_failed = run_test(test, chain)
+        else:
+            test_result, channel_failed = run_test(test, chain)
+        if test_result:
+            print("Test Passed!")
+            print("Final configuration for gpio_l: ", gpio_l.array)
+            print("Final configuration for gpio_h: ", gpio_h.array)
+            test_passed(test, start_time, gpio_l, gpio_h, chain)
+        else:
+            gpio_l, gpio_h = change_config(
+                channel_failed, gpio_l, gpio_h, test.voltage, start_time, test
+            )
+        if gpio_h.get_gpio_failed() is True or gpio_l.get_gpio_failed() is True:
+            break
+
+
+def test_passed(test, start_time, gpio_l, gpio_h, chain):
+    end_time = (time.time() - start_time) / 60.0
+
+    print("Configuring the ios took: ", end_time, "minutes")
+
+    f = open(f"configuration.txt", "a")
+    f.write(f"voltage: {test.voltage}\n")
+    f.write(f"configuration of {chain} chain was successful\n")
+    f.write(f"Final configuration of {chain} chain: \n")
+    if chain == "low":
+        f.write(f"gpio from 0 to 18: {gpio_l.array}\n")
+    elif chain == "high":
+        f.write(f"gpio from 37 to 19: {gpio_h.array}\n")
+    f.write(f"Execution time: {end_time} minutes\n")
+    f.close()
+
+
+if __name__ == "__main__":
+    try:
+        test = Test()
+        gpio_l = Gpio()
+        gpio_h = Gpio()
+
+        start_time = time.time()
+        start_program = time.time()
+        global pid
+        pid = None
+
+        choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time)
+
+        gpio_l = Gpio()
+        gpio_h = Gpio()
+        start_time = time.time()
+        choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
+
+        end_time = (time.time() - start_program) / 60.0
+        f = open(f"configuration.txt", "a")
+        f.write(f"\n\nTotal Execution time: {end_time} minutes")
+        f.close()
+        test.turn_off_devices()
+        exit(0)
     
-    def __init__(self):
-        self.scl = Pin('I2C2_SCL', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        self.sda = Pin('I2C2_SDA', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        #self.scl = Pin('I2C2_SDA', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        #self.sda = Pin('I2C2_SCL', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-
-        self.i2c = I2C(scl=self.scl, sda=self.sda)
-        self.i2c.init()
-        
-    def read_1v8(self):
-        self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
-        self.i2c.write_byte(0x0c, start=False, stop=False)
-        self.i2c.write_byte(0x51, start=True, stop=False)
-        #self.i2c.write_byte(0x53, start=True, stop=False)
-        value = self.i2c.read_byte(ack=True, stop=False) << 8
-        value |= self.i2c.read_byte(ack=False, stop=True)
-        return value
-    
-    def write_1v8(self, value):
-        self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
-        self.i2c.write_byte(0x10 & value >> 8, start=False, stop=False)
-        ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
-        return ack
-
-    def read_3v3(self):
-        self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
-        self.i2c.write_byte(0x1c, start=False, stop=False)
-        self.i2c.write_byte(0x51, start=True, stop=False)
-        #self.i2c.write_byte(0x53, start=True, stop=False)
-        value = self.i2c.read_byte(ack=True, stop=False) << 8
-        value |= self.i2c.read_byte(ack=False, stop=True)
-        return value
-
-    def write_3v3(self, value):
-        self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
-        self.i2c.write_byte(0x10 | (value >> 8), start=False, stop=False)
-        ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
-        return ack
-
-
-def read_io_all():
-    v = 0
-    for i in range(38):
-        v = v << 1
-        v |= io[i].value() & 0x01
-    return v
-
-
-def write_io_all(v):
-    for i in range(38):
-        io[i].value(v)
-
-
-io = []
-
-
-def setup_io():
-    for x in range(38):
-        # io.append(Pin('IO_'+str(x), mode=Pin.OUT))
-        io.append(Pin('IO_' + str(x), mode=Pin.IN, pull=None))
-
-class Test:
-    test_name = "junk"
-
-# -----------------------------------
-
-
-rst = Pin('MR', mode=Pin.OUT, value=1)
-en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
-en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
-
-# setup user LEDs
-#led_green = LED(1)
-#led_blue = LED(2)
-#led_red = LED(3)
-
-#pb5 = Pin('TIM3_CH2', mode=Pin.OUT)
-#tim = Timer(3, freq=10_000_000)
-#ch = tim.channel(2, mode=Timer.PWM, pin=pb5)
-#ch.pulse_width_percent(50)
-    
-#tim.init(period=1, callback=timer_callback)
-#pb5.on()
-#pwm = PWM(pb5)
-#pwm.init(freq=1000000, duty_ns=500)
-
-#for x in range(2):
-#    sleep(0.3)
-#    led_red.toggle()
-#    led_green.toggle()
-#    led_blue.toggle()
-
-sleep(2)
-
-ps = prog_supply()
-#ps.write_1v8(0x1f)  #1.6V
-ps.write_1v8(0x11)  #1.7V
-#ps.write_1v8(0x0b)  #1.8V
-ps.write_3v3(0x3a)
-print("1v8 = {}".format(hex(ps.read_1v8())))
-print("3v3 = {}".format(hex(ps.read_3v3())))
-
-rst.off()
-sleep(1)
-en_1v8.off()
-en_3v3.off()
-sleep(1)
-en_3v3.on()
-en_1v8.on()
-sleep(1)
-
-#check()
-
-reset()
-flash("blink.hex")
-
-rst.on()
-
-#setup_io()
-
-#gpio_l = Gpio()
-#gpio_h = Gpio()
-#start_time = 0
-#test = {}
-#test = Test()
-
-#choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time, "junk")
-
-print("\nRunning...")
-
-while False:
-    #sleep(0.5)
-    #print(".")
-    #led_green.toggle()
-    # write_io_all(1)
-#    _data = "{:038b}".format(read_io_all())
-    data = ""
-    for x in _data:
-        data = x + data
-#    print("{} {} {} {} {} {} {} {} {} {}".format(\
-#        data[0:4],data[4:8],data[8:12],data[12:16],data[16:20],data[20:24],data[24:28],data[28:32],data[32:36],data[36:38]))
-    #sleep(0.5)
-    #print(".")
-    #led_green.toggle()
-    # write_io_all(0)
-    #print(bin(read_io_all()))
-
-print("Done.")
+    except KeyboardInterrupt:
+        print("Interrupted")
+        try:
+            test.turn_off_devices()
+            exit(0)
+        except SystemExit:
+            test.turn_off_devices()
+            os._exit(0)

@@ -29,3 +29,5 @@ https://github.com/micropython/micropython/blob/master/ports/stm32/README.md
 
 install thonny
 install addon --> adafruit-board-kt
+
+./mpy-cross flash.py  # to create .mpy compiled

@@ -1,21 +1,20 @@
 
 DEV=/dev/cu.usbmodem3103
 #DEV=/dev/cu.usbmodem34203
+#FILES=main.py flash.mpy i2c.py gpio_config_builder.py bitstring.mpy config_io_o_h.hex config_io_o_l.hex
+FILES=main.py flash.mpy i2c.py gpio_config_builder.py bitstring.mpy
 
 # copies scripts to nucleo
 copy:
-	mpremote connect ${DEV} soft-reset
-	mpremote connect ${DEV} cp bitstring.mpy :
-	mpremote connect ${DEV} cp main.py :
-	mpremote connect ${DEV} cp flash.mpy :
-	mpremote connect ${DEV} cp i2c.py :
-	mpremote connect ${DEV} cp io_config.py :
-	mpremote connect ${DEV} cp gpio_config_builder.py :
-	mpremote connect ${DEV} cp gpio_config_def.py :
-
-copy-hex:
-	mpremote connect ${DEV} cp debug_io.hex :
-	#mpremote connect ${DEV} cp blink.hex :
+	cp flash.mpy i2c.py gpio_config_builder.py build_hex.py //Volumes/PYBFLASH/
+	cp config_io_o_h_1.hex //Volumes/PYBFLASH/
+	cp config_io_o_h_2.hex //Volumes/PYBFLASH/
+	cp config_io_o_l_1.hex //Volumes/PYBFLASH/
+	cp config_io_o_l_2.hex //Volumes/PYBFLASH/
+	#cp config_io_o_h.hex //Volumes/PYBFLASH/
+	#cp config_io_o_l.hex //Volumes/PYBFLASH/
+	#cp bitstring.mpy //Volumes/PYBFLASH/
+	ls //Volumes/PYBFLASH/
 
 # runs script from the local filesystem
 run:
