@@ -2,10 +2,14 @@ from machine import Pin
 import time
 from flash import flash
 from i2c import *
-from pyb import Timer
+# from pyb import Timer
 
 def accurate_delay(delay):
-    Timer(delay)
+    tm = time.ticks_us()
+    tm_add = time.ticks_add(tm, int(delay*10000))
+    while time.ticks_diff(tm_add, time.ticks_us()) > 0:
+        pass
+    return
 
 class Gpio:
     def __init__(self):
@@ -51,7 +55,11 @@ class Dio:
         self.state = self.set_state(state)
 
     def get_value(self):
-        return self.pin.value()
+        val = self.pin.value()
+        if val:
+            return True
+        else:
+            return False
 
     def set_state(self, state):
         if state:
@@ -70,7 +78,7 @@ class Test:
         self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
     ):
         self.rstb = Dio("MR", True)
-        self.gpio_mgmt = Dio("IO_37", True)
+        self.gpio_mgmt = Dio("IO_0", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
@@ -80,10 +88,11 @@ class Test:
         self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
 
-    def receive_packet(self, pulse_width=25):
+    def receive_packet(self, pulse_width=250):
         ones = 0
         pulses = 0
         self.gpio_mgmt.set_state(False)
+        st = False
         while self.gpio_mgmt.get_value() != False:
             pass
         state = "LOW"
@@ -114,7 +123,11 @@ class Test:
         self.rstb.set_value(1)
 
     def flash(self, hex_file):
-        flash(f"{hex_file}")
+        try:
+            flash(f"{hex_file}")
+        except:
+            print("reflashing")
+            flash(f"{hex_file}")
 
     def powerup_sequence(self):
         self.supply.write_3v3(0x3a)

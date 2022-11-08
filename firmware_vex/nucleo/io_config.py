@@ -68,7 +68,7 @@ def modify_hex(hex_file, c_file, first_line=1):
                     new_hex_data = new_hex_data + " " + "00"
                 source_file.write(f"{new_hex_data[1:]}\n")
                 source_file.write(
-                    f"{str(hex(int(arr_size)))[2:].capitalize()} 00 00 00 00 00 00 00 \n"
+                    f"{str(hex(int(arr_size)))[2:]} 00 00 00 00 00 00 00 \n"
                 )
                 break
     bak_file.close()
@@ -109,10 +109,10 @@ def run_test(test):
             print(f"start sending pulses to gpio[{channel}]")
             state = "HI"
             timeout = time.time() + 0.5
-            accurate_delay(12.5)
+            accurate_delay(125)
             while 1:
-                accurate_delay(25)
-                x = Dio(channel).get_value()
+                accurate_delay(250)
+                x = Dio(f"IO_{channel}").get_value()
                 if state == "LOW":
                     if x == True:
                         state = "HI"
@@ -202,11 +202,11 @@ def choose_test(
     test_result = False
     while not test_result:
         test.test_name = test_name
-        run_builder(gpio_l.array, gpio_h.array)
-        modify_hex(
-            f"{test_name}.hex",
-            "gpio_config_data.c",
-        )
+        # run_builder(gpio_l.array, gpio_h.array)
+        # modify_hex(
+        #     f"{test_name}.hex",
+        #     "gpio_config_data.c",
+        # )
         exec_flash(test)
         if not high:
             test_result, channel_failed = run_test(test)
@@ -243,29 +243,35 @@ def test_passed(test, start_time, gpio_l, gpio_h, chain):
 
 
 if __name__ == "__main__":
+    try:
+        test = Test()
+        gpio_l = Gpio()
+        gpio_h = Gpio()
 
-    test = Test()
-    gpio_l = Gpio()
-    gpio_h = Gpio()
+        start_time = time.time()
+        start_program = time.time()
+        global pid
+        pid = None
 
-    start_time = time.time()
-    start_program = time.time()
-    global pid
-    pid = None
+        choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time)
 
-    if os.path.exists(f"./configuration.txt"):
-        os.remove(f"./configuration.txt")
+        # gpio_l = Gpio()
+        # gpio_h = Gpio()
+        # start_time = time.time()
+        # choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
 
-    choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time)
-
-    gpio_l = Gpio()
-    gpio_h = Gpio()
-    start_time = time.time()
-    choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
-
-    end_time = (time.time() - start_program) / 60.0
-    f = open(f"configuration.txt", "a")
-    f.write(f"\n\nTotal Execution time: {end_time} minutes")
-    f.close()
-    test.close_devices()
-    exit(0)
+        end_time = (time.time() - start_program) / 60.0
+        f = open(f"configuration.txt", "a")
+        f.write(f"\n\nTotal Execution time: {end_time} minutes")
+        f.close()
+        test.turn_off_devices()
+        exit(0)
+    
+    except KeyboardInterrupt:
+        print("Interrupted")
+        try:
+            test.turn_off_devices()
+            exit(0)
+        except SystemExit:
+            test.turn_off_devices()
+            os._exit(0)
