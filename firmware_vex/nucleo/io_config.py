@@ -1,12 +1,10 @@
 from nucleo_api import *
 import os
+import gpio_config_builder
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    subprocess.call(
-        f"python3 caravel_board/firmware_vex/gpio_config/gpio_config_builder.py -gpio_l {gpio_l} -gpio_h {gpio_h} -num_io 19 -config C_MGMT_OUT -d",
-        shell=True,
-    )
+    gpio_config_builder.build_config(gpio_l, gpio_h)
 
 
 def manipulate_hex(file):
@@ -204,11 +202,11 @@ def choose_test(
     test_result = False
     while not test_result:
         test.test_name = test_name
-        # run_builder(gpio_l.array, gpio_h.array)
-        # modify_hex(
-        #     f"{test_name}.hex",
-        #     "gpio_config_data.c",
-        # )
+        run_builder(gpio_l.array, gpio_h.array)
+        modify_hex(
+            f"{test_name}.hex",
+            "gpio_config_data.c",
+        )
         exec_flash(test)
         if not high:
             test_result, channel_failed = run_test(test, chain)
