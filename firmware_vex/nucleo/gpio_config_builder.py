@@ -22,32 +22,39 @@ import argparse
 import sys
 
 
-def setup():
-    parser = argparse.ArgumentParser(description='provide gpio types')
-    parser.add_argument('-gpio_h','-hi', help='provide gpio_h array with H_NONE or H_INDEPENDENT or H_DEPENDENT (None, Independent and dependent)')
-    parser.add_argument('-gpio_l','-l', help='provide gpio_l array with H_NONE or H_INDEPENDENT or H_DEPENDENT (None, Independent and dependent)')
-    parser.add_argument('-num_io','-n', type=int, help='number of ios to work with')
-    parser.add_argument('-config','-c', help='configuration types for now all gpios have the same gpio config C_MGMT_OUT C_MGMT_IN')
-    parser.add_argument('-debug','-d',action='store_true', help='enable debug prints')
-    args = parser.parse_args()
-    if any(v is  None for v in [args.gpio_h, args.gpio_l,args.num_io,args.config]):
-        print("fatal: you have to provide both -gpio_h and -gpio_l -args.num_io -args.config")
-        sys.exit()
-    NUM_IO = args.num_io
+def setup(arg_gpio_h, arg_gpio_l):
+    # parser = argparse.ArgumentParser(description='provide gpio types')
+    # parser.add_argument('-gpio_h','-hi', help='provide gpio_h array with H_NONE or H_INDEPENDENT or H_DEPENDENT (None, Independent and dependent)')
+    # parser.add_argument('-gpio_l','-l', help='provide gpio_l array with H_NONE or H_INDEPENDENT or H_DEPENDENT (None, Independent and dependent)')
+    # parser.add_argument('-num_io','-n', type=int, help='number of ios to work with')
+    # parser.add_argument('-config','-c', help='configuration types for now all gpios have the same gpio config C_MGMT_OUT C_MGMT_IN')
+    # parser.add_argument('-debug','-d',action='store_true', help='enable debug prints')
+    # args = parser.parse_args()
+    # if any(v is  None for v in [args.gpio_h, args.gpio_l,args.num_io,args.config]):
+    #     print("fatal: you have to provide both -gpio_h and -gpio_l -args.num_io -args.config")
+    #     sys.exit()
+    # NUM_IO = args.num_io
+
+    NUM_IO = 19
     config_l = list()
     config_h = list()
-    if args.config == "C_MGMT_OUT":
-        config_l = [C_MGMT_OUT] *19
-        config_h = [C_MGMT_OUT] *19
-    elif args.config == "C_MGMT_IN":
-        config_l = [C_MGMT_IN] *19
-        config_h = [C_MGMT_IN] *19
-    else:
-        print ("Fatal: incorrect -config value it has to be C_MGMT_OUT or C_MGMT_IN")
-        sys.exit()
+
+    # if args.config == "C_MGMT_OUT":
+    #     config_l = [C_MGMT_OUT] *19
+    #     config_h = [C_MGMT_OUT] *19
+    # elif args.config == "C_MGMT_IN":
+    #     config_l = [C_MGMT_IN] *19
+    #     config_h = [C_MGMT_IN] *19
+    # else:
+    #     print ("Fatal: incorrect -config value it has to be C_MGMT_OUT or C_MGMT_IN")
+    #     sys.exit()
+
+    config_l = [C_MGMT_OUT] *19
+    config_h = [C_MGMT_OUT] *19
+
     gpio_h=list()
     gpio_l=list()
-    arg_gpio_h = args.gpio_h
+    # arg_gpio_h = args.gpio_h
     arg_gpio_h = arg_gpio_h.replace('[','').replace(']','')
     arg_gpio_h = arg_gpio_h.split(',')
     for i,violation in enumerate(arg_gpio_h):
@@ -55,13 +62,13 @@ def setup():
         elif violation == 'H_INDEPENDENT': violation_type = H_INDEPENDENT
         elif violation == 'H_DEPENDENT': violation_type = H_DEPENDENT
         else :
-            print (f"incorrect violation type inside provided argument gpio_h {args.gpio_h} it has to be H_NONE or H_INDEPENDENT or H_DEPENDENT")
-            sys.exit()
+            print (f"incorrect violation type inside provided argument gpio_h {arg_gpio_h} it has to be H_NONE or H_INDEPENDENT or H_DEPENDENT")
+        #     sys.exit()
         gpio_h.append([f'IO[{37-i}]',violation_type])
-    del gpio_h[args.num_io:]
-    if (args.debug):
-        print(f"gpio_h {gpio_h}")
-    arg_gpio_l = args.gpio_l
+    # del gpio_h[args.num_io:]
+    # if (args.debug):
+    #     print(f"gpio_h {gpio_h}")
+    # arg_gpio_l = args.gpio_l
     arg_gpio_l = arg_gpio_l.replace('[','').replace(']','')
     arg_gpio_l = arg_gpio_l.split(',')
     # python gpio_config_builder.py -gpio_h [H_NONE,H_DEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT]  -gpio_l [H_NONE,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_DEPENDENT,H_DEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT,H_INDEPENDENT] -n 8
@@ -70,12 +77,12 @@ def setup():
         elif violation == 'H_INDEPENDENT': violation_type = H_INDEPENDENT
         elif violation == 'H_DEPENDENT': violation_type = H_DEPENDENT
         else :
-            print (f"incorrect violation type inside provided argument gpio_l {args.gpio_l} it has to be H_NONE or H_INDEPENDENT or H_DEPENDENT")
-            sys.exit()
+            print (f"incorrect violation type inside provided argument gpio_l {arg_gpio_l} it has to be H_NONE or H_INDEPENDENT or H_DEPENDENT")
+        #     sys.exit()
         gpio_l.append([f'IO[{i}]',violation_type])
-    del gpio_l[args.num_io:]
-    if (args.debug):
-        print(f"gpio_l {gpio_l}")
+    # del gpio_l[args.num_io:]
+    # if (args.debug):
+    #     print(f"gpio_l {gpio_l}")
 
 stream_h = BitStream()
 stream_l = BitStream()
@@ -159,8 +166,8 @@ def correct_dd_holds(stream, bpos):
 
 # ------------------------------------------
 
-def build_config():
-    setup()
+def build_config(gpio_h, gpio_l):
+    setup(gpio_h, gpio_l)
     clock = 1
     # iterate through each IO in reverse order (e.g. IO[30] to IO[37])
     for k in reversed(range(NUM_IO)):
@@ -230,13 +237,13 @@ def build_config():
     print("stream_l   = " + stream_l.bin)
     print("n_bits = {}".format(n_bits))
 
-    f = open("gpio_config_data.py", "w")
-    f.write("from bitstring import Bits, BitArray, BitStream\n")
-    f.write("from enum import Enum\n")
-    f.write("\n")
-    f.write("config_h = BitStream('0b" + stream_h.bin + "')\n")
-    f.write("config_l = BitStream('0b" + stream_l.bin + "')\n")
-    f.close()
+    # f = open("gpio_config_data.py", "w")
+    # f.write("from bitstring import Bits, BitArray, BitStream\n")
+    # f.write("from enum import Enum\n")
+    # f.write("\n")
+    # f.write("config_h = BitStream('0b" + stream_h.bin + "')\n")
+    # f.write("config_l = BitStream('0b" + stream_l.bin + "')\n")
+    # f.close()
 
     f = open("gpio_config_data.c", "w")
     f.write("\n")
