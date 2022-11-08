@@ -84,7 +84,7 @@ def exec_flash(test):
     test.release_reset()
 
 
-def run_test(test):
+def run_test(test, chain):
     phase = 0
     io_pulse = 0
     rst = 0
@@ -99,19 +99,21 @@ def run_test(test):
             end_pulses = end_pulses + 1
         elif pulse_count > 1:
             end_pulses = 0
-            if rst < 2:
+            print(chain)
+            if chain == "low":
                 channel = (pulse_count - 2) + (9 * rst)
-            elif rst == 2:
+            elif chain == "high":
                 channel = 37 - (pulse_count - 2)
-            elif rst == 3:
+                rst = 1
+            elif rst == 1 and chain == "high":
                 channel = 28 - (pulse_count - 2)
             phase = phase + 1
             print(f"start sending pulses to gpio[{channel}]")
             state = "HI"
-            timeout = time.time() + 0.5
-            accurate_delay(125)
+            timeout = time.time() + 0.05
+            accurate_delay(15)
             while 1:
-                accurate_delay(250)
+                accurate_delay(30)
                 x = Dio(f"IO_{channel}").get_value()
                 if state == "LOW":
                     if x == True:
@@ -209,9 +211,9 @@ def choose_test(
         # )
         exec_flash(test)
         if not high:
-            test_result, channel_failed = run_test(test)
+            test_result, channel_failed = run_test(test, chain)
         else:
-            test_result, channel_failed = run_test(test)
+            test_result, channel_failed = run_test(test, chain)
         if test_result:
             print("Test Passed!")
             print("Final configuration for gpio_l: ", gpio_l.array)
@@ -255,10 +257,10 @@ if __name__ == "__main__":
 
         choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time)
 
-        # gpio_l = Gpio()
-        # gpio_h = Gpio()
-        # start_time = time.time()
-        # choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
+        gpio_l = Gpio()
+        gpio_h = Gpio()
+        start_time = time.time()
+        choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
 
         end_time = (time.time() - start_program) / 60.0
         f = open(f"configuration.txt", "a")

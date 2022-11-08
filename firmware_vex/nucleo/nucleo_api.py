@@ -6,7 +6,7 @@ from i2c import *
 
 def accurate_delay(delay):
     tm = time.ticks_us()
-    tm_add = time.ticks_add(tm, int(delay*10000))
+    tm_add = time.ticks_add(tm, int(delay*1000))
     while time.ticks_diff(tm_add, time.ticks_us()) > 0:
         pass
     return
@@ -88,7 +88,7 @@ class Test:
         self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
 
-    def receive_packet(self, pulse_width=250):
+    def receive_packet(self, pulse_width=30):
         ones = 0
         pulses = 0
         self.gpio_mgmt.set_state(False)
@@ -112,6 +112,7 @@ class Test:
                 ones = ones + 1
             if ones > 3:
                 break
+        print(pulses)
         return pulses
 
     def apply_reset(self):
