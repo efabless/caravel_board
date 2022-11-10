@@ -6,8 +6,8 @@
 # Output:  Configuration bitstreams for upper and lower gpio chains
 #
 
-from bitstring import Bits, BitArray, BitStream
-from enum import Enum
+# from bitstring import Bits, BitArray, BitStream
+# from enum import Enum
 
 #############
 ##  Configuration file for MPW-2 part F1-7

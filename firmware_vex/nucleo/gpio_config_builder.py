@@ -17,6 +17,7 @@ from gpio_config_def import *
 
 # ------------------------------------------
 
+
 def setup(arg_gpio_h, arg_gpio_l):
     # parser = argparse.ArgumentParser(description='provide gpio types')
     # parser.add_argument('-gpio_h','-hi', help='provide gpio_h array with H_NONE or H_INDEPENDENT or H_DEPENDENT (None, Independent and dependent)')
@@ -29,10 +30,7 @@ def setup(arg_gpio_h, arg_gpio_l):
     #     print("fatal: you have to provide both -gpio_h and -gpio_l -args.num_io -args.config")
     #     sys.exit()
     # NUM_IO = args.num_io
-
     NUM_IO = 19
-    config_l = list()
-    config_h = list()
 
     # if args.config == "C_MGMT_OUT":
     #     config_l = [C_MGMT_OUT] *19
@@ -43,9 +41,6 @@ def setup(arg_gpio_h, arg_gpio_l):
     # else:
     #     print ("Fatal: incorrect -config value it has to be C_MGMT_OUT or C_MGMT_IN")
     #     sys.exit()
-
-    config_l = [C_MGMT_OUT] *19
-    config_h = [C_MGMT_OUT] *19
 
     gpio_h=list()
     gpio_l=list()
@@ -78,10 +73,7 @@ def setup(arg_gpio_h, arg_gpio_l):
     # del gpio_l[args.num_io:]
     # if (args.debug):
     #     print(f"gpio_l {gpio_l}")
-
-stream_h = ""
-stream_l = ""
-config_stream = []
+    return gpio_h, gpio_l
 
 
 def build_stream_dependent(stream, config):
@@ -177,9 +169,16 @@ def correct_dd_holds(stream, bpos):
 
 # ------------------------------------------
 
-def build_config(gpio_h, gpio_l):
-    setup(gpio_h, gpio_l)
+
+def build_config(arg_gpio_h, arg_gpio_l):
+    gpio_h, gpio_l = setup(arg_gpio_h, arg_gpio_l)
     clock = 1
+    stream_h = ""
+    stream_l = ""
+    config_l = [C_MGMT_OUT] * 19
+    config_h = [C_MGMT_OUT] * 19
+    config_stream = []
+
     # iterate through each IO in reverse order (e.g. IO[30] to IO[37])
     for k in reversed(range(NUM_IO)):
 

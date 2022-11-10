@@ -176,7 +176,7 @@ def check():
     led.toggle()
 
 
-def flash(file_path):
+def erase():
     led = Led()
     # led = Led(None)
     led.toggle()
@@ -240,6 +240,72 @@ def flash(file_path):
 
     print("done")
     print("status = {}".format(hex(slave.get_status())))
+
+
+def flash(file_path):
+    led = Led()
+    # led = Led(None)
+    led.toggle()
+
+    slave = SPI()
+    # in some cases, you may need to comment or uncomment this line
+    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+    # ------------
+
+    print(" ")
+    print("Caravel data:")
+    mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
+    # print("mfg = {}".format(binascii.hexlify(mfg)))
+    print("   mfg        = {:04x}".format(int.from_bytes(mfg,'big')))
+
+    led.toggle()
+
+    product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
+    # print("product = {}".format(binascii.hexlify(product)))
+    print("   product    = {:02x}".format(int.from_bytes(product, 'big')))
+
+    led.toggle()
+
+    data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+    #print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data,'big'))[::-1], 2)))
+    print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, 'big')), 2)))
+
+    # if int.from_bytes(mfg, 'big') != 0x0456:
+    #     exit(2)
+
+    time.sleep(1.0)
+    led.toggle()
+
+    print(" ")
+    print("Resetting Flash...")
+    slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+
+    print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+
+    print(" ")
+
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    print("JEDEC = {}".format(binascii.hexlify(jedec)))
+
+    if jedec[0:1] != bytes.fromhex('ef'):
+    # if jedec[0:1] != bytes.fromhex('e6'):
+        print("Winbond SRAM not found")
+        sys.exit()
+
+    # print("Erasing chip...")
+    # slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+    # slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+    #
+    # for i in range(15):
+    #     time.sleep(0.5)
+    #     led.toggle()
+    #
+    # while (slave.is_busy()):
+    #     time.sleep(0.5)
+    #     led.toggle()
+    #
+    # print("done")
+    # print("status = {}".format(hex(slave.get_status())))
 
     buf = bytearray()
     addr = 0
@@ -372,6 +438,230 @@ def flash(file_path):
                     buf = bytearray()
                     addr += 256
                     nbytes =0
+
+        if nbytes > 0:
+            total_bytes += nbytes
+            # print('\n----------------------\n')
+            # print(binascii.hexlify(buf))
+            # print("\nnbytes = {}".format(nbytes))
+
+            read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # print(binascii.hexlify(read_cmd))
+            buf2 = slave.exchange(read_cmd, nbytes)
+            if buf == buf2:
+                print("addr {}: read compare successful".format(hex(addr)))
+            else:
+                print("addr {}: *** read compare FAILED ***".format(hex(addr)))
+                print(binascii.hexlify(buf))
+                print("<----->")
+                print(binascii.hexlify(buf2))
+
+    print("\ntotal_bytes = {}".format(total_bytes))
+
+    pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
+    print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+
+    # print("Setting trim values...\n")
+    # slave.write([CARAVEL_REG_WRITE, 0x04, 0x7f])
+
+    # pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
+    # print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+
+    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
+
+    led.toggle()
+    time.sleep(0.3)
+    led.toggle()
+
+
+def flash_mem(data):
+    led = Led()
+    # led = Led(None)
+    led.toggle()
+
+    slave = SPI()
+    # in some cases, you may need to comment or uncomment this line
+    slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+    # ------------
+
+    print(" ")
+    print("Caravel data:")
+    mfg = slave.exchange([CARAVEL_STREAM_READ, 0x01], 2)
+    # print("mfg = {}".format(binascii.hexlify(mfg)))
+    print("   mfg        = {:04x}".format(int.from_bytes(mfg,'big')))
+
+    led.toggle()
+
+    product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
+    # print("product = {}".format(binascii.hexlify(product)))
+    print("   product    = {:02x}".format(int.from_bytes(product, 'big')))
+
+    led.toggle()
+
+    data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
+    #print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data,'big'))[::-1], 2)))
+    print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, 'big')), 2)))
+
+    # if int.from_bytes(mfg, 'big') != 0x0456:
+    #     exit(2)
+
+    time.sleep(1.0)
+    led.toggle()
+
+    print(" ")
+    print("Resetting Flash...")
+    slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+
+    print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+
+    print(" ")
+
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    print("JEDEC = {}".format(binascii.hexlify(jedec)))
+
+    if jedec[0:1] != bytes.fromhex('ef'):
+    # if jedec[0:1] != bytes.fromhex('e6'):
+        print("Winbond SRAM not found")
+        sys.exit()
+
+    # print("Erasing chip...")
+    # slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+    # slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+    #
+    # for i in range(15):
+    #     time.sleep(0.5)
+    #     led.toggle()
+    #
+    # while (slave.is_busy()):
+    #     time.sleep(0.5)
+    #     led.toggle()
+    #
+    # print("done")
+    # print("status = {}".format(hex(slave.get_status())))
+
+    buf = bytearray()
+    addr = 0
+    nbytes = 0
+    total_bytes = 0
+
+    for x in data:
+        if x[0] == '@':
+            addr = int(x[1:],16)
+            print('setting address to {:08x}'.format(addr))
+        else:
+            x = "".join(x.split())
+            # print(x)
+            #values = bytearray.fromhex(x[0:len(x)-1])
+            values = bytearray.fromhex(x)
+            buf[nbytes:nbytes] = values
+            nbytes += len(values)
+            # print(binascii.hexlify(values))
+
+        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
+            total_bytes += nbytes
+            # print('\n----------------------\n')
+            # print(binascii.hexlify(buf))
+            # print("\ntotal_bytes = {}".format(total_bytes))
+
+            slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # print(binascii.hexlify(wcmd))
+            # wcmd.extend(buf[0:255])
+            wcmd.extend(buf)
+            slave.write(wcmd)
+            while (slave.is_busy()):
+                time.sleep(0.1)
+
+            print("addr {}: flash page write successful".format(hex(addr)))
+
+            if nbytes > 256:
+                buf = buf[255:]
+                addr += 256
+                nbytes -= 256
+                print("*** over 256 hit")
+            else:
+                buf = bytearray()
+                addr += 256
+                nbytes =0
+
+        if nbytes > 0:
+            total_bytes += nbytes
+            # print('\n----------------------\n')
+            # print(binascii.hexlify(buf))
+            # print("\nnbytes = {}".format(nbytes))
+
+            slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            wcmd.extend(buf)
+            slave.write(wcmd)
+            while (slave.is_busy()):
+                time.sleep(0.1)
+
+            print("addr {}: flash page write successful".format(hex(addr)))
+
+    print("\ntotal_bytes = {}".format(total_bytes))
+
+    slave.report_status(jedec)
+
+    print("************************************")
+    print("verifying...")
+    print("************************************")
+
+    buf = bytearray()
+    addr = 0
+    nbytes = 0
+    total_bytes = 0
+
+    while (slave.is_busy()):
+        time.sleep(0.5)
+
+    # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
+    # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
+
+    slave.report_status(jedec)
+
+    for x in data:
+        if x[0] == '@':
+            addr = int(x[1:],16)
+            print('setting address to {:08x}'.format(addr))
+        else:
+            x = "".join(x.split())
+            # print(x)
+            # values = bytearray.fromhex(x[0:len(x)-1])
+            values = bytearray.fromhex(x)
+            buf[nbytes:nbytes] = values
+            nbytes += len(values)
+            # print(binascii.hexlify(values))
+
+        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
+
+            total_bytes += nbytes
+            # print('\n----------------------\n')
+            # print(binascii.hexlify(buf))
+            # print("\ntotal_bytes = {}".format(total_bytes))
+
+            read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            # print(binascii.hexlify(read_cmd))
+            buf2 = slave.exchange(read_cmd, nbytes)
+            if buf == buf2:
+                print("addr {}: read compare successful".format(hex(addr)))
+            else:
+                print("addr {}: *** read compare FAILED ***".format(hex(addr)))
+                print(binascii.hexlify(buf))
+                print("<----->")
+                print(binascii.hexlify(buf2))
+
+            if nbytes > 256:
+                buf = buf[255:]
+                addr += 256
+                nbytes -= 256
+                print("*** over 256 hit")
+            else:
+                buf = bytearray()
+                addr += 256
+                nbytes =0
 
         if nbytes > 0:
             total_bytes += nbytes

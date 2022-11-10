@@ -87,7 +87,6 @@ class Test:
         self.en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
         self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
-
     def receive_packet(self, pulse_width=30):
         ones = 0
         pulses = 0
