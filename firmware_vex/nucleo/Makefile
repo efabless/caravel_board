@@ -7,6 +7,7 @@ DEV=/dev/cu.usbmodem34203
  boot:
 	rshell --port ${DEV} cp boot.py /flash
 
+# pip install rshell to use this target
  copy: compile
 	rshell --port ${DEV} repl ~ import machine ~ machine.reset()
 	rshell --port ${DEV} cp flash.mpy i2c.py gpio_config_builder.mpy nucleo_api.py gpio_config_def.py /flash
@@ -25,6 +26,7 @@ copy2: compile
 	cp main.py //Volumes/PYBFLASH/
 	ls //Volumes/PYBFLASH/
 
+# cross compile python to micropython bin
 compile:
 	./mpy-cross flash.py
 	./mpy-cross io_config.py
