@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import machine
 # from pyftdi.ftdi import Ftdi
 import time
 import sys, os
@@ -177,6 +178,7 @@ def check():
 
 
 def erase():
+    machine.reset()
     led = Led()
     # led = Led(None)
     led.toggle()
@@ -243,6 +245,8 @@ def erase():
 
 
 def flash(file_path):
+    machine.reset()
+
     led = Led()
     # led = Led(None)
     led.toggle()
@@ -475,6 +479,8 @@ def flash(file_path):
 
 
 def flash_mem(data):
+    machine.reset()
+
     led = Led()
     # led = Led(None)
     led.toggle()
