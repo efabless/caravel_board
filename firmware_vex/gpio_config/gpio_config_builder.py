@@ -201,7 +201,6 @@ for x in config_stream:
     f.write("0x{:02x}, ".format(x))
 f.write("};\n")
 
-# f.write("int n_bits = " + str(n_bits*2) + ";\n")
-f.write("int n_bits = " + str(n_bits) + ";\n")
+# f.write("int n_bits = " + str(n_bits) + ";\n")
 f.close()
 

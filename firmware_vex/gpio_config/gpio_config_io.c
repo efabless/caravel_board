@@ -57,10 +57,12 @@ void gpio_config_io()
     int i = 0;
 //    bb_mode();
     clear_registers();
+    int nbits = len(config_stream)
     while (i < n_bits)
     {
         reg_mprj_xfer = config_stream[i];
         delay(WAIT);
+        i++;
         reg_mprj_xfer = config_stream[i] + 0x10;
         delay(WAIT);
         i++;
