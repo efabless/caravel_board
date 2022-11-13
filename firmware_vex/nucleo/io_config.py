@@ -10,15 +10,6 @@ def run_builder(gpio_l, gpio_h):
     gpio_config_builder.build_config(gpio_l, gpio_h)
 
 
-def manipulate_hex(file):
-    bak_file = open(f"{file}.bak", "w")
-    source_file = open(f"{file}", "r")
-    for line in source_file:
-        bak_file.write(f"{line}") 
-    bak_file.close()
-    source_file.close()
-
-
 def data_flash(hex_file, c_file, first_line=1):
     c_file = open(c_file, "r")
     hex_data = []
@@ -62,20 +53,20 @@ def data_flash(hex_file, c_file, first_line=1):
     
 
 
-def exec_flash(test):
+def exec_flash(test, test_name):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
-    test.flash(f"{test.test_name}.hex")
+    test.flash(f"{test_name}.hex")
     test.powerup_sequence()
     test.release_reset()
 
-def exec_data_flash(test):
+def exec_data_flash(test, test_name):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
     data_flash(
-            f"{test.test_name}.hex",
+            f"{test_name}.hex",
             "gpio_config_data.c",
         )
     test.powerup_sequence()
@@ -200,11 +191,11 @@ def choose_test(
     high=False
 ):
     test_result = False
-    exec_flash(test)
+    exec_flash(test, test_name)
     while not test_result:
         test.test_name = test_name
         run_builder(gpio_l.array, gpio_h.array)
-        exec_data_flash(test)
+        exec_data_flash(test, test_name)
         if not high:
             test_result, channel_failed = run_test(test, chain)
         else:
