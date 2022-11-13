@@ -89,23 +89,20 @@ class Led:
 #   sys.exit()
 
 class SPI:
-    def __init__(self):
-        self.cs = Pin('SPI5_CS', mode=Pin.OUT, value=1)
-        self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
-        
-        # -- new board
-        self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)   # PF9 = IO[2] = caravel input
-        self.miso = Pin('SPI5_MOSI', mode=Pin.IN)    # PF8 = IO[1] = caravel output
-        
-        # -- new board
-        #self.mosi = Pin('SPI5_MOSI', mode=Pin.OUT)
-        #self.miso = Pin('SPI5_MISO', mode=Pin.IN)
-        
-        # -- old board
-        #self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)
-        #self.miso = Pin('SPI5_MOSI', mode=Pin.IN)
-        
-        self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
+    def __init__(self, enabled=True):
+
+        if enabled:
+            self.cs = Pin('SPI5_CS', mode=Pin.OUT, value=1)
+            self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
+            self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)  # PF9 = IO[2] = caravel input
+            self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
+            self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
+        else:
+            self.cs = Pin('SPI5_CS', mode=Pin.IN)
+            self.sck = Pin('SPI5_SCK', mode=Pin.IN)
+            self.mosi = Pin('SPI5_MISO', mode=Pin.IN)  # PF9 = IO[2] = caravel input
+            self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
+            self.spi = None
 
     def write(self, buf):
         txdata = bytearray(buf)
@@ -176,9 +173,12 @@ def check():
     time.sleep(1.0)
     led.toggle()
 
+    slave.__init__(enabled=False)
+
+
 
 def erase():
-    machine.reset()
+    # machine.reset()
     led = Led()
     # led = Led(None)
     led.toggle()
@@ -243,9 +243,11 @@ def erase():
     print("done")
     print("status = {}".format(hex(slave.get_status())))
 
+    slave.__init__(enabled=False)
+
 
 def flash(file_path):
-    machine.reset()
+    # machine.reset()
 
     led = Led()
     # led = Led(None)
@@ -477,9 +479,11 @@ def flash(file_path):
     time.sleep(0.3)
     led.toggle()
 
+    slave.__init__(enabled=False)
+
 
 def flash_mem(data):
-    machine.reset()
+    # machine.reset()
 
     led = Led()
     # led = Led(None)
@@ -702,3 +706,5 @@ def flash_mem(data):
     led.toggle()
     time.sleep(0.3)
     led.toggle()
+
+    slave.__init__(enabled=False)
