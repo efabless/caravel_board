@@ -351,7 +351,7 @@ def flash(file_path):
                 while (slave.is_busy()):
                     time.sleep(0.1)
 
-                print("addr {}: flash page write successful".format(hex(addr)))
+                print("addr {}: flash page write successful (1)".format(hex(addr)))
 
                 if nbytes > 256:
                     buf = buf[255:]
@@ -377,7 +377,7 @@ def flash(file_path):
             while (slave.is_busy()):
                 time.sleep(0.1)
 
-            print("addr {}: flash page write successful".format(hex(addr)))
+            print("addr {}: flash page write successful (2)".format(hex(addr)))
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
@@ -482,12 +482,14 @@ def flash(file_path):
     slave.__init__(enabled=False)
 
 
-def flash_mem(data):
+def flash_mem(inp_data):
     # machine.reset()
 
     led = Led()
     # led = Led(None)
     led.toggle()
+
+    status_good = True
 
     slave = SPI()
     # in some cases, you may need to comment or uncomment this line
@@ -554,7 +556,7 @@ def flash_mem(data):
     nbytes = 0
     total_bytes = 0
 
-    for x in data:
+    for x in inp_data:
         if x[0] == '@':
             addr = int(x[1:],16)
             print('setting address to {:08x}'.format(addr))
@@ -565,7 +567,7 @@ def flash_mem(data):
             values = bytearray.fromhex(x)
             buf[nbytes:nbytes] = values
             nbytes += len(values)
-            # print(binascii.hexlify(values))
+            # print(nbytes, '--', binascii.hexlify(values))
 
         if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
             total_bytes += nbytes
@@ -583,7 +585,7 @@ def flash_mem(data):
             while (slave.is_busy()):
                 time.sleep(0.1)
 
-            print("addr {}: flash page write successful".format(hex(addr)))
+            print("addr {}: flash page write successful (1)".format(hex(addr)))
 
             if nbytes > 256:
                 buf = buf[255:]
@@ -595,21 +597,22 @@ def flash_mem(data):
                 addr += 256
                 nbytes =0
 
-        if nbytes > 0:
-            total_bytes += nbytes
-            # print('\n----------------------\n')
-            # print(binascii.hexlify(buf))
-            # print("\nnbytes = {}".format(nbytes))
+    if nbytes > 0:
+        total_bytes += nbytes
+        # print('\n----------------------\n')
+        # print(binascii.hexlify(buf))
+        # print("\nnbytes = {}".format(nbytes))
 
-            slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            wcmd.extend(buf)
-            slave.write(wcmd)
-            while (slave.is_busy()):
-                time.sleep(0.1)
+        slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+        wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        print(binascii.hexlify(wcmd))
+        wcmd.extend(buf)
+        slave.write(wcmd)
+        while (slave.is_busy()):
+            time.sleep(0.1)
 
-            print("addr {}: flash page write successful".format(hex(addr)))
+        print("addr {}: flash page write successful (2)".format(hex(addr)))
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
@@ -632,10 +635,10 @@ def flash_mem(data):
 
     slave.report_status(jedec)
 
-    for x in data:
+    for x in inp_data:
         if x[0] == '@':
             addr = int(x[1:],16)
-            print('setting address to {:08x}'.format(addr))
+            # print('setting address to {:08x}'.format(addr))
         else:
             x = "".join(x.split())
             # print(x)
@@ -653,7 +656,7 @@ def flash_mem(data):
             # print("\ntotal_bytes = {}".format(total_bytes))
 
             read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # print(binascii.hexlify(read_cmd))
+            print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
             if buf == buf2:
                 print("addr {}: read compare successful".format(hex(addr)))
@@ -662,6 +665,7 @@ def flash_mem(data):
                 print(binascii.hexlify(buf))
                 print("<----->")
                 print(binascii.hexlify(buf2))
+                status_good = False
 
             if nbytes > 256:
                 buf = buf[255:]
@@ -673,22 +677,23 @@ def flash_mem(data):
                 addr += 256
                 nbytes =0
 
-        if nbytes > 0:
-            total_bytes += nbytes
-            # print('\n----------------------\n')
-            # print(binascii.hexlify(buf))
-            # print("\nnbytes = {}".format(nbytes))
+    if nbytes > 0:
+        total_bytes += nbytes
+        # print('\n----------------------\n')
+        # print(binascii.hexlify(buf))
+        # print("\nnbytes = {}".format(nbytes))
 
-            read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # print(binascii.hexlify(read_cmd))
-            buf2 = slave.exchange(read_cmd, nbytes)
-            if buf == buf2:
-                print("addr {}: read compare successful".format(hex(addr)))
-            else:
-                print("addr {}: *** read compare FAILED ***".format(hex(addr)))
-                print(binascii.hexlify(buf))
-                print("<----->")
-                print(binascii.hexlify(buf2))
+        read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        # print(binascii.hexlify(read_cmd))
+        buf2 = slave.exchange(read_cmd, nbytes)
+        if buf == buf2:
+            print("addr {}: read compare successful".format(hex(addr)))
+        else:
+            print("addr {}: *** read compare FAILED ***".format(hex(addr)))
+            print(binascii.hexlify(buf))
+            print("<----->")
+            print(binascii.hexlify(buf2))
+            status_good = False
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
@@ -708,3 +713,5 @@ def flash_mem(data):
     led.toggle()
 
     slave.__init__(enabled=False)
+
+    return status_good

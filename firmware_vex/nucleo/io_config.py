@@ -7,46 +7,61 @@ from flash import flash_mem
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    gpio_config_builder.build_config(gpio_l, gpio_h)
+    return gpio_config_builder.build_config(gpio_l, gpio_h)
 
 
-def data_flash(hex_file, c_file, first_line=1):
-    c_file = open(c_file, "r")
-    hex_data = []
+def data_flash(hex_file, hex_data, first_line=1):
+    
+    #c_file = open(c_file, "r")
+    #hex_data = []
     new_hex_data = ""
-    for aline in c_file:
-        aline = aline.strip()
-        if aline:
-            if aline.startswith("char"):
-                idx = aline.find("{")
-                line = aline[idx + 1 : -4]
-                data = [item.strip() for item in line.split(",")]
-            if aline.startswith("int"):
-                indx = aline.find("=")
-                arr_size = aline[indx + 1 : -1].strip()
-                if int(arr_size) > 255:
-                    print(" Array size should be less that 255")
-                    exit(1)
-    for i in data:
-        hex_data.append(i[2:])
+    #for aline in c_file:
+    #    aline = aline.strip()
+    #    if aline:
+    #        if aline.startswith("char"):
+    #            idx = aline.find("{")
+    #            line = aline[idx + 1 : -4]
+    #            data = [item.strip() for item in line.split(",")]
+    #        if aline.startswith("int"):
+    #            indx = aline.find("=")
+    #            arr_size = aline[indx + 1 : -1].strip()
+    #            if int(arr_size) > 255:
+    #                print(" Array size should be less that 255")
+    #                exit(1)
+    #for i in data:
+    #    hex_data.append(i[2:])
 
-    hex_out = []
-    source_file = open(f"{hex_file}", "r")
-    for line in source_file:
-        line = line.strip()
-        if line:
-            if line.startswith("@"):
-                if first_line > 0:
-                    first_line = first_line - 1
-                else:
-                    hex_out.append(f"{line}")
+    ## DEBUG
+    print("\nhex_data length = ", len(hex_data))
+    print("hex_data[] = ", hex_data)
+    
+    hex_out = ["@00001A00"]
+    
+    #source_file = open(f"{hex_file}", "r")
+    #for line in source_file:
+    #    line = line.strip()
+    #    if line:
+    #        if line.startswith("@"):
+    #            if first_line > 0:
+    #                first_line = first_line - 1
+    #            else:
+    #                hex_out.append(f"{line}")
+                    
     count = 0
     for d in hex_data:
-        if count < 16:
-            new_hex_data = new_hex_data + " " + d
-            count = count + 1
-        else:
+        new_hex_data = new_hex_data + " {:02x}".format(d)
+        count = count + 1
+        if count >= 16:
             hex_out.append(f"{new_hex_data[1:]}")
+            count = 0
+            new_hex_data = ""
+
+    ## DEBUG
+    print("\nhex_out length = ", len(hex_out))
+    print("hex_out[] = ")
+    for x in hex_out:
+        print(x)
+    input("DEBUG - pausing execution...")
 
     flash_mem(hex_out)
                         
@@ -61,13 +76,13 @@ def exec_flash(test, test_name):
     test.powerup_sequence()
     test.release_reset()
 
-def exec_data_flash(test, test_name):
+def exec_data_flash(test, test_name, config_stream):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
     data_flash(
             f"{test_name}.hex",
-            "gpio_config_data.c",
+            config_stream,
         )
     test.powerup_sequence()
     test.release_reset()
@@ -194,8 +209,8 @@ def choose_test(
     exec_flash(test, test_name)
     while not test_result:
         test.test_name = test_name
-        run_builder(gpio_l.array, gpio_h.array)
-        exec_data_flash(test, test_name)
+        config_stream = run_builder(gpio_l.array, gpio_h.array)
+        exec_data_flash(test, test_name, config_stream)
         if not high:
             test_result, channel_failed = run_test(test, chain)
         else:

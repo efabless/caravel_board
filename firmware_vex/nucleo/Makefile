@@ -19,18 +19,21 @@ DEV=/dev/cu.usbmodem34203
 
 # copies scripts to nucleo
 copy2: compile
-	cp flash.mpy i2c.py gpio_config_builder.mpy nucleo_api.py gpio_config_def.py //Volumes/PYBFLASH/
-	cp config_io_o_h.hex //Volumes/PYBFLASH/
-	cp config_io_o_l.hex //Volumes/PYBFLASH/
-	cp io_config.mpy //Volumes/PYBFLASH/
-	cp main.py //Volumes/PYBFLASH/
-	ls //Volumes/PYBFLASH/
+	cp flash.py i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /media/efabless/PYBFLASH/
+	cp config_io_o_h.hex /media/efabless/PYBFLASH/
+	cp config_io_o_l.hex /media/efabless/PYBFLASH/
+	ls /media/efabless/PYBFLASH/
 
 # cross compile python to micropython bin
 compile:
-	./mpy-cross flash.py
-	./mpy-cross io_config.py
-	./mpy-cross gpio_config_builder.py
+	mpy-cross flash.py
+	mpy-cross io_config.py
+	mpy-cross gpio_config_builder.py
+	mpy-cross i2c.py
+	mpy-cross nucleo_api.py
+	mpy-cross gpio_config_def.py
+	mpy-cross boot.py
+	mpy-cross test.py
 
 # runs script from the local filesystem
 run:

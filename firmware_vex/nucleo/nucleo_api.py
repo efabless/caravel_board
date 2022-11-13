@@ -111,7 +111,7 @@ class Test:
                 ones = ones + 1
             if ones > 3:
                 break
-        print(pulses)
+        #print(pulses)
         return pulses
 
     def apply_reset(self):
