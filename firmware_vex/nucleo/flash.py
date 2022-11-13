@@ -482,7 +482,7 @@ def flash(file_path):
     slave.__init__(enabled=False)
 
 
-def flash_mem(data):
+def flash_mem(inp_data):
     # machine.reset()
 
     led = Led()
@@ -554,7 +554,7 @@ def flash_mem(data):
     nbytes = 0
     total_bytes = 0
 
-    for x in data:
+    for x in inp_data:
         if x[0] == '@':
             addr = int(x[1:],16)
             print('setting address to {:08x}'.format(addr))
@@ -632,7 +632,7 @@ def flash_mem(data):
 
     slave.report_status(jedec)
 
-    for x in data:
+    for x in inp_data:
         if x[0] == '@':
             addr = int(x[1:],16)
             print('setting address to {:08x}'.format(addr))
