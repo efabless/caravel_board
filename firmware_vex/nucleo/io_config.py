@@ -1,6 +1,7 @@
 from nucleo_api import *
 import os
 import gpio_config_builder
+from flash import flash_mem
 
 
 def run_builder(gpio_l, gpio_h):
@@ -18,11 +19,10 @@ def manipulate_hex(file):
     source_file.close()
 
 
-def modify_hex(hex_file, c_file, first_line=1):
+def data_flash(hex_file, c_file, first_line=1):
     c_file = open(c_file, "r")
     hex_data = []
     new_hex_data = ""
-    flag = False
     for aline in c_file:
         aline = aline.strip()
         if aline:
@@ -39,41 +39,27 @@ def modify_hex(hex_file, c_file, first_line=1):
     for i in data:
         hex_data.append(i[2:])
 
-    manipulate_hex(hex_file)
-    bak_file = open(f"{hex_file}.bak", "r")
-    source_file = open(f"{hex_file}", "w")
-    for line in bak_file:
+    hex_out = []
+    source_file = open(f"{hex_file}", "r")
+    for line in source_file:
         line = line.strip()
         if line:
             if line.startswith("@"):
                 if first_line > 0:
-                    source_file.write(f"{line}\n")
                     first_line = first_line - 1
                 else:
-                    source_file.write(f"{line}\n")
-                    flag = True
-            elif flag == False:
-                source_file.write(f"{line}\n")
-            elif flag == True:
-                count = 0
-                for d in hex_data:
-                    if count < 16:
-                        new_hex_data = new_hex_data + " " + d
-                        count = count + 1
-                    else:
-                        source_file.write(f"{new_hex_data[1:]}\n")
-                        new_hex_data = ""
-                        count = 1
-                        new_hex_data = new_hex_data + " " + d
-                while len(new_hex_data[1:].split()) < 16:
-                    new_hex_data = new_hex_data + " " + "00"
-                source_file.write(f"{new_hex_data[1:]}\n")
-                source_file.write(
-                    f"{str(hex(int(arr_size)))[2:]} 00 00 00 00 00 00 00 \n"
-                )
-                break
-    bak_file.close()
-    source_file.close()
+                    hex_out.append(f"{line}")
+    count = 0
+    for d in hex_data:
+        if count < 16:
+            new_hex_data = new_hex_data + " " + d
+            count = count + 1
+        else:
+            hex_out.append(f"{new_hex_data[1:]}")
+
+    flash_mem(hex_out)
+                        
+    
 
 
 def exec_flash(test):
@@ -81,6 +67,17 @@ def exec_flash(test):
     test.apply_reset()
     test.powerup_sequence()
     test.flash(f"{test.test_name}.hex")
+    test.powerup_sequence()
+    test.release_reset()
+
+def exec_data_flash(test):
+    print("   Flashing CPU")
+    test.apply_reset()
+    test.powerup_sequence()
+    data_flash(
+            f"{test.test_name}.hex",
+            "gpio_config_data.c",
+        )
     test.powerup_sequence()
     test.release_reset()
 
@@ -203,14 +200,11 @@ def choose_test(
     high=False
 ):
     test_result = False
+    exec_flash(test)
     while not test_result:
         test.test_name = test_name
         run_builder(gpio_l.array, gpio_h.array)
-        modify_hex(
-            f"{test_name}.hex",
-            "gpio_config_data.c",
-        )
-        exec_flash(test)
+        exec_data_flash(test)
         if not high:
             test_result, channel_failed = run_test(test, chain)
         else:

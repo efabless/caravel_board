@@ -1,6 +1,6 @@
 from machine import Pin
 import time
-from flash import flash
+from flash import flash, erase
 from i2c import *
 # from pyb import Timer
 
@@ -123,6 +123,7 @@ class Test:
         self.rstb.set_value(1)
 
     def flash(self, hex_file):
+        erase()
         try:
             flash(f"{hex_file}")
         except:
