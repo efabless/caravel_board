@@ -38,10 +38,10 @@ def data_flash(hex_file, hex_data, first_line=1):
     # hex_out = ["@00001A00"]
     hex_out = []
     
-    source_file = open(f"{hex_file}", "r")
-    for line in source_file:
-       line = line.strip()
-       if line:
+    with open(f"{hex_file}", mode='r') as source_file:
+        line = source_file.readline()
+        line = line.strip()
+        while line != "":
            if line.startswith("@"):
                if first_line > 0:
                    first_line = first_line - 1
