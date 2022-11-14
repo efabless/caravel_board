@@ -298,7 +298,7 @@ def flash(file_path):
     print("Resetting Flash...")
     slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
-    print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+    # print("status = 0x{:02x}".format(slave.get_status(), '02x'))
 
     print(" ")
 
@@ -393,11 +393,11 @@ def flash(file_path):
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
-    slave.report_status(jedec)
+    # slave.report_status(jedec)
 
-    print("************************************")
-    print("verifying...")
-    print("************************************")
+    # print("************************************")
+    print("***** verifying...")
+    # print("************************************")
 
     buf = bytearray()
     addr = 0
@@ -410,7 +410,7 @@ def flash(file_path):
     # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
     # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
-    slave.report_status(jedec)
+    # slave.report_status(jedec)
 
     with open(file_path, mode='r') as f:
         x = f.readline()
@@ -476,8 +476,8 @@ def flash(file_path):
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
-    pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
-    print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+    # pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
+    # print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
 
     # print("Setting trim values...\n")
     # slave.write([CARAVEL_REG_WRITE, 0x04, 0x7f])
@@ -536,7 +536,7 @@ def flash_mem(inp_data):
     print("Resetting Flash...")
     slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
-    print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+    # print("status = 0x{:02x}".format(slave.get_status(), '02x'))
 
     print(" ")
 
@@ -631,11 +631,11 @@ def flash_mem(inp_data):
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
-    slave.report_status(jedec)
+    # slave.report_status(jedec)
 
-    print("************************************")
-    print("verifying...")
-    print("************************************")
+    # print("************************************")
+    print("***** verifying...  ")
+    # print("************************************")
 
     buf = bytearray()
     addr = 0
@@ -648,7 +648,7 @@ def flash_mem(inp_data):
     # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
     # slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 
-    slave.report_status(jedec)
+    # slave.report_status(jedec)
 
     for x in inp_data:
         if x[0] == '@':
@@ -712,8 +712,8 @@ def flash_mem(inp_data):
 
     print("\ntotal_bytes = {}".format(total_bytes))
 
-    pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
-    print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
+    # pll_trim = slave.exchange([CARAVEL_REG_READ, 0x04],1)
+    # print("pll_trim = {}\n".format(binascii.hexlify(pll_trim)))
 
     # print("Setting trim values...\n")
     # slave.write([CARAVEL_REG_WRITE, 0x04, 0x7f])
