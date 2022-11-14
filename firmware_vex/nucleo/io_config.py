@@ -46,10 +46,9 @@ def data_flash(hex_file, hex_data, first_line=1):
                if first_line > 0:
                    first_line = first_line - 1
                else:
-                   hex_out.append(line)
+                   hex_out = [ line.strip() ]
                    break
-           line = f.readline().strip()
-           hex_out.append(line)
+           line = f.readline()
                     
     count = 0
     for d in hex_data:
