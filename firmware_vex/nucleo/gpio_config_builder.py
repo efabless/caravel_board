@@ -222,12 +222,10 @@ def build_config(arg_gpio_h, arg_gpio_l):
             stream_l = build_stream_none(stream_l, config_l[k])
 
     n_bits = max(len(stream_h), len(stream_l))
-    if len(stream_h) < n_bits:
-        while len(stream_h) < n_bits:
-            stream_h = '0' + stream_h
-    if len(stream_l) < n_bits:
-        while len(stream_l) < n_bits:
-            stream_l = '0' + stream_l
+    while len(stream_h) < n_bits:
+        stream_h = '0' + stream_h
+    while len(stream_l) < n_bits:
+        stream_l = '0' + stream_l
 
     bpos_h = len(stream_h)
     bpos_l = len(stream_l)
