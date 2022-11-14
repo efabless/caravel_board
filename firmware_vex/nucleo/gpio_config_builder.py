@@ -13,7 +13,27 @@
 #                             H_DEPENDENT, H_INDEPENDENT, H_NONE, H_SPECIAL, config_h, config_l, gpio_h, gpio_l, \
 #                             C_USER_BIDIR_WPU, C_USER_BIDIR_WPD, C_USER_IN_NP, C_USER_OUT
 
-from gpio_config_def import *
+# from gpio_config_def import *
+
+# number of IO in the configuration stream for each chain
+NUM_IO = 19
+
+# defines these cases of hold violations
+H_NONE = 0
+H_DEPENDENT = 1
+H_INDEPENDENT = 2
+H_SPECIAL = 3
+
+# defines these values for IO configurations
+C_MGMT_OUT = 0
+C_MGMT_IN = 1
+C_USER_BIDIR = 2
+C_DISABLE = 3
+C_ALL_ONES = 4
+C_USER_BIDIR_WPU = 5
+C_USER_BIDIR_WPD = 6
+C_USER_IN_NP = 7
+C_USER_OUT = 8
 
 # ------------------------------------------
 
@@ -30,7 +50,6 @@ def setup(arg_gpio_h, arg_gpio_l):
     #     print("fatal: you have to provide both -gpio_h and -gpio_l -args.num_io -args.config")
     #     sys.exit()
     # NUM_IO = args.num_io
-    NUM_IO = 19
 
     # if args.config == "C_MGMT_OUT":
     #     config_l = [C_MGMT_OUT] *19
@@ -204,9 +223,11 @@ def build_config(arg_gpio_h, arg_gpio_l):
 
     n_bits = max(len(stream_h), len(stream_l))
     if len(stream_h) < n_bits:
-        stream_h = stream_h.zfill(n_bits)
+        #stream_h = stream_h.zfill(n_bits)
+        stream_h = "\{:0{}\}".format(n_bits).format(stream_h)
     if len(stream_l) < n_bits:
-        stream_l = stream_l.zfill(n_bits)
+        # stream_l = stream_l.zfill(n_bits)
+        stream_l = "\{:0{}\}".format(n_bits).format(stream_l)
 
     bpos_h = len(stream_h)
     bpos_l = len(stream_l)

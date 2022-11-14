@@ -10,7 +10,7 @@ def run_builder(gpio_l, gpio_h):
     return gpio_config_builder.build_config(gpio_l, gpio_h)
 
 
-def data_flash(hex_file, hex_data, first_line=1):
+def data_flash(hex_data, first_line=1):
     
     #c_file = open(c_file, "r")
     #hex_data = []
@@ -32,8 +32,8 @@ def data_flash(hex_file, hex_data, first_line=1):
     #    hex_data.append(i[2:])
 
     ## DEBUG
-    print("\nhex_data length = ", len(hex_data))
-    print("hex_data[] = ", hex_data)
+    # print("\nhex_data length = ", len(hex_data))
+    # print("hex_data[] = ", hex_data)
     
     hex_out = ["@00001A00"]
     
@@ -57,15 +57,13 @@ def data_flash(hex_file, hex_data, first_line=1):
             new_hex_data = ""
 
     ## DEBUG
-    print("\nhex_out length = ", len(hex_out))
-    print("hex_out[] = ")
-    for x in hex_out:
-        print(x)
-    input("DEBUG - pausing execution...")
+    # print("\nhex_out length = ", len(hex_out))
+    # print("hex_out[] = ")
+    # for x in hex_out:
+    #     print(x)
+    # input("DEBUG - pausing execution...")
 
     flash_mem(hex_out)
-                        
-    
 
 
 def exec_flash(test, test_name):
@@ -76,14 +74,12 @@ def exec_flash(test, test_name):
     test.powerup_sequence()
     test.release_reset()
 
+
 def exec_data_flash(test, test_name, config_stream):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
-    data_flash(
-            f"{test_name}.hex",
-            config_stream,
-        )
+    data_flash( config_stream )
     test.powerup_sequence()
     test.release_reset()
 

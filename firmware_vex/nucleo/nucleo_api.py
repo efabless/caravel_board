@@ -123,7 +123,7 @@ class Test:
         self.rstb.set_value(1)
 
     def flash(self, hex_file):
-        erase()
+        # erase() - no longer needed - included in flash
         try:
             flash(f"{hex_file}")
         except:

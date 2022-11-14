@@ -33,9 +33,9 @@ CMD_WRITE_DISABLE = 0x04  # Write disable
 CMD_PROGRAM_PAGE = 0x02  # Write page
 CMD_EWSR = 0x50  # Enable write status register
 CMD_WRSR = 0x01  # Write status register
-CMD_ERASE_SUBSECTOR = 0x20
-CMD_ERASE_HSECTOR = 0x52
-CMD_ERASE_SECTOR = 0xD8
+CMD_ERASE_SECTOR = 0x20
+CMD_ERASE_BLOCK32 = 0x52
+CMD_ERASE_BLOCK64 = 0xD8
 # CMD_ERASE_CHIP = 0xC7
 CMD_ERASE_CHIP = 0x60
 CMD_RESET_CHIP = 0x99
@@ -137,6 +137,18 @@ class SPI:
             status = self.exchange([CARAVEL_PASSTHRU, 0x35], 1)
             print("status reg_2 = {}".format(hex(int.from_bytes(status, 'big'))))
             # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
+
+    def erase_page(self, page_addr):
+        addr = page_addr
+        print("Erasing page at {:04x}...".format(addr))
+        for x in range(4):
+            # print("Erasing 64kb block at {:04x}...".format(addr))
+            self.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_ERASE_BLOCK64, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            self.write(wcmd)
+            addr += 64
+            while self.is_busy():
+                time.sleep(0.1)
 
 
 def check():
@@ -298,20 +310,20 @@ def flash(file_path):
         print("Winbond SRAM not found")
         sys.exit()
 
-    # print("Erasing chip...")
-    # slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-    # slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
-    #
-    # for i in range(15):
-    #     time.sleep(0.5)
-    #     led.toggle()
-    #
-    # while (slave.is_busy()):
-    #     time.sleep(0.5)
-    #     led.toggle()
-    #
-    # print("done")
-    # print("status = {}".format(hex(slave.get_status())))
+    print("Erasing chip...")
+    slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+    slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+
+    for i in range(15):
+        time.sleep(0.5)
+        led.toggle()
+
+    while (slave.is_busy()):
+        time.sleep(0.5)
+        led.toggle()
+
+    print("done")
+    print("status = {}".format(hex(slave.get_status())))
 
     buf = bytearray()
     addr = 0
@@ -575,6 +587,7 @@ def flash_mem(inp_data):
             # print(binascii.hexlify(buf))
             # print("\ntotal_bytes = {}".format(total_bytes))
 
+            slave.erase_page(addr)
             slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
             wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
@@ -603,12 +616,14 @@ def flash_mem(inp_data):
         # print(binascii.hexlify(buf))
         # print("\nnbytes = {}".format(nbytes))
 
+        slave.erase_page(addr)
         slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
         wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-        print(binascii.hexlify(wcmd))
         wcmd.extend(buf)
+        # print(binascii.hexlify(wcmd))
         slave.write(wcmd)
+        # input("DEBUG - pausing execution...")
         while (slave.is_busy()):
             time.sleep(0.1)
 
