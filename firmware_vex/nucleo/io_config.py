@@ -47,7 +47,7 @@ def data_flash(hex_file, hex_data, first_line=1):
                if first_line > 0:
                    first_line = first_line - 1
                else:
-                   hex_out = [ line ]
+                   hex_out = [ line.strip() ]
                    break
            line = f.readline()
                     
@@ -74,7 +74,6 @@ def exec_flash(test, test_name):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
-    erase()
     test.flash(f"{test_name}.hex")
     test.powerup_sequence()
     test.release_reset()
@@ -95,7 +94,7 @@ def run_test(test, chain):
     rst = 0
     end_pulses = 0
     while end_pulses < 2:
-        pulse_count = test.receive_packet()
+        pulse_count = test.receive_packet(25)
         if phase == 0 and pulse_count == 1:
             print("Start test")
             phase = phase + 1
@@ -104,7 +103,6 @@ def run_test(test, chain):
             end_pulses = end_pulses + 1
         elif pulse_count > 1:
             end_pulses = 0
-            print(chain)
             if chain == "low":
                 channel = (pulse_count - 2) + (9 * rst)
             elif chain == "high":
