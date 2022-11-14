@@ -24,6 +24,7 @@ copy2: compile
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o_h.hex ${FLASH}
 	cp config_io_o_l.hex ${FLASH}
+	cp main.py ${FLASH}
 	ls ${FLASH}
 
 # cross compile python to micropython bin
