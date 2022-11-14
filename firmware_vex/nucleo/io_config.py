@@ -74,6 +74,7 @@ def exec_flash(test, test_name):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
+    erase()
     test.flash(f"{test_name}.hex")
     test.powerup_sequence()
     test.release_reset()

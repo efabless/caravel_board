@@ -2,7 +2,6 @@ from machine import Pin, SPI, SoftSPI, sleep, SoftI2C, reset
 from pyb import LED, Timer
 from time import sleep
 from i2c import I2C
-from flash import flash, check
 from main import choose_test, Gpio
 
 class prog_supply:
@@ -10,42 +9,33 @@ class prog_supply:
     def __init__(self):
         self.scl = Pin('I2C2_SCL', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
         self.sda = Pin('I2C2_SDA', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        #self.scl = Pin('I2C2_SDA', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        #self.sda = Pin('I2C2_SCL', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-
         self.i2c = I2C(scl=self.scl, sda=self.sda)
         self.i2c.init()
         
     def read_1v8(self):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
         self.i2c.write_byte(0x0c, start=False, stop=False)
         self.i2c.write_byte(0x51, start=True, stop=False)
-        #self.i2c.write_byte(0x53, start=True, stop=False)
         value = self.i2c.read_byte(ack=True, stop=False) << 8
         value |= self.i2c.read_byte(ack=False, stop=True)
         return value
     
     def write_1v8(self, value):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
         self.i2c.write_byte(0x10 & value >> 8, start=False, stop=False)
         ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
         return ack
 
     def read_3v3(self):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
         self.i2c.write_byte(0x1c, start=False, stop=False)
         self.i2c.write_byte(0x51, start=True, stop=False)
-        #self.i2c.write_byte(0x53, start=True, stop=False)
         value = self.i2c.read_byte(ack=True, stop=False) << 8
         value |= self.i2c.read_byte(ack=False, stop=True)
         return value
 
     def write_3v3(self, value):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        #self.i2c.write_byte(0x52, start=True, stop=False)
         self.i2c.write_byte(0x10 | (value >> 8), start=False, stop=False)
         ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
         return ack
