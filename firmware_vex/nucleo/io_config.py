@@ -10,7 +10,7 @@ def run_builder(gpio_l, gpio_h):
     return gpio_config_builder.build_config(gpio_l, gpio_h)
 
 
-def data_flash(hex_data, first_line=1):
+def data_flash(hex_file, hex_data, first_line=1):
     
     #c_file = open(c_file, "r")
     #hex_data = []
@@ -35,17 +35,18 @@ def data_flash(hex_data, first_line=1):
     # print("\nhex_data length = ", len(hex_data))
     # print("hex_data[] = ", hex_data)
     
-    hex_out = ["@00001A00"]
+    # hex_out = ["@00001A00"]
+    hex_out = []
     
-    #source_file = open(f"{hex_file}", "r")
-    #for line in source_file:
-    #    line = line.strip()
-    #    if line:
-    #        if line.startswith("@"):
-    #            if first_line > 0:
-    #                first_line = first_line - 1
-    #            else:
-    #                hex_out.append(f"{line}")
+    source_file = open(f"{hex_file}", "r")
+    for line in source_file:
+       line = line.strip()
+       if line:
+           if line.startswith("@"):
+               if first_line > 0:
+                   first_line = first_line - 1
+               else:
+                   hex_out.append(f"{line}")
                     
     count = 0
     for d in hex_data:
@@ -79,7 +80,7 @@ def exec_data_flash(test, test_name, config_stream):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
-    data_flash( config_stream )
+    data_flash(f"{test_name}.hex", config_stream )
     test.powerup_sequence()
     test.release_reset()
 
