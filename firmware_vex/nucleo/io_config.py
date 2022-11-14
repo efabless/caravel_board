@@ -7,7 +7,7 @@ from flash import flash_mem
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    return gpio_config_builder.build_config(gpio_l, gpio_h)
+    return gpio_config_builder.build_config(gpio_h, gpio_l)
 
 
 def data_flash(hex_file, hex_data, first_line=1):
@@ -40,16 +40,16 @@ def data_flash(hex_file, hex_data, first_line=1):
     
     with open(f"{hex_file}", mode='r') as f:
         line = f.readline()
-        print(line)
         line = line.strip()
         while line != "":
            if line.startswith("@"):
                if first_line > 0:
                    first_line = first_line - 1
                else:
-                   hex_out = [ line.strip() ]
+                   hex_out.append(line)
                    break
-           line = f.readline()
+           line = f.readline().strip()
+           hex_out.append(line)
                     
     count = 0
     for d in hex_data:
