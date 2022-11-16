@@ -196,7 +196,6 @@ def build_config(arg_gpio_h, arg_gpio_l):
     stream_l = ""
     config_l = [C_MGMT_OUT] * 19
     config_h = [C_MGMT_OUT] * 19
-    config_l[0] = C_DISABLE
     config_stream = []
 
     # iterate through each IO in reverse order (e.g. IO[30] to IO[37])
@@ -286,5 +285,5 @@ def build_config(arg_gpio_h, arg_gpio_l):
     # f.write("int n_bits = " + str(n_bits) + ";\n")
     #f.close()
 
-    return config_stream
+    return config_stream, n_bits
 
