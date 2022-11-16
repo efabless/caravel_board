@@ -78,7 +78,7 @@ class Test:
         self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
     ):
         self.rstb = Dio("MR", True)
-        self.gpio_mgmt = Dio("IO_0", True)
+        self.gpio_mgmt = Dio("GPIO_MGMT", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
