@@ -31,7 +31,7 @@ void send_pulse_io37(){
     reg_mprj_datah = temp; // 0
     count_down(PULSE_WIDTH);
     temp = reg_mprj_datah;
-    reg_mprj_datal = temp | 1; // 1
+    reg_mprj_datah = temp | 1; // 1
     count_down(PULSE_WIDTH);  
 }
 
