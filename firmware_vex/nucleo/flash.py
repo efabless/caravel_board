@@ -265,6 +265,8 @@ def flash(file_path):
     # led = Led(None)
     led.toggle()
 
+    slave = SPI(enabled=False)
+    time.sleep(0.5)
     slave = SPI()
     # in some cases, you may need to comment or uncomment this line
     slave.write([CARAVEL_REG_WRITE, 0x0b, 0x01])
