@@ -58,6 +58,7 @@ def data_flash(hex_file, hex_data, first_line=1):
             hex_out.append(f"{new_hex_data[1:]}")
             count = 0
             new_hex_data = ""
+    hex_out.append(f"{new_hex_data[1:]}")
 
     ## DEBUG
     # print("\nhex_out length = ", len(hex_out))
