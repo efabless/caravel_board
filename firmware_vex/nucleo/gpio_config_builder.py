@@ -267,7 +267,7 @@ def build_config(arg_gpio_h, arg_gpio_l):
     # insert value of n_bits at the beginning of config_stream
     # value increased by one to match the length of the array
 
-    config_stream.prepend(n_bits+1)
+    config_stream.insert(0, n_bits+1)
 
     return config_stream
 
