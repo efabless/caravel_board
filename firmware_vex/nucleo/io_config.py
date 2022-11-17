@@ -124,7 +124,8 @@ def run_test(test, chain):
             phase = phase + 1
             print(f"start sending pulses to gpio[{channel}]")
             state = "HI"
-            timeout = time.time() + 0.05
+            tm = time.ticks_us()
+            tm_add = time.ticks_add(tm, int(60*1000))
             accurate_delay(15)
             while 1:
                 accurate_delay(30)
@@ -140,7 +141,7 @@ def run_test(test, chain):
                     io_pulse = 0
                     print(f"gpio[{channel}] Passed")
                     break
-                if time.time() > timeout:
+                if time.ticks_diff(tm_add, time.ticks_us()) > 0:
                     print(f"Timeout failure on gpio[{channel}]!")
                     return False, channel
     return True, None
