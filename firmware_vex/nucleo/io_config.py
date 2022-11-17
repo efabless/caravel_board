@@ -61,13 +61,19 @@ def data_flash(test_name, hex_data, n_bits, first_line=1):
     if new_hex_data:
         c = 0
         last_line_len = len(new_hex_data[1:].split())
-        if last_line_len < 8:
+        if last_line_len <= 8:
             while len(new_hex_data[1:].split()) < 8:
                 new_hex_data = new_hex_data + " " + "00"
+            new_hex_data = new_hex_data + " " + f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 "
+            hex_out.append(f"{new_hex_data[1:]}")
         elif last_line_len > 8 and last_line_len < 16:
             while len(new_hex_data[1:].split()) < 16:
                 new_hex_data = new_hex_data + " " + "00"
-        hex_out.append(f"{new_hex_data[1:]}")
+            hex_out.append(f"{new_hex_data[1:]}")
+            hex_out.append(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
+    else:
+        hex_out.append(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
+
 
     ## DEBUG
     # print("\nhex_out length = ", len(hex_out))
@@ -122,31 +128,36 @@ def run_test(test, chain):
             if chain == "low":
                 channel = (pulse_count - 2) + (9 * rst)
             elif chain == "high":
-                channel = 37 - (pulse_count - 2)
+                channel = 38 - (pulse_count - 2)
                 rst = 1
             elif rst == 1 and chain == "high":
                 channel = 28 - (pulse_count - 2)
             phase = phase + 1
             print(f"start sending pulses to gpio[{channel}]")
             state = "HI"
-            tm = time.ticks_us()
-            tm_add = time.ticks_add(tm, int(60*1000))
-            accurate_delay(15)
+            timeout = time.time() + 10
+            # accurate_delay(15)
+            state = 0
+            io_pulse = 0
             while 1:
-                accurate_delay(30)
-                x = Dio(f"IO_{channel}").get_value()
-                if state == "LOW":
-                    if x == True:
-                        state = "HI"
-                elif state == "HI":
-                    if x == False:
-                        state = "LOW"
-                        io_pulse = io_pulse + 1
-                if io_pulse == 4:
+                # accurate_delay(30)
+                # x = Dio(f"IO_{channel}").get_value()
+                # if state == "LOW":
+                #     if x == True:
+                #         state = "HI"
+                # elif state == "HI":
+                #     if x == False:
+                #         state = "LOW"
+                #         io_pulse = io_pulse + 1
+                val = Dio(f"IO_{channel}").get_value()
+                if val != state:
+                    io_pulse = io_pulse + 1
+                    state = val
+                if io_pulse == 8:
                     io_pulse = 0
                     print(f"gpio[{channel}] Passed")
                     break
-                if time.ticks_diff(tm_add, time.ticks_us()) > 0:
+                if time.time() >= timeout:
                     print(f"Timeout failure on gpio[{channel}]!")
                     return False, channel
     return True, None
