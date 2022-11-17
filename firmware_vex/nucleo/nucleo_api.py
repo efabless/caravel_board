@@ -1,6 +1,6 @@
 from machine import Pin
 import time
-from flash import flash, erase
+from flash import flash, erase, verify
 from i2c import *
 # from pyb import Timer
 
@@ -125,10 +125,13 @@ class Test:
     def flash(self, hex_file):
         # erase() - no longer needed - included in flash
         try:
-            flash(f"{hex_file}")
+            flash(f"{hex_file}", quiet=True)
         except:
             print("reflashing")
-            flash(f"{hex_file}")
+            flash(f"{hex_file}", quiet=True)
+
+    def verify(self, hex_file):
+        verify(f"{hex_file}", quiet=True)
 
     def powerup_sequence(self):
         self.supply.write_3v3(0x3a)

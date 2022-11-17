@@ -1,7 +1,7 @@
 from nucleo_api import *
 import os
 import gpio_config_builder
-from flash import flash_mem
+from flash import flash_mem, verify, flash_2
 
 
 def run_builder(gpio_l, gpio_h):
@@ -68,7 +68,8 @@ def data_flash(hex_file, hex_data, first_line=1):
     #     print(x)
     # input("DEBUG - pausing execution...")
 
-    flash_mem(hex_out)
+    #flash_mem(hex_out)
+    flash_2(f"{hex_file}", hex_out)
 
 
 def exec_flash(test, test_name):
@@ -84,7 +85,9 @@ def exec_data_flash(test, test_name, config_stream):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
+    #test.flash(f"{test_name}.hex")
     data_flash(f"{test_name}.hex", config_stream )
+    #verify(f"{test_name}.hex", quiet=False)
     test.powerup_sequence()
     test.release_reset()
 
@@ -206,20 +209,17 @@ def choose_test(
     high=False
 ):
     test_result = False
-    exec_flash(test, test_name)
+    #exec_flash(test, test_name)
     while not test_result:
         test.test_name = test_name
         config_stream = run_builder(gpio_l.array, gpio_h.array)
         exec_data_flash(test, test_name, config_stream)
-        if not high:
-            test_result, channel_failed = run_test(test, chain)
-        else:
-            test_result, channel_failed = run_test(test, chain)
+        test_result, channel_failed = run_test(test, chain)
         if test_result:
             print("Test Passed!")
             print("Final configuration for gpio_l: ", gpio_l.array)
             print("Final configuration for gpio_h: ", gpio_h.array)
-            test_passed(test, start_time, gpio_l, gpio_h, chain)
+            #test_passed(test, start_time, gpio_l, gpio_h, chain)
         else:
             gpio_l, gpio_h = change_config(
                 channel_failed, gpio_l, gpio_h, test.voltage, start_time, test
