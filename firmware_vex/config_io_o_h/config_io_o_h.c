@@ -110,8 +110,8 @@ void main()
 {
 	int i,j;
     int num_pulses = 4;
-    int num_bits = 8;
-    configure_io0_37();
+    //int num_bits = 8;
+    //configure_io0_37();
     set_registers();
     reg_mprj_datah = 0;
     reg_mprj_datal = 0;
