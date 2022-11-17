@@ -10,7 +10,7 @@ def run_builder(gpio_l, gpio_h):
     return gpio_config_builder.build_config(gpio_h, gpio_l)
 
 
-def data_flash(test_name, hex_data, n_bits, first_line=1):
+def data_flash(test_name, hex_data, first_line=1):
     
     new_hex_file = open(f"{test_name}-tmp.hex", "w")
     #hex_data = []
@@ -37,6 +37,7 @@ def data_flash(test_name, hex_data, n_bits, first_line=1):
     
     # hex_out = ["@00001A00"]
     hex_out = []
+    n_bits = hex_data[0]
     
     with open(f"{test_name}.hex", mode='r') as f:
         line = f.readline()
@@ -58,6 +59,7 @@ def data_flash(test_name, hex_data, n_bits, first_line=1):
             hex_out.append(f"{new_hex_data[1:]}")
             count = 0
             new_hex_data = ""
+
     if new_hex_data:
         c = 0
         last_line_len = len(new_hex_data[1:].split())
@@ -76,11 +78,11 @@ def data_flash(test_name, hex_data, n_bits, first_line=1):
 
 
     ## DEBUG
-    # print("\nhex_out length = ", len(hex_out))
-    # print("hex_out[] = ")
-    # for x in hex_out:
-    #     print(x)
-    # input("DEBUG - pausing execution...")
+    print("\nhex_out length = ", len(hex_out))
+    print("hex_out[] = ")
+    for x in hex_out:
+        print(x)
+    input("DEBUG - pausing execution...")
     for i in hex_out:
         new_hex_file.write(f"{i}\n")
         
@@ -99,13 +101,13 @@ def exec_flash(test, test_name):
     test.release_reset()
 
 
-def exec_data_flash(test, test_name, config_stream, n_bits):
+def exec_data_flash(test, test_name, config_stream):
     print("   Flashing CPU")
     test.apply_reset()
     test.powerup_sequence()
     erase()
     test.flash(f"{test_name}.hex")
-    data_flash(test_name, config_stream, n_bits )
+    data_flash(test_name, config_stream )
     test.powerup_sequence()
     test.release_reset()
 
@@ -236,8 +238,8 @@ def choose_test(
     #exec_flash(test, test_name)
     while not test_result:
         test.test_name = test_name
-        config_stream, n_bits = run_builder(gpio_l.array, gpio_h.array)
-        exec_data_flash(test, test_name, config_stream, n_bits)
+        config_stream = run_builder(gpio_l.array, gpio_h.array)
+        exec_data_flash(test, test_name, config_stream)
         if not high:
             test_result, channel_failed = run_test(test, chain)
         else:
