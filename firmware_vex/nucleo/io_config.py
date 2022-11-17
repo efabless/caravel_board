@@ -60,8 +60,13 @@ def data_flash(test_name, hex_data, n_bits, first_line=1):
             new_hex_data = ""
     if new_hex_data:
         c = 0
-        while len(new_hex_data[1:].split()) < 16:
-            new_hex_data = new_hex_data + " " + "00"
+        last_line_len = len(new_hex_data[1:].split())
+        if last_line_len < 8:
+            while len(new_hex_data[1:].split()) < 8:
+                new_hex_data = new_hex_data + " " + "00"
+        elif last_line_len > 8 and last_line_len < 16:
+            while len(new_hex_data[1:].split()) < 16:
+                new_hex_data = new_hex_data + " " + "00"
         hex_out.append(f"{new_hex_data[1:]}")
 
     ## DEBUG
