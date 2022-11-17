@@ -1,6 +1,6 @@
 #include "../defs.h"
 #include "../gpio_config/gpio_config_io.c"
-#include "/home/marwan/caravel_SI_testing/caravel_board/firmware_vex/common/send_packet.c"
+#include "../common/send_packet.c"
 //#include "../local_defs.h"
 //#include "../stub.c"
 
