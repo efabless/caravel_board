@@ -78,11 +78,11 @@ def data_flash(test_name, hex_data, first_line=1):
 
 
     ## DEBUG
-    print("\nhex_out length = ", len(hex_out))
-    print("hex_out[] = ")
-    for x in hex_out:
-        print(x)
-    input("DEBUG - pausing execution...")
+    # print("\nhex_out length = ", len(hex_out))
+    # print("hex_out[] = ")
+    # for x in hex_out:
+    #     print(x)
+    # input("DEBUG - pausing execution...")
     for i in hex_out:
         new_hex_file.write(f"{i}\n")
         
