@@ -1,0 +1,22 @@
+### Module positions - created on Fri Nov 18 12:51:59 2022 ###
+### Printed by Pcbnew version (6.0.8)
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val                Package                                     PosX       PosY       Rot  Side
+C1        0.1uf              C_0402_1005Metric                       128.1176   -89.6620    0.0000  top
+C2        0.1uf              C_0402_1005Metric                       131.7498   -86.1060   90.0000  top
+C3        0.1uf              C_0402_1005Metric                       143.0274   -90.7034    0.0000  top
+C4        0.1uf              C_0402_1005Metric                       143.0274   -96.2914  180.0000  top
+C5        0.1uf              C_0402_1005Metric                       135.6868   -99.6188  180.0000  top
+C6        0.1uf              C_0402_1005Metric                       128.2192   -97.3582    0.0000  top
+C7        0.1uf              C_0402_1005Metric                       128.2192   -96.2914    0.0000  top
+C8        0.1uf              C_0402_1005Metric                       139.5984   -86.1060   90.0000  top
+C9        0.1uf              C_0402_1005Metric                       143.0274   -97.3582  180.0000  top
+J1        Conn_01x14_Female  Caravel_Breakout_Connectors_2x14        126.2380   -81.4170   90.0000  top
+J2        Conn_01x14_Female  Caravel_Breakout_Connectors_2x14        123.5650  -102.8730  180.0000  top
+J3        Conn_01x14_Female  Caravel_Breakout_Connectors_2x14        145.0230  -105.5350  -90.0000  top
+J4        Conn_01x14_Female  Caravel_Breakout_Connectors_2x14        147.6910   -84.0356    0.0000  top
+T1        Logo               logo_small                              135.6360   -85.7758    0.0000  top
+T2        Logo               ef_logo                                 135.6868  -101.1428    0.0000  top
+U1        Caravel            QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm   135.6614   -93.4466   90.0000  top
+## End

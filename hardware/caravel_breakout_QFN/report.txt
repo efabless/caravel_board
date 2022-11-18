@@ -1,0 +1,15 @@
+Info: Output directory 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers' created.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Cu.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Cu.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Adhesive.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Adhesive.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Paste.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Paste.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Silkscreen.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Silkscreen.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Mask.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Mask.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-Edge_Cuts.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-F_Fab.gbr'.
+Plotted to 'C:\Users\Administrator\Desktop\Efabless\caravel_board\hardware\caravel_breakout_QFN\gerbers\caravel_breakout_QFN-B_Fab.gbr'.
+Info: Done.
