@@ -177,6 +177,8 @@ for k in range(n_bits):
     config_stream.append(0x06 + value)
     # config_stream.append(0x16 + value)
 
+config_stream += [0x0] * (247 - len(config_stream))
+
 #
 #  create output files
 #
