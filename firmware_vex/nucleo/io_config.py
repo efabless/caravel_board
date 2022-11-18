@@ -132,7 +132,7 @@ def run_test(test, chain):
             elif rst == 1 and chain == "high":
                 channel = 28 - (pulse_count - 2)
             elif chain == "high":
-                channel = 38 - (pulse_count - 2)
+                channel = 37 - (pulse_count - 2)
             phase = phase + 1
             print(f"start sending pulses to gpio[{channel}]")
             state = "HI"
