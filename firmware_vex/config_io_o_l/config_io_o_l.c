@@ -117,7 +117,7 @@ void main()
     reg_mprj_datah = 0;
     reg_mprj_datal = 0;
     gpio_config_io();
-    send_pulse_io0(1); // configuration finished
+    send_packet_io0(1); // configuration finished
     count_down(PULSE_WIDTH*4);
 
     for (j=1;j<9;j++){

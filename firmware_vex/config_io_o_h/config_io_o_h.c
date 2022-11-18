@@ -117,10 +117,10 @@ void main()
     reg_mprj_datal = 0;
     gpio_config_io();
 
-    send_pulse_io0(1); //start sending on the higest gpios 
+    send_packet_io0(1); //start sending on the higest gpios 
     count_down(PULSE_WIDTH*4);
     for (j=37;j > 28;j--){
-        send_pulse_io0(37-j+2); // send 4 pulses at gpio[j]
+        send_packet_io0(37-j+2); // send 4 pulses at gpio[j]
         if (j>=32){
             for (i = 0; i < num_pulses; i++){
                 reg_mprj_datah = 0x1 << j-32;
@@ -137,9 +137,9 @@ void main()
             }
         }
     }
-    send_pulse_io0(1); // reset counter
+    send_packet_io0(1); // reset counter
     for (j=28;j > 18;j--){
-        send_pulse_io0(28-j+2); // send 4 pulses at gpio[j]
+        send_packet_io0(28-j+2); // send 4 pulses at gpio[j]
         for (i = 0; i < num_pulses; i++){
             reg_mprj_datal = 0x1 << j;
             count_down(PULSE_WIDTH);  
@@ -149,9 +149,9 @@ void main()
 
     }
 
-    send_pulse_io0(1); // finish test
-    send_pulse_io0(1); // finish test
-    send_pulse_io0(1); // finish test
+    send_packet_io0(1); // finish test
+    send_packet_io0(1); // finish test
+    send_packet_io0(1); // finish test
 
 }
 
