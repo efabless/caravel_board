@@ -259,9 +259,9 @@ def build_config(arg_gpio_h, arg_gpio_l):
     #  create output files
     #
 
-    print("stream_h   = " + stream_h)
-    print("stream_l   = " + stream_l)
-    print("n_bits = {}".format(n_bits))
+    # print("stream_h   = " + stream_h)
+    # print("stream_l   = " + stream_l)
+    # print("n_bits = {}".format(n_bits))
 
 
     # insert value of n_bits at the beginning of config_stream
