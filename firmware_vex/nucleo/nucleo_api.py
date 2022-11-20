@@ -87,31 +87,22 @@ class Test:
         self.en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
         self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
-    def receive_packet(self, pulse_width=30):
-        ones = 0
+    def receive_packet(self):
         pulses = 0
+        io_pulse = 0
         self.gpio_mgmt.set_state(False)
-        st = False
-        while self.gpio_mgmt.get_value() != False:
-            pass
-        state = "LOW"
-        accurate_delay(pulse_width/2.)
-        for i in range(0, 30):
-            accurate_delay(pulse_width)
-            x = self.gpio_mgmt.get_value()
-            if state == "LOW":
-                if x == True:
-                    state = "HI"
-            elif state == "HI":
-                if x == False:
-                    state = "LOW"
-                    ones = 0
-                    pulses = pulses + 1
-            if x == True:
-                ones = ones + 1
-            if ones > 3:
+        timeout = time.time() + 10
+        state = 0
+        while 1:
+            val = self.gpio_mgmt.get_value()
+            if val != state:
+                io_pulse = io_pulse + 1
+                state = val
+            if io_pulse == 4:
+                pulses = 2
                 break
-        #print(pulses)
+            if time.time() >= timeout:
+                return 0
         return pulses
 
     def apply_reset(self):

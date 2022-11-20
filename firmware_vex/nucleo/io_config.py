@@ -115,41 +115,24 @@ def exec_data_flash(test, test_name, config_stream):
 def run_test(test, chain):
     phase = 0
     io_pulse = 0
-    rst = 0
-    end_pulses = 0
-    while end_pulses < 2:
-        pulse_count = test.receive_packet(25)
-        if phase == 0 and pulse_count == 1:
-            print("Start test")
-            phase = phase + 1
-        elif phase > 0 and pulse_count == 1:
-            rst = rst + 1
-            end_pulses = end_pulses + 1
-        elif pulse_count > 1:
-            end_pulses = 0
+    if chain == "low":
+        channel = 0
+        end_pulses = 18
+    else:
+        channel = 38
+        end_pulses = 19
+    for i in range(0,end_pulses):
+        pulse_count = test.receive_packet()
+        if pulse_count == 2:
             if chain == "low":
-                channel = (pulse_count - 2) + (9 * rst)
-            elif rst == 1 and chain == "high":
-                channel = 28 - (pulse_count - 2)
-            elif chain == "high":
-                channel = 37 - (pulse_count - 2)
-            phase = phase + 1
+                channel = channel + 1
+            else:
+                channel = channel - 1
             print(f"start sending pulses to gpio[{channel}]")
-            state = "HI"
             timeout = time.time() + 10
-            # accurate_delay(15)
             state = 0
             io_pulse = 0
             while 1:
-                # accurate_delay(30)
-                # x = Dio(f"IO_{channel}").get_value()
-                # if state == "LOW":
-                #     if x == True:
-                #         state = "HI"
-                # elif state == "HI":
-                #     if x == False:
-                #         state = "LOW"
-                #         io_pulse = io_pulse + 1
                 val = Dio(f"IO_{channel}").get_value()
                 if val != state:
                     io_pulse = io_pulse + 1
@@ -292,7 +275,7 @@ def run():
         choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
 
         end_time = (time.time() - start_program) / 60.0
-        f = open(f"configuration.txt", "a")
+        f = open(f"configuration.txt", "w")
         f.write(f"\n\nTotal Execution time: {end_time} minutes")
         f.close()
         test.turn_off_devices()
