@@ -1,10 +1,12 @@
 
+export PATH=$PATH:/bin:/usr/local/bin/:./venv/bin:/usr/bin/:.
+
 #DEV=/dev/cu.usbmodem3103
 DEV=/dev/cu.usbmodem34203
 #FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
-FLASH=/media/efabless/PYBFLASH/
-#FLASH=//Volumes/PYBFLASH/
-#export PATH=$PATH:/bin:/usr/local/bin/:./venv/bin:.
+#FLASH=/media/efabless/PYBFLASH/
+FLASH=//Volumes/PYBFLASH/
+
 
 boot:
 	rshell --port ${DEV} cp boot.py /flash
@@ -25,7 +27,11 @@ copy2: compile
 	cp main.py ${FLASH}
 	ls ${FLASH}
 
-# cross compile python to micropython bin
+# cross compile python to micropython bin.
+
+# mpy-cross is specific to the build machine, not the Nucleo.
+# the current executable is for a M1 mac.  it needs to be compiled for other build machines
+
 compile:
 	mpy-cross flash.py
 	mpy-cross io_config.py
@@ -47,4 +53,40 @@ repl:
 image:
 	st-flash --connect-under-reset --format ihex write nucleo_firmware.hex
 
-.PHONY: image hex all copy repl run
+
+# ---- targets for building hex file
+
+#TOOLCHAIN_PATH=/foss/tools/riscv-gnu-toolchain-rv32i/217e7f3debe424d61374d31e33a091a630535937/bin/
+TOOLCHAIN_PATH=/usr/local/bin/
+#TOOLCHAIN_PATH=/opt/riscv32imc/bin/
+
+# Set the prefix for `riscvXX-unknown-elf-*`
+# On installations using `multilib`, this will be `riscv64` even for compiling to 32-bit targets
+TOOLCHAIN_PREFIX=riscv64-unknown-elf
+#TOOLCHAIN_PREFIX=riscv32-unknown-linux-gnu
+
+SED_CMD=sed -i '.orig' -e
+#SED_CMD=sed -ie
+
+.SUFFIXES:
+
+PATTERN = config_io_o
+
+hex:  ${PATTERN:=.hex}
+
+%.elf: %.c ../sections.lds ../crt0_vex.S ./gpio_config_data.c ./send_packet.c
+	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
+
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c $<
+	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -s  config_io_o.elf > config_io_o.lst
+
+%.hex: %.elf
+	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-objcopy -O verilog $< $@
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-objcopy -O verilog $< $@
+	$(SED_CMD) 's/@10/@00/g' $@
+	$(SED_CMD) '1,/@00/!d' $@
+
+clean:
+	rm -f *.elf *.hex
+
+.PHONY: clean image hex copy repl run

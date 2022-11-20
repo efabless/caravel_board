@@ -1,12 +1,11 @@
 #include "../defs.h"
-#include "../gpio_config/gpio_config_io.c"
-#include "../common/send_packet.c"
+#include "gpio_config_io.c"
+#include "send_packet.c"
 //#include "../local_defs.h"
 //#include "../stub.c"
 
 //#include "../config_io.h"
 //#include "../defs_mpw-two-mfix.h"
-
 
 void set_registers() {
 
@@ -113,12 +112,21 @@ void main()
     int num_pulses = 4;
     //int num_bits = 19;
     //configure_io0_37();
+
+    reg_gpio_mode1 = 1;
+    reg_gpio_mode0 = 0;
+    reg_gpio_ien = 1;
+    reg_gpio_oe = 1;
+
     set_registers();
     reg_mprj_datah = 0;
     reg_mprj_datal = 0;
     gpio_config_io();
 
+    reg_gpio_out = 1; // OFF
+
     while (1){
+        reg_gpio_out = 0; // ON
         send_packet_io0(2); // send 4 pulses at gpio[j]
         for (i = 0; i < num_pulses; i++){
             reg_mprj_datal = 0xFFFFFFFF;
@@ -128,6 +136,8 @@ void main()
             reg_mprj_datal = 0x0;  
             count_down(PULSE_WIDTH); 
         }
+        reg_gpio_out = 1; // OFF
+        delay(4000000);
     }
 
 }
