@@ -3,6 +3,7 @@ import os
 import gpio_config_builder
 from flash import flash_mem
 import sys
+from machine import Pin
 
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
@@ -206,6 +207,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.write(f"# voltage: {test.voltage}\n")
     f.write(f"# IO configuration chain was successful\n")
     if chain == "low":
+        Pin("LED2", Pin.OUT, value=1)
         io = 00
         f.write('gpio_l = [\n')
         for i in gpio_l.array:
@@ -213,6 +215,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
             io = io + 1
         f.write(']\n')
     elif chain == "high":
+        Pin("LED3", Pin.OUT, value=1)
         io = 37
         f.write('gpio_h = [\n')
         for i in gpio_h.array:
@@ -223,6 +226,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
 
 
 def run():
+    Pin("LED1", Pin.OUT, value=1)
     if "configuration.py" in os.listdir():
         os.remove("configuration.py")
     test = Test()
@@ -235,6 +239,7 @@ def run():
     gpio_h = Gpio()
     choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
     test.turn_off_devices()
+    Pin("LED1", Pin.OUT, value=0)
     sys.exit()
 
 
