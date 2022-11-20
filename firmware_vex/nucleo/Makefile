@@ -13,8 +13,7 @@ boot:
 copy: compile
 	#rshell --port ${DEV} repl ~ import machine ~ machine.reset()
 	rshell --port ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /flash
-	rshell --port ${DEV} cp config_io_o_h.hex /flash
-	rshell --port ${DEV} cp config_io_o_l.hex /flash
+	rshell --port ${DEV} cp config_io_o.hex /flash
 	rshell --port ${DEV} cp io_config.mpy /flash
 	rshell --port ${DEV} cp main.py /flash
 	rshell --port ${DEV} ls /flash
@@ -22,8 +21,7 @@ copy: compile
 # copies scripts to nucleo
 copy2: compile
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
-	cp config_io_o_h.hex ${FLASH}
-	cp config_io_o_l.hex ${FLASH}
+	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
 	ls ${FLASH}
 

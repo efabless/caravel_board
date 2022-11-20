@@ -2,7 +2,7 @@ from nucleo_api import *
 import os
 import gpio_config_builder
 from flash import flash_mem
-
+import sys
 
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
@@ -13,29 +13,7 @@ def run_builder(gpio_l, gpio_h):
 def data_flash(test_name, hex_data, first_line=1):
     
     new_hex_file = open(f"{test_name}-tmp.hex", "w")
-    #hex_data = []
     new_hex_data = ""
-    #for aline in c_file:
-    #    aline = aline.strip()
-    #    if aline:
-    #        if aline.startswith("char"):
-    #            idx = aline.find("{")
-    #            line = aline[idx + 1 : -4]
-    #            data = [item.strip() for item in line.split(",")]
-    #        if aline.startswith("int"):
-    #            indx = aline.find("=")
-    #            arr_size = aline[indx + 1 : -1].strip()
-    #            if int(arr_size) > 255:
-    #                print(" Array size should be less that 255")
-    #                exit(1)
-    #for i in data:
-    #    hex_data.append(i[2:])
-
-    ## DEBUG
-    # print("\nhex_data length = ", len(hex_data))
-    # print("hex_data[] = ", hex_data)
-    
-    # hex_out = ["@00001A00"]
     hex_out = []
     n_bits = hex_data[0]
     
@@ -75,18 +53,8 @@ def data_flash(test_name, hex_data, first_line=1):
             hex_out.append(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
     else:
         hex_out.append(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
-
-
-    ## DEBUG
-    # print("\nhex_out length = ", len(hex_out))
-    # print("hex_out[] = ")
-    # for x in hex_out:
-    #     print(x)
-    # input("DEBUG - pausing execution...")
     for i in hex_out:
         new_hex_file.write(f"{i}\n")
-        
-    #new_hex_file.write(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
     new_hex_file.close()
 
     flash(f"{test_name}-tmp.hex")
@@ -144,11 +112,12 @@ def run_test(test, chain):
                 if time.time() >= timeout:
                     print(f"Timeout failure on gpio[{channel}]!")
                     return False, channel
+        elif pulse_count == 0:
+            return False, channel
     return True, None
 
 
-def change_config(channel, gpio_l, gpio_h, voltage, start_time, test):
-    end_time = (time.time() - start_time) / 60.0
+def change_config(channel, gpio_l, gpio_h, voltage, test):
     if channel > 18:
         if gpio_h.get_config(37 - channel) == "H_INDEPENDENT":
             gpio_h.set_config(37 - channel, "H_DEPENDENT")
@@ -158,22 +127,20 @@ def change_config(channel, gpio_l, gpio_h, voltage, start_time, test):
             gpio_h.increment_fail_count(37 - channel)
         if gpio_h.get_fail_count(37 - channel) > 1:
             gpio_h.gpio_failed()
-            print(f"gpio[{channel}] not working")
-            print("Final configuration for gpio_l: ", gpio_l.array)
-            print("Final configuration for gpio_h: ", gpio_h.array)
-            print(
-                "Configuring the ios took: ",
-                (time.time() - start_time) / 60.0,
-                "minutes",
-            )
-            f = open(f"configuration.txt", "a")
-            f.write(f"voltage: {voltage}\n")
-            f.write("Final configuration: \n")
+            f = open(f"configuration.py", "a")
+            f.write(f"# voltage: {voltage}\n")
             f.write(
-                f"configuration failed in gpio[{channel}], anything after is invalid\n"
+                f"# configuration failed in gpio[{channel}], anything after is invalid\n"
             )
-            f.write(f"gpio from 37 to 19: {gpio_h.array}\n")
-            f.write(f"Execution time: {end_time} minutes\n")
+            io = 37
+            f.write('gpio_h = [\n')
+            for i in gpio_h.array:
+                if io > channel:
+                    f.write(f'[\'IO[{io}]\', {i}],\n')
+                else:
+                    f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
+                io = io - 1
+            f.write(']\n')
             f.close()
             test.turn_off_devices()
 
@@ -186,22 +153,20 @@ def change_config(channel, gpio_l, gpio_h, voltage, start_time, test):
             gpio_l.increment_fail_count(channel)
         if gpio_l.get_fail_count(channel) > 1:
             gpio_l.gpio_failed()
-            print(f"gpio[{channel}] not working")
-            print("Final configuration for gpio_l: ", gpio_l.array)
-            print("Final configuration for gpio_h: ", gpio_h.array)
-            print(
-                "Configuring the ios took: ",
-                (time.time() - start_time) / 60.0,
-                "minutes",
-            )
-            f = open(f"configuration.txt", "a")
-            f.write(f"voltage: {voltage}\n")
-            f.write("Final configuration: \n")
+            f = open(f"configuration.py", "a")
+            f.write(f"# voltage: {voltage}\n")
             f.write(
-                f"configuration failed in gpio[{channel}], anything after is invalid\n"
+                f"# configuration failed in gpio[{channel}], anything before is invalid\n"
             )
-            f.write(f"gpio from 0 to 18: {gpio_l.array}\n")
-            f.write(f"Execution time: {end_time} minutes\n")
+            io = 00
+            f.write('gpio_l = [\n')
+            for i in gpio_l.array:
+                if io < channel:
+                    f.write(f'[\'IO[{io}]\', {i}],\n')
+                else:
+                    f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
+                io = io + 1
+            f.write(']\n')
             f.close()
             test.turn_off_devices()
     return gpio_l, gpio_h
@@ -212,7 +177,6 @@ def choose_test(
     test_name,
     gpio_l,
     gpio_h,
-    start_time,
     chain="low",
     high=False
 ):
@@ -228,67 +192,50 @@ def choose_test(
             test_result, channel_failed = run_test(test, chain)
         if test_result:
             print("Test Passed!")
-            print("Final configuration for gpio_l: ", gpio_l.array)
-            print("Final configuration for gpio_h: ", gpio_h.array)
-            test_passed(test, start_time, gpio_l, gpio_h, chain)
+            test_passed(test, gpio_l, gpio_h, chain)
         else:
             gpio_l, gpio_h = change_config(
-                channel_failed, gpio_l, gpio_h, test.voltage, start_time, test
+                channel_failed, gpio_l, gpio_h, test.voltage, test
             )
         if gpio_h.get_gpio_failed() is True or gpio_l.get_gpio_failed() is True:
             break
 
 
-def test_passed(test, start_time, gpio_l, gpio_h, chain):
-    end_time = (time.time() - start_time) / 60.0
-
-    print("Configuring the ios took: ", end_time, "minutes")
-
-    f = open(f"configuration.txt", "a")
-    f.write(f"voltage: {test.voltage}\n")
-    f.write(f"configuration of {chain} chain was successful\n")
-    f.write(f"Final configuration of {chain} chain: \n")
+def test_passed(test, gpio_l, gpio_h, chain):
+    f = open(f"configuration.py", "a")
+    f.write(f"# voltage: {test.voltage}\n")
+    f.write(f"# IO configuration chain was successful\n")
     if chain == "low":
-        f.write(f"gpio from 0 to 18: {gpio_l.array}\n")
+        io = 00
+        f.write('gpio_l = [\n')
+        for i in gpio_l.array:
+            f.write(f'[\'IO[{io}]\', {i}],\n')
+            io = io + 1
+        f.write(']\n')
     elif chain == "high":
-        f.write(f"gpio from 37 to 19: {gpio_h.array}\n")
-    f.write(f"Execution time: {end_time} minutes\n")
+        io = 37
+        f.write('gpio_h = [\n')
+        for i in gpio_h.array:
+            f.write(f'[\'IO[{io}]\', {i}],\n')
+            io = io - 1
+        f.write(']\n')
     f.close()
 
 
 def run():
-    try:
-        test = Test()
-        gpio_l = Gpio()
-        gpio_h = Gpio()
+    if "configuration.py" in os.listdir():
+        os.remove("configuration.py")
+    test = Test()
+    gpio_l = Gpio()
+    gpio_h = Gpio()
 
-        start_time = time.time()
-        start_program = time.time()
-        global pid
-        pid = None
+    choose_test(test, "config_io_o", gpio_l, gpio_h)
 
-        choose_test(test, "config_io_o_l", gpio_l, gpio_h, start_time)
-
-        gpio_l = Gpio()
-        gpio_h = Gpio()
-        start_time = time.time()
-        choose_test(test, "config_io_o_h", gpio_l, gpio_h, start_time, "high", True)
-
-        end_time = (time.time() - start_program) / 60.0
-        f = open(f"configuration.txt", "w")
-        f.write(f"\n\nTotal Execution time: {end_time} minutes")
-        f.close()
-        test.turn_off_devices()
-        exit(0)
-    
-    except KeyboardInterrupt:
-        print("Interrupted")
-        try:
-            test.turn_off_devices()
-            exit(0)
-        except SystemExit:
-            test.turn_off_devices()
-            os._exit(0)
+    gpio_l = Gpio()
+    gpio_h = Gpio()
+    choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
+    test.turn_off_devices()
+    sys.exit()
 
 
 if __name__ == "__main__":
