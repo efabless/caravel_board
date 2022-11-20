@@ -7,6 +7,9 @@ import pyb
 from machine import Pin
 
 
+config_filename = "gpio_config_def.py"
+
+
 class Led:
 
     def __init__(self, pin_name):
@@ -188,7 +191,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             gpio_h.increment_fail_count(37 - channel)
         if gpio_h.get_fail_count(37 - channel) > 1:
             gpio_h.gpio_failed()
-            f = open(f"configuration.py", "a")
+            f = open(config_filename, "a")
             f.write(f"# voltage: {voltage}\n")
             f.write(
                 f"# configuration failed in gpio[{channel}], anything after is invalid\n"
@@ -214,7 +217,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             gpio_l.increment_fail_count(channel)
         if gpio_l.get_fail_count(channel) > 1:
             gpio_l.gpio_failed()
-            f = open(f"configuration.py", "a")
+            f = open(config_filename, "a")
             f.write(f"# voltage: {voltage}\n")
             f.write(
                 f"# configuration failed in gpio[{channel}], anything before is invalid\n"
@@ -263,7 +266,7 @@ def choose_test(
 
 
 def test_passed(test, gpio_l, gpio_h, chain):
-    f = open(f"configuration.py", "a")
+    f = open(config_filename, "a")
     f.write(f"# voltage: {test.voltage}\n")
     f.write(f"# IO configuration chain was successful\n")
     if chain == "low":
@@ -286,23 +289,34 @@ def test_passed(test, gpio_l, gpio_h, chain):
 
 
 def run():
-    if "configuration.py" in os.listdir():
-        os.remove("configuration.py")
+    if config_filename in os.listdir():
+        os.remove(config_filename)
     test = Test()
     gpio_l = Gpio()
     gpio_h = Gpio()
 
+    print("===================================================================")
+    print("== Beginning IO configuration test.  Testing LOW IO chain...     ==")
+    print("===================================================================")
     led_green.blink(short=3, long=2)
     choose_test(test, "config_io_o", gpio_l, gpio_h)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
 
+    print("===================================================================")
+    print("== LOW IO chain test complete.  Testing HIGH IO chain...         ==")
+    print("===================================================================")
     led_green.blink(short=3, long=4)
     choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
+
+    print("===================================================================")
+    print("== HIGH IO chain test complete. IO configuration test complete.  ==")
+    print("===================================================================")
     test.turn_off_devices()
     led_blue.off()
-    sys.exit()
+    print("\n\n** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
+    #sys.exit()
 
 
 #if __name__ == "__main__":

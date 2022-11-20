@@ -7,6 +7,7 @@ DEV=/dev/cu.usbmodem34103
 #FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
 #FLASH=/media/efabless/PYBFLASH/
 FLASH=//Volumes/PYBFLASH/
+NUCLEO_CMD=
 
 
 boot:
@@ -46,10 +47,12 @@ reset:
 	#mpremote connect ${DEV} soft-reset
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
+# alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 run:
-	#mpremote connect ${DEV} exec "import io_config; io_config.run()"
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
+get_config:
+	mpremote connect ${DEV} cp :gpio_config_def.py .
 
 # enter repl on nucleo
 repl:
