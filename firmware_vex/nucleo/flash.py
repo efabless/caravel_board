@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import machine
 # from pyftdi.ftdi import Ftdi
 import time
 import sys, os
@@ -10,7 +9,6 @@ import binascii
 from io import StringIO
 
 from machine import Pin, SPI, SoftSPI, sleep, I2C, SoftI2C
-from pyb import LED, Switch
 
 SR_WIP = 0b00000001  # Busy/Work-in-progress bit
 SR_WEL = 0b00000010  # Write enable bit
@@ -72,11 +70,28 @@ CARAVEL_REG_WRITE = 0x88
 
 class Led:
     def __init__(self):
-        self.led = LED(1)
-        self.led.on()
+        self.led1 = Pin("LED1")
+        self.led2 = Pin("LED2")
+        self.led3 = Pin("LED3")
+        self.led1.on()
+        self.led2.off()
+        self.led3.on()
 
     def toggle(self):
-        self.led.toggle()
+        if self.led1.value():
+            self.led1.off()
+        else:
+            self.led1.on()
+
+        if self.led2.value():
+            self.led2.off()
+        else:
+            self.led2.on()
+
+    def off(self):
+        self.led1.off()
+        self.led2.off()
+        self.led3.off()
 
 # if len(sys.argv) < 2:
 #    print("Usage: raptor_flash.py <file>")
@@ -103,6 +118,9 @@ class SPI:
             self.mosi = Pin('SPI5_MISO', mode=Pin.IN)  # PF9 = IO[2] = caravel input
             self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
             self.spi = None
+            # Pin("LED1", Pin.OUT, value=0)
+            # Pin("LED2", Pin.OUT, value=0)
+            # Pin("LED3", Pin.OUT, value=0)
 
     def write(self, buf):
         txdata = bytearray(buf)
@@ -185,6 +203,7 @@ def check():
     time.sleep(1.0)
     led.toggle()
 
+    led.off()
     slave.__init__(enabled=False)
 
 
@@ -255,6 +274,7 @@ def erase():
     print("done")
     print("status = {}".format(hex(slave.get_status())))
 
+    led.off()
     slave.__init__(enabled=False)
 
 
@@ -493,6 +513,7 @@ def flash(file_path):
     time.sleep(0.3)
     led.toggle()
 
+    led.off()
     slave.__init__(enabled=False)
 
 
@@ -729,6 +750,7 @@ def flash_mem(inp_data):
     time.sleep(0.3)
     led.toggle()
 
+    led.off()
     slave.__init__(enabled=False)
 
     return status_good

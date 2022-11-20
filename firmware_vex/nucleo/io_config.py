@@ -3,7 +3,58 @@ import os
 import gpio_config_builder
 from flash import flash_mem
 import sys
+import pyb
 from machine import Pin
+
+
+class Led:
+
+    def __init__(self, pin_name):
+        self.led = Pin(pin_name, Pin.OUT)
+
+    def blink(self, short=1, long=0):
+        delay_short = 300
+        delay_long = 600
+
+        self.led.off()
+        for i in range(short):
+            self.led.on()
+            pyb.delay(delay_short)
+            self.led.off()
+            pyb.delay(delay_short)
+
+        for i in range(long):
+            self.led.on()
+            pyb.delay(delay_long)
+            self.led.off()
+            pyb.delay(delay_long)
+
+    def on(self):
+        self.led.on()
+
+    def off(self):
+        self.led.off()
+
+    def toggle(self):
+        if self.led.value():
+            self.led.off()
+        else:
+            self.led.on()
+
+# used as an activity indicator
+#        - active = flash firmware, checking for IO pulses
+
+led_blue = Led("LED2")
+
+# used for program start and completion
+
+led_green = Led("LED1")
+
+# red and green are used at program termination
+#       - flashing red = chain configuration failure
+
+led_red = Led("LED3")
+
 
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
@@ -101,6 +152,7 @@ def run_test(test, chain):
             timeout = time.time() + 10
             state = 0
             io_pulse = 0
+            led_blue.on()
             while 1:
                 val = Dio(f"IO_{channel}").get_value()
                 if val != state:
@@ -109,12 +161,20 @@ def run_test(test, chain):
                 if io_pulse == 8:
                     io_pulse = 0
                     print(f"gpio[{channel}] Passed")
+                    led_green.blink()
+                    # led_blue.off()
                     break
                 if time.time() >= timeout:
                     print(f"Timeout failure on gpio[{channel}]!")
+                    led_red.blink(short=2)
+                    led_blue.off()
                     return False, channel
         elif pulse_count == 0:
+            led_red.blink()
+            led_blue.off()
             return False, channel
+
+    led_blue.off()
     return True, None
 
 
@@ -207,7 +267,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.write(f"# voltage: {test.voltage}\n")
     f.write(f"# IO configuration chain was successful\n")
     if chain == "low":
-        Pin("LED2", Pin.OUT, value=1)
+        led_green.on()
         io = 00
         f.write('gpio_l = [\n')
         for i in gpio_l.array:
@@ -215,7 +275,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
             io = io + 1
         f.write(']\n')
     elif chain == "high":
-        Pin("LED3", Pin.OUT, value=1)
+        led_red.on()
         io = 37
         f.write('gpio_h = [\n')
         for i in gpio_h.array:
@@ -226,24 +286,26 @@ def test_passed(test, gpio_l, gpio_h, chain):
 
 
 def run():
-    Pin("LED1", Pin.OUT, value=1)
     if "configuration.py" in os.listdir():
         os.remove("configuration.py")
     test = Test()
     gpio_l = Gpio()
     gpio_h = Gpio()
 
+    led_green.blink(short=3, long=2)
     choose_test(test, "config_io_o", gpio_l, gpio_h)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
+
+    led_green.blink(short=3, long=4)
     choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
     test.turn_off_devices()
-    Pin("LED1", Pin.OUT, value=0)
+    led_blue.off()
     sys.exit()
 
 
-if __name__ == "__main__":
-    import pyb
-    sw = pyb.Switch()
-    sw.callback(run())
+#if __name__ == "__main__":
+    #import pyb
+    #sw = pyb.Switch()
+    #sw.callback(run())

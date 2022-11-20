@@ -1,8 +1,9 @@
 
-export PATH=$PATH:/bin:/usr/local/bin/:./venv/bin:/usr/bin/:.
+export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
 #DEV=/dev/cu.usbmodem3103
-DEV=/dev/cu.usbmodem34203
+#DEV=/dev/cu.usbmodem34203
+DEV=/dev/cu.usbmodem34103
 #FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
 #FLASH=/media/efabless/PYBFLASH/
 FLASH=//Volumes/PYBFLASH/
@@ -41,9 +42,14 @@ compile:
 	mpy-cross boot.py
 
 # runs script from the local filesystem
+reset:
+	#mpremote connect ${DEV} soft-reset
+	mpremote connect ${DEV} exec "import machine; machine.reset()"
+
 run:
-	mpremote connect ${DEV} soft-reset
-	mpremote connect ${DEV} run main.py
+	#mpremote connect ${DEV} exec "import io_config; io_config.run()"
+	mpremote connect ${DEV} exec "import machine; machine.reset()"
+
 
 # enter repl on nucleo
 repl:
