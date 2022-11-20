@@ -177,6 +177,8 @@ for k in range(n_bits):
     config_stream.append(0x06 + value)
     # config_stream.append(0x16 + value)
 
+config_stream += [0x0] * (247 - len(config_stream))
+
 #
 #  create output files
 #
@@ -196,11 +198,13 @@ f.close()
 f = open("gpio_config_data.c", "w")
 f.write("\n")
 
+# f.write("int n_bits = " + str(n_bits) + ";\n")
+
 f.write("char config_stream[] = {")
+f.write("0x{:02x}, ".format(n_bits))
 for x in config_stream:
     f.write("0x{:02x}, ".format(x))
 f.write("};\n")
 
-# f.write("int n_bits = " + str(n_bits) + ";\n")
 f.close()
 

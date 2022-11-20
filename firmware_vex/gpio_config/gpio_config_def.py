@@ -43,14 +43,14 @@ H_SPECIAL = 3
 gpio_h = [
     ['IO[37]', H_NONE],    # <<<< this must be set to NONE
     ['IO[36]', H_INDEPENDENT],
-    ['IO[35]', H_DEPENDENT],
+    ['IO[35]', H_INDEPENDENT],
     ['IO[34]', H_INDEPENDENT],
     ['IO[33]', H_INDEPENDENT],
-    ['IO[32]', H_DEPENDENT],
+    ['IO[32]', H_INDEPENDENT],
     ['IO[31]', H_INDEPENDENT],
     ['IO[30]', H_INDEPENDENT],
-    ['IO[29]', H_DEPENDENT],
-    ['IO[28]', H_DEPENDENT],
+    ['IO[29]', H_INDEPENDENT],
+    ['IO[28]', H_INDEPENDENT],
     ['IO[27]', H_INDEPENDENT],
     ['IO[26]', H_INDEPENDENT],
     ['IO[25]', H_INDEPENDENT],
@@ -67,14 +67,14 @@ del gpio_h[NUM_IO:]
 gpio_l = [
     ['IO[00]', H_NONE],    # <<<< this must be set to NONE
     ['IO[01]', H_INDEPENDENT],
-    ['IO[02]', H_DEPENDENT],
-    ['IO[03]', H_DEPENDENT],
-    ['IO[04]', H_DEPENDENT],
+    ['IO[02]', H_INDEPENDENT],
+    ['IO[03]', H_INDEPENDENT],
+    ['IO[04]', H_INDEPENDENT],
     ['IO[05]', H_INDEPENDENT],
-    ['IO[06]', H_DEPENDENT],
+    ['IO[06]', H_INDEPENDENT],
     ['IO[07]', H_INDEPENDENT],
-    ['IO[08]', H_DEPENDENT],
-    ['IO[09]', H_DEPENDENT],
+    ['IO[08]', H_INDEPENDENT],
+    ['IO[09]', H_INDEPENDENT],
     ['IO[10]', H_INDEPENDENT],
     ['IO[11]', H_INDEPENDENT],
     ['IO[12]', H_INDEPENDENT],
@@ -100,16 +100,16 @@ C_USER_IN_NOPULL = 7
 C_USER_OUT = 8
 
 config_h = [
-    C_USER_BIDIR_WPD,  #37
-    C_USER_BIDIR_WPD,
+    C_MGMT_OUT,  #37
     C_MGMT_OUT,
     C_MGMT_OUT,
     C_MGMT_OUT,
-    C_USER_OUT,
-    C_USER_OUT,
-    C_USER_OUT,  #30
-    C_USER_OUT,
-    C_USER_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,  #30
+    C_MGMT_OUT,
+    C_MGMT_OUT,
     C_MGMT_OUT,  #27
     C_MGMT_OUT,
     C_MGMT_OUT,
@@ -124,25 +124,25 @@ config_h = [
 del config_h[NUM_IO:]
 
 config_l = [
-    C_DISABLE,
-    C_MGMT_OUT,
-    C_MGMT_IN,
-    C_MGMT_IN,
-    C_MGMT_IN,
-    C_MGMT_IN,         #5
     C_MGMT_OUT,
     C_MGMT_OUT,
-    C_MGMT_IN,   #8
-    C_MGMT_IN,   #9
-    C_MGMT_IN,   #10
-    C_MGMT_IN,   #11
-    C_MGMT_IN,   #12
-    C_DISABLE,   #13
-    C_USER_BIDIR_WPD,   #14
-    C_USER_BIDIR_WPD,   #15
-    C_USER_BIDIR,       #16
-    C_DISABLE,
-    C_DISABLE,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,         #5
+    C_MGMT_OUT,
+    C_MGMT_OUT,
+    C_MGMT_OUT,   #8
+    C_MGMT_OUT,   #9
+    C_MGMT_OUT,   #10
+    C_MGMT_OUT,   #11
+    C_MGMT_OUT,   #12
+    C_MGMT_OUT,   #13
+    C_MGMT_OUT,   #14
+    C_MGMT_OUT,   #15
+    C_MGMT_OUT,   #16
+    C_MGMT_OUT,
+    C_MGMT_OUT,
 ]
 
 del config_l[NUM_IO:]

@@ -175,7 +175,6 @@ def build_stream_special(stream, config):
 
 
 def correct_dd_holds(stream, bpos):
-    # for x in reversed(range(1,bpos)):
     skip = False
     bits = list(stream)
     for x in range(1,bpos):
@@ -229,8 +228,6 @@ def build_config(arg_gpio_h, arg_gpio_l):
 
     bpos_h = len(stream_h)
     bpos_l = len(stream_l)
-    # for k in reversed(range(NUM_IO)):
-    # iterate from IO 37 to 35
     for k in range(NUM_IO):
 
         if gpio_h[k][1] == H_DEPENDENT:
@@ -262,28 +259,15 @@ def build_config(arg_gpio_h, arg_gpio_l):
     #  create output files
     #
 
-    print("stream_h   = " + stream_h)
-    print("stream_l   = " + stream_l)
-    print("n_bits = {}".format(n_bits))
+    # print("stream_h   = " + stream_h)
+    # print("stream_l   = " + stream_l)
+    # print("n_bits = {}".format(n_bits))
 
-    # f = open("gpio_config_data.py", "w")
-    # f.write("from bitstring import Bits, BitArray, BitStream\n")
-    # f.write("from enum import Enum\n")
-    # f.write("\n")
-    # f.write("config_h = '" + stream_h + "'\n")
-    # f.write("config_l = '" + stream_l + "'\n")
-    # f.close()
 
-    #f = open("gpio_config_data.c", "w")
-    #f.write("\n")
+    # insert value of n_bits at the beginning of config_stream
+    # value increased by one to match the length of the array
 
-    #f.write("char config_stream[] = {")
-    #for x in config_stream:
-    #    f.write("0x{:02x}, ".format(x))
-    #f.write("};\n")
-
-    # f.write("int n_bits = " + str(n_bits) + ";\n")
-    #f.close()
+    config_stream.insert(0, n_bits+1)
 
     return config_stream
 

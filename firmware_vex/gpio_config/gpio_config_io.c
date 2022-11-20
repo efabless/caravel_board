@@ -54,15 +54,15 @@ void clear_registers()
 
 void gpio_config_io()
 {
-    int i = 0;
+    int i = 1; // start offset 1, first value is n_bits
+    int n_bits = config_stream[0];
 //    bb_mode();
     clear_registers();
-    int n_bits = sizeof(config_stream)/sizeof(config_stream[0]);
+    //int n_bits = sizeof(config_stream);
     while (i < n_bits)
     {
         reg_mprj_xfer = config_stream[i];
         delay(WAIT);
-        i++;
         reg_mprj_xfer = config_stream[i] + 0x10;
         delay(WAIT);
         i++;

@@ -312,20 +312,20 @@ def flash(file_path):
         print("Winbond SRAM not found")
         sys.exit()
 
-    print("Erasing chip...")
-    slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-    slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
+    # print("Erasing chip...")
+    # slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+    # slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
 
-    for i in range(15):
-        time.sleep(0.5)
-        led.toggle()
+    # for i in range(15):
+    #     time.sleep(0.5)
+    #     led.toggle()
 
-    while (slave.is_busy()):
-        time.sleep(0.5)
-        led.toggle()
+    # while (slave.is_busy()):
+    #     time.sleep(0.5)
+    #     led.toggle()
 
-    print("done")
-    print("status = {}".format(hex(slave.get_status())))
+    # print("done")
+    # print("status = {}".format(hex(slave.get_status())))
 
     buf = bytearray()
     addr = 0
