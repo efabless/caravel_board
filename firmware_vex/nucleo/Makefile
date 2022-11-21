@@ -96,6 +96,6 @@ hex:  ${PATTERN:=.hex}
 	$(SED_CMD) '1,/@00/!d' $@
 
 clean:
-	rm -f *.elf *.hex
+	rm -f *.elf config_io_o.hex
 
 .PHONY: clean image hex copy repl run

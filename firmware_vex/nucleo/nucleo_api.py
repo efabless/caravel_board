@@ -106,11 +106,11 @@ class Test:
         return pulses
 
     def apply_reset(self):
-        print("   applying reset on channel 0 device 1")
+        #print("   applying reset on channel 0 device 1")
         self.rstb.set_value(0)
 
     def release_reset(self):
-        print("   releasing reset on channel 0 device 1")
+        #print("   releasing reset on channel 0 device 1")
         self.rstb.set_value(1)
 
     def flash(self, hex_file):
@@ -118,8 +118,8 @@ class Test:
         try:
             flash(f"{hex_file}")
         except:
-            print("reflashing")
-            flash(f"{hex_file}")
+            print("*** ERROR - attempting to reflash")
+            flash(f"{hex_file}", debug=True)
 
     def powerup_sequence(self):
         self.supply.write_3v3(0x3a)

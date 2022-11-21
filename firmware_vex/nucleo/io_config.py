@@ -8,7 +8,8 @@ from machine import Pin
 
 
 config_filename = "gpio_config_def.py"
-
+high_chain_passed = False
+low_chain_passed = False
 
 class Led:
 
@@ -116,7 +117,7 @@ def data_flash(test_name, hex_data, first_line=1):
 
 
 def exec_flash(test, test_name):
-    print("   Flashing CPU")
+    print("*** Flashing Caravel (1)")
     test.apply_reset()
     test.powerup_sequence()
     test.flash(f"{test_name}.hex")
@@ -125,11 +126,12 @@ def exec_flash(test, test_name):
 
 
 def exec_data_flash(test, test_name, config_stream):
-    print("   Flashing CPU")
+    print("\n*** flashing Caravel")
     test.apply_reset()
     test.powerup_sequence()
     erase()
-    test.flash(f"{test_name}.hex")
+    # test.flash(f"{test_name}.hex")
+    flash(f"{test_name}.hex")
     data_flash(test_name, config_stream )
     test.powerup_sequence()
     test.release_reset()
@@ -151,7 +153,7 @@ def run_test(test, chain):
                 channel = channel + 1
             else:
                 channel = channel - 1
-            print(f"start sending pulses to gpio[{channel}]")
+            #print(f"start sending pulses to gpio[{channel}]")
             timeout = time.time() + 10
             state = 0
             io_pulse = 0
@@ -163,12 +165,12 @@ def run_test(test, chain):
                     state = val
                 if io_pulse == 8:
                     io_pulse = 0
-                    print(f"gpio[{channel}] Passed")
+                    print(f"gpio[{channel}] >> Passed")
                     led_green.blink()
                     # led_blue.off()
                     break
                 if time.time() >= timeout:
-                    print(f"Timeout failure on gpio[{channel}]!")
+                    print(f"gpio[{channel}] >> TIMED OUT")
                     led_red.blink(short=2)
                     led_blue.off()
                     return False, channel
@@ -194,7 +196,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             f = open(config_filename, "a")
             f.write(f"# voltage: {voltage}\n")
             f.write(
-                f"# configuration failed in gpio[{channel}], anything after is invalid\n"
+                f"# configuration failed in gpio[{channel}], anything before is invalid\n"
             )
             io = 37
             f.write('gpio_h = [\n')
@@ -220,7 +222,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             f = open(config_filename, "a")
             f.write(f"# voltage: {voltage}\n")
             f.write(
-                f"# configuration failed in gpio[{channel}], anything before is invalid\n"
+                f"# configuration failed in gpio[{channel}], anything after is invalid\n"
             )
             io = 00
             f.write('gpio_l = [\n')
@@ -255,7 +257,7 @@ def choose_test(
         else:
             test_result, channel_failed = run_test(test, chain)
         if test_result:
-            print("Test Passed!")
+            print("**** IO Configuration Test for {} Chain PASSED!!".format(chain))
             test_passed(test, gpio_l, gpio_h, chain)
         else:
             gpio_l, gpio_h = change_config(
@@ -270,7 +272,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.write(f"# voltage: {test.voltage}\n")
     f.write(f"# IO configuration chain was successful\n")
     if chain == "low":
-        led_green.on()
+        low_chain_passed = True
         io = 00
         f.write('gpio_l = [\n')
         for i in gpio_l.array:
@@ -278,7 +280,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
             io = io + 1
         f.write(']\n')
     elif chain == "high":
-        led_red.on()
+        high_chain_passed = True
         io = 37
         f.write('gpio_h = [\n')
         for i in gpio_h.array:
@@ -291,35 +293,54 @@ def test_passed(test, gpio_l, gpio_h, chain):
 def run():
     if config_filename in os.listdir():
         os.remove(config_filename)
+
+    with open(config_filename, "a") as f:
+        f.write(f"H_NONE        = 0  \n")
+        f.write(f"H_DEPENDENT   = 1  \n")
+        f.write(f"H_INDEPENDENT = 2  \n")
+        f.write(f"H_SPECIAL     = 3  \n")
+        f.write(f"H_UNKNOWN     = 4  \n")
+        f.write(f"\n")
+        f.close()
+
     test = Test()
     gpio_l = Gpio()
     gpio_h = Gpio()
 
+    print(" ")
     print("===================================================================")
     print("== Beginning IO configuration test.  Testing LOW IO chain...     ==")
     print("===================================================================")
+    print(" ")
     led_green.blink(short=3, long=2)
     choose_test(test, "config_io_o", gpio_l, gpio_h)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
 
+    print(" ")
     print("===================================================================")
     print("== LOW IO chain test complete.  Testing HIGH IO chain...         ==")
     print("===================================================================")
+    print(" ")
     led_green.blink(short=3, long=4)
     choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
 
+    print(" ")
     print("===================================================================")
     print("== HIGH IO chain test complete. IO configuration test complete.  ==")
     print("===================================================================")
+    print(" ")
+    print(" ")
+    print("*** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
     led_blue.off()
-    print("\n\n** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
-    #sys.exit()
-
-
-#if __name__ == "__main__":
-    #import pyb
-    #sw = pyb.Switch()
-    #sw.callback(run())
+    while True:
+        if low_chain_passed and high_chain_passed:
+            led_green.blink(short=2, long=4)
+        elif low_chain_passed:
+            led_red.blink(short=2)
+            led_green.blink(short=0, long=2)
+        else:
+            led_red.blink(short=2)
+            led_green.blink(short=0, long=4)
