@@ -48,16 +48,16 @@ class Led:
 # used as an activity indicator
 #        - active = flash firmware, checking for IO pulses
 
-led_blue = Led("LED2")
+led_blue = Led("B7")
 
 # used for program start and completion
 
-led_green = Led("LED1")
+led_green = Led("B0")
 
 # red and green are used at program termination
 #       - flashing red = chain configuration failure
 
-led_red = Led("LED3")
+led_red = Led("B14")
 
 
 def run_builder(gpio_l, gpio_h):

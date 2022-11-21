@@ -70,9 +70,9 @@ CARAVEL_REG_WRITE = 0x88
 
 class Led:
     def __init__(self):
-        self.led1 = Pin("LED1")
-        self.led2 = Pin("LED2")
-        self.led3 = Pin("LED3")
+        self.led1 = Pin("B0")
+        self.led2 = Pin("B7")
+        self.led3 = Pin("B14")
         self.led1.on()
         self.led2.off()
         self.led3.on()
@@ -109,9 +109,6 @@ class SPI:
             self.mosi = Pin('SPI5_MISO', mode=Pin.IN)  # PF9 = IO[2] = caravel input
             self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
             self.spi = None
-            # Pin("LED1", Pin.OUT, value=0)
-            # Pin("LED2", Pin.OUT, value=0)
-            # Pin("LED3", Pin.OUT, value=0)
 
     def write(self, buf):
         txdata = bytearray(buf)

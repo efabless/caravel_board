@@ -15,16 +15,28 @@ boot:
 
 # pip install rshell to use this target
 copy: compile
-	#rshell --port ${DEV} repl ~ import machine ~ machine.reset()
-	rshell --port ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /flash
-	rshell --port ${DEV} cp config_io_o.hex /flash
-	rshell --port ${DEV} cp io_config.mpy /flash
-	rshell --port ${DEV} cp main.py /flash
-	rshell --port ${DEV} ls /flash
+	mpremote connect ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy :
+	mpremote connect ${DEV} cp config_io_o.hex :
+	mpremote connect ${DEV} cp io_config.mpy :
+	mpremote connect ${DEV} cp main.py :
+	mpremote connect ${DEV} ls :
+
+#copy: compile
+#	rshell --port ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /flash
+#	rshell --port ${DEV} cp config_io_o.hex /flash
+#	rshell --port ${DEV} cp io_config.mpy /flash
+#	rshell --port ${DEV} cp main.py /flash
+#	rshell --port ${DEV} ls /flash
 
 # copies scripts to nucleo
 copy2: compile
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
+	cp config_io_o.hex ${FLASH}
+	cp main.py ${FLASH}
+	ls ${FLASH}
+
+copy3:
+	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
 	ls ${FLASH}
@@ -59,9 +71,19 @@ repl:
 	mpremote connect ${DEV} repl
 
 # flash micropython firmware image.  this firmware image has been rebuilt to add pins for the Caravel Nucleo Hat
-image:
-	st-flash --connect-under-reset --format ihex write nucleo_firmware.hex
+F746ZG:
+	st-flash --connect-under-reset --format ihex write F746ZG_firmware.hex
+	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
+	cp config_io_o.hex ${FLASH}
+	cp main.py ${FLASH}
+	ls ${FLASH}
 
+F413ZH:
+	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
+	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
+	cp config_io_o.hex ${FLASH}
+	cp main.py ${FLASH}
+	ls ${FLASH}
 
 # ---- targets for building hex file
 
