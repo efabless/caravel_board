@@ -26,6 +26,9 @@ class Led:
             self.led.off()
             pyb.delay(delay_short)
 
+        if long > 0:
+            pyb.delay(delay_long)
+
         for i in range(long):
             self.led.on()
             pyb.delay(delay_long)
