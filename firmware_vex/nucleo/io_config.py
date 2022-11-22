@@ -8,8 +8,7 @@ from machine import Pin
 
 
 config_filename = "gpio_config_def.py"
-high_chain_passed = False
-low_chain_passed = False
+
 
 class Led:
 
@@ -252,10 +251,7 @@ def choose_test(
         test.test_name = test_name
         config_stream = run_builder(gpio_l.array, gpio_h.array)
         exec_data_flash(test, test_name, config_stream)
-        if not high:
-            test_result, channel_failed = run_test(test, chain)
-        else:
-            test_result, channel_failed = run_test(test, chain)
+        test_result, channel_failed = run_test(test, chain)
         if test_result:
             print("**** IO Configuration Test for {} Chain PASSED!!".format(chain))
             test_passed(test, gpio_l, gpio_h, chain)
@@ -263,8 +259,10 @@ def choose_test(
             gpio_l, gpio_h = change_config(
                 channel_failed, gpio_l, gpio_h, test.voltage, test
             )
-        if gpio_h.get_gpio_failed() is True or gpio_l.get_gpio_failed() is True:
+        if gpio_h.get_gpio_failed() or gpio_l.get_gpio_failed():
             break
+
+    return test_result, channel_failed
 
 
 def test_passed(test, gpio_l, gpio_h, chain):
@@ -313,7 +311,7 @@ def run():
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=2)
-    choose_test(test, "config_io_o", gpio_l, gpio_h)
+    low_chain_passed, low_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
@@ -324,13 +322,28 @@ def run():
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=4)
-    choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
+    high_chain_passed, high_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
 
     print(" ")
     print("===================================================================")
     print("== HIGH IO chain test complete. IO configuration test complete.  ==")
     print("===================================================================")
     print(" ")
+    print(" ")
+    print("===================================================================")
+    print("===================================================================")
+
+    if low_chain_passed:
+        print("== LOW chain PASSED.  Valid IO = 0 thur 18.                      ==")
+    else:
+        print("== LOW chain FAILED.  Valid IO = 0 thur {}.                      ==".format(low_chain_io_failed))
+
+    if high_chain_passed:
+        print("== HIGH chain PASSED. Valid IO = 19 thur 37.                     ==")
+    else:
+        print("== HIGH chain FAILED.  Valid IO = {} thur 37.                    ==".format(high_chain_io_failed))
+
+    print("===================================================================")
     print(" ")
     print("*** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
