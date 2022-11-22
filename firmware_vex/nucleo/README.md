@@ -8,7 +8,7 @@ part under test.
 
 ## Setup
 
-####Components
+###Components
 - NUCLEO-F746ZG or NUCLEO-F413ZH
 - Caravel Nucleo Hat
 - One or more Caravel breakout boards with a Caravel part installed
@@ -20,7 +20,7 @@ part under test.
 - package of flexy pins
 - USB micro-B to USB-A cable
 
-####Configuration
+###Configuration
 - Install the flexy pins on in the Nucleo Hat
   - see demonstration video (https://youtu.be/thXuYkltXbo)
 - Install the sockets on the Nucleo board 
