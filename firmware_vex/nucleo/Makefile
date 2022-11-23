@@ -71,7 +71,7 @@ repl:
 	mpremote connect ${DEV} repl
 
 # flash micropython firmware image.  this firmware image has been rebuilt to add pins for the Caravel Nucleo Hat
-F746ZG:
+F746ZG: compile
 	st-flash --connect-under-reset --format ihex write F746ZG_firmware.hex
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o.hex ${FLASH}
