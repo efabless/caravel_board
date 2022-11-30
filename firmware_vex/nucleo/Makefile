@@ -2,8 +2,8 @@
 export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
 #DEV=/dev/cu.usbmodem3103
-#DEV=/dev/cu.usbmodem34203
-DEV=/dev/cu.usbmodem34103
+DEV=/dev/cu.usbmodem34203
+#DEV=/dev/cu.usbmodem34103
 #FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
 #FLASH=/media/efabless/PYBFLASH/
 FLASH=//Volumes/PYBFLASH/
@@ -73,6 +73,7 @@ repl:
 # flash micropython firmware image.  this firmware image has been rebuilt to add pins for the Caravel Nucleo Hat
 F746ZG: compile
 	st-flash --connect-under-reset --format ihex write F746ZG_firmware.hex
+	sleep 5
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
@@ -80,6 +81,7 @@ F746ZG: compile
 
 F413ZH:
 	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
+	sleep 5
 	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
