@@ -17,6 +17,7 @@ Install st-link for flashing micropython firmware
  > brew install stlink
 
  > pip install mpremote
+ > pip install mpy-cross
 
 using mpremote
 https://docs.micropython.org/en/latest/reference/mpremote.html

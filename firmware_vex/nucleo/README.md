@@ -12,26 +12,44 @@ COMPONENTS
 - NUCLEO-F746ZG or NUCLEO-F413ZH
 - Caravel Nucleo Hat
 - One or more Caravel breakout boards with a Caravel part installed
-- receptical connector sockets for the Nucleo board
+- double-row 70-pin headers for the Nucleo board
   - for connectors CN11 and CN12 
+- 70-position 2-row sockets for the Caravel Nucleo Hat
   - SAMTEC P/N SSQ-135-23-G-D
-- double-row pin headers for the Caravel Nucleo Hat
+  - install on BACK
 - two 3-pin headers for J8 & J9 with jumpers
-- package of flexy pins
+- 1 push button switch (SW1)
+- package (100) of FlexyPins
 - USB micro-B to USB-A cable
 
 CONFIGURATION
-- Install the flexy pins on in the Nucleo Hat
+- Install the flexy pins on in the Nucleo Hat (CYAN)
   - see demonstration video (https://youtu.be/thXuYkltXbo)
-- Install the sockets on the Nucleo board 
-- Install the double-row headers and 3-pin headers on Caravel Nucleo Hat
+- Install the sockets on the BACK of the Caravel Nucleo Hat (RED)
+  - pins should be aligned to side of board with USB connector
+- Install 3-pin headers on Caravel Nucleo Hat (MAGENTA)
 - Install the jumpers on J8 and J9 for 'HAT'
-- Plug the Caravel Nucleo Hat in Nucleo board sockets
+- (Optional)  Install push button switch in SW1 (GREEN)
+
+<img src="docs/nucleo_hat_pin_install.jpg" alt="alt text" width="350"/> 
+<img src="docs/hat_w_headers.jpg" alt="alt text" width="350"/>
+
+- Install the double-row headers on the Nucleo board FRONT ( CN11 and CN12 )
+
+<img src="docs/nucleo_board.jpeg" alt="alt text" width="350"/> 
+<img src="docs/nucleo_w_headers.jpg" alt="alt text" width="350"/>
+
+- Plug the Caravel Nucleo Hat in Nucleo board pins 
+  - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
+
+<div align="center"><img src="docs/caravel+nucleo.jpg" alt="alt text" width="500"/></div>
+
 - Install a Caravel Breakout board into the socket on the Caravel Hat board
+  - the Efabless logo should face the USB connector on the Hat
 - Connect the USB to a workstation / laptop
 - Clone the github repo https://github.com/efabless/caravel_board.git
 - Change to the firmware_vex/nucleo directory
-- run 'pip install mpremote'
+- Run `pip install mpremote`
 
 To run the diagnostic
 
