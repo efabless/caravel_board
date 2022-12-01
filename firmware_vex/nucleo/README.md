@@ -31,13 +31,13 @@ CONFIGURATION
 - Install the jumpers on J8 and J9 for 'HAT'
 - (Optional)  Install push button switch in SW1 (GREEN)
 
-<img src="docs/nucleo_hat_pin_install.jpg" alt="alt text" width="350"/> 
-<img src="docs/hat_w_headers.jpg" alt="alt text" width="350"/>
+<div><img src="docs/nucleo_hat_pin_install.jpg" alt="alt text" width="350"/> 
+<img src="docs/hat_w_headers.jpg" alt="alt text" width="350"/></div>
 
 - Install the double-row headers on the Nucleo board FRONT ( CN11 and CN12 )
 
-<img src="docs/nucleo_board.jpeg" alt="alt text" width="350"/> 
-<img src="docs/nucleo_w_headers.jpg" alt="alt text" width="350"/>
+<div><img src="docs/nucleo_board.jpeg" alt="alt text" width="350"/> 
+<img src="docs/nucleo_w_headers.jpg" alt="alt text" width="350"/></div>
 
 - Plug the Caravel Nucleo Hat in Nucleo board pins 
   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
