@@ -13,7 +13,8 @@
 #                             H_DEPENDENT, H_INDEPENDENT, H_NONE, H_SPECIAL, config_h, config_l, gpio_h, gpio_l, \
 #                             C_USER_BIDIR_WPU, C_USER_BIDIR_WPD, C_USER_IN_NP, C_USER_OUT
 
-from gpio_config_def import *
+from gpio_config_def_example import *
+from gpio_config_io_example import *
 
 # ------------------------------------------
 

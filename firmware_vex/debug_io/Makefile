@@ -16,7 +16,7 @@ PATTERN = debug_io
 
 hex:  ${PATTERN:=.hex}
 
-../gpio_config/gpio_config_data.c: ../gpio_config/gpio_config_def.py
+../gpio_config/gpio_config_data.c: ../gpio_config/gpio_config_def_example.py
 	cd ../gpio_config; python3 ../gpio_config/gpio_config_builder.py
 
 %.elf: %.c ../sections.lds ../crt0_vex.S ../gpio_config/gpio_config_data.c
