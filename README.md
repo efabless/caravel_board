@@ -50,4 +50,5 @@ The current evaluation board for Caravel can be found at
 - `vddio` is connected to `3.3V` through J5. The trace has to be cut if it is supplied externally
 
 The most updated breakout board for Caravel can be found at 
-> hardware/caravel_breakout_v2
+> WLCSP hardware/caravel_breakout_v2
+> QFN   hardware/caravel_breakout_QFN
