@@ -44,7 +44,7 @@ flash_pwm: pwm_test.hex
 # ---- Clean ----
 
 clean:
-	rm -f *.elf *.hex *.bin *.vvp *.vcd
+	rm -f *.elf *.hex *.bin *.vvp *. gpio_config_data.c
 
 .PHONY: clean hex all flash
 
