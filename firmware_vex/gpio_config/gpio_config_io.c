@@ -1,4 +1,4 @@
-#include "gpio_config_data.c"
+#include <gpio_config_data.c>
 
 void delay(const int d)
 {
