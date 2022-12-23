@@ -17,6 +17,7 @@ from gpio_config_def import H_NONE, H_DEPENDENT, H_INDEPENDENT, H_SPECIAL, gpio_
 
 NUM_IO = 19
 
+from gpio_config_io import *
 
 def print_header(gpio):
     print("    :", end=" ")
@@ -82,14 +83,38 @@ gpio_l_reg = [
 
 del gpio_l_reg[NUM_IO:]
 
+
+def check_stream(stream, config):
+    result = False
+    stream.reverse()
+    if config == C_MGMT_OUT and stream.bin == '1100000000001':
+        result = True
+    elif config == C_MGMT_IN and stream.bin == '1000000000011':
+        result = True
+    elif config == C_DISABLE and stream.bin == '0000000001011':
+        result = True
+    elif config == C_ALL_ONES and stream.bin == '1111111111111':
+        result = True
+    elif config == C_USER_BIDIR_WPU and stream.bin == '0100000000000':
+        result = True
+    elif config == C_USER_BIDIR_WPD and stream.bin == '0110000000000':
+        result = True
+    elif config == C_USER_IN_NOPULL and stream.bin == '0010000000010':
+        result = True
+    elif config == C_USER_OUT and stream.bin == '0110000000010':
+        result = True
+    # else:
+    #     s = stream + '1100000000000'
+    return result
+
 # ------------------------------------------
 
-print_header(gpio_h)
-
-print("   0:", end=" ")
-for x in gpio_h_reg:
-    print(x.bin, end=" ")
-print()
+# print_header(gpio_h)
+#
+# print("   0:", end=" ")
+# for x in gpio_h_reg:
+#     print(x.bin, end=" ")
+# print()
 
 clock = 1
 n_clocks = len(config_data_h)
@@ -103,7 +128,7 @@ for k in range(len(config_data_h)):
     # from msb to lsb
     # for j in reversed(range(len(config_data_h[k]))):
     # while clock <= n_clocks:
-    print(" {:3d}:".format(clock), end=" ")
+    # print(" {:3d}:".format(clock), end=" ")
     clock += 1
     saved_bit = last_bit = prev_last_bit = 0
 
@@ -136,22 +161,22 @@ for k in range(len(config_data_h)):
     # gpio_h_reg[0][0] = config_data_h[k][j]
     gpio_h_reg[0][0] = int(config_data_h[k])
 
-    for x in gpio_h_reg:
-        print(x.bin, end=" ")
-    print()
+    # for x in gpio_h_reg:
+    #     print(x.bin, end=" ")
+    # print()
 
-print_header(gpio_h)
-
-print()
+# print_header(gpio_h)
+#
+# print()
 
 # ------------------------------------------
 
-print_header(gpio_l)
-
-print("   0:", end=" ")
-for x in gpio_l_reg:
-    print(x.bin, end=" ")
-print()
+# print_header(gpio_l)
+#
+# print("   0:", end=" ")
+# for x in gpio_l_reg:
+#     print(x.bin, end=" ")
+# print()
 
 clock = 1
 n_clocks = len(config_data_l)
@@ -165,7 +190,7 @@ for k in range(len(config_data_l)):
     # from msb to lsb
     # for j in reversed(range(len(config_data_h[k]))):
     # while clock <= n_clocks:
-    print(" {:3d}:".format(clock), end=" ")
+    # print(" {:3d}:".format(clock), end=" ")
     clock += 1
     saved_bit = last_bit = prev_last_bit = 0
 
@@ -198,8 +223,39 @@ for k in range(len(config_data_l)):
     # gpio_h_reg[0][0] = config_data_h[k][j]
     gpio_l_reg[0][0] = int(config_data_l[k])
 
-    for x in gpio_l_reg:
-        print(x.bin, end=" ")
-    print()
+#     for x in gpio_l_reg:
+#         print(x.bin, end=" ")
+#     print()
+#
+# print_header(gpio_l)
 
-print_header(gpio_l)
+# --------------------------------------------------------------------
+
+# check desired IO against simulation
+error = False
+for i in range(len(gpio_l_reg)):
+    if not check_stream(gpio_l_reg[i], config_l[i]):
+        print("FAIL: *** Low gpio does not match ***")
+        print_header(gpio_l)
+        print("   0:", end=" ")
+        for x in gpio_l_reg:
+            print(x.bin, end=" ")
+        print()
+        error = True
+
+if not error:
+    print("PASS: Low gpio matches.")
+
+error = False
+for i in range(len(gpio_h_reg)):
+    if not check_stream(gpio_h_reg[i], config_h[i]):
+        print("FAIL: *** High gpio does not match ***")
+        print("   0:", end=" ")
+        print_header(gpio_h)
+        for x in gpio_h_reg:
+            print(x.bin, end=" ")
+        print()
+        error = True
+
+if not error:
+    print("PASS: High gpio matches.")

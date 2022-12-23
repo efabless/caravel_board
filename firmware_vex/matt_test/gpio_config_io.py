@@ -1,4 +1,3 @@
-
 # number of IO in the configuration stream for each chain
 NUM_IO = 19
 
@@ -60,4 +59,3 @@ config_l = [
 ]
 
 del config_l[NUM_IO:]
-

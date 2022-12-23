@@ -20,6 +20,12 @@ hex:  ${PATTERN:=.hex}
 gpio_config_data.c: gpio_config_def.py gpio_config_io.py
 	python3 ../gpio_config/gpio_config_builder.py
 
+sim: gpio_config_def.py gpio_config_io.py gpio_config_data.c
+	python3 ../gpio_config/gpio_config_simulator.py
+
+check: gpio_config_def.py gpio_config_io.py gpio_config_data.c
+	python3 ../gpio_config/gpio_config_checker.py
+
 %.elf: %.c ../sections.lds ../crt0_vex.S gpio_config_data.c
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc $(INCLUDES) -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D $@ > $*.lst
@@ -45,7 +51,7 @@ flash_pwm: pwm_test.hex
 # ---- Clean ----
 
 clean:
-	rm -f *.elf *.hex *.bin *.vvp *. gpio_config_data.c
+	rm -f *.elf *.hex *.bin *.vvp *. gpio_config_data.*
 
 .PHONY: clean hex all flash
 
