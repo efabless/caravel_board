@@ -6,6 +6,14 @@ for the MPW-2, MPW-3 and related shuttles.
 The diagnostic runs on a STM Nucleo development board in combination with a Caravel Hat board that hosts the Caravel 
 part under test.
 
+The current version of this document can be found at
+
+https://github.com/efabless/caravel_board/blob/main/firmware_vex/nucleo/README.md
+
+or scan the QR code...
+
+<img src="docs/qr-code.png" alt="qr-code" style="width:200px;"/>
+
 ## Setup
 
 COMPONENTS

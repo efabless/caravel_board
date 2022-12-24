@@ -81,7 +81,7 @@ F746ZG: compile
 
 F413ZH:
 	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
-	sleep 5
+	sleep 7
 	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
