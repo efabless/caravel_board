@@ -25,10 +25,6 @@ COMPONENTS
 
 CONFIGURATION
 - Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo.
-
-<div><img src="docs/nucleo_hat_pin_install.jpg" alt="alt text" width="300"/> 
-<img src="docs/hat_w_headers.jpg" alt="alt text" width="300"/></div>
-
 - Plug the Caravel Nucleo Hat in Nucleo board pins 
   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
 
@@ -37,7 +33,7 @@ CONFIGURATION
 
 - Install a Caravel Breakout board into the socket on the Caravel Hat board
   - the Efabless logo should face the USB connector on the Hat
-- Connect the USB to a workstation / laptop
+- Connect the USB cable from the connector CN1 on the Nucleo to a workstation / laptop
 - Clone the github repo https://github.com/efabless/caravel_board.git
 - Change to the firmware_vex/nucleo directory
 - Run `pip install mpremote`
