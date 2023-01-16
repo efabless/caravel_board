@@ -27,6 +27,8 @@ CONFIGURATION
 - Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo.
 - Plug the Caravel Nucleo Hat in Nucleo board pins 
   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
+  - IMPORTANT: the FlexyPin socket allows you to swap breakout boards with different parts.  You do not need to solder any pins.
+  - Be careful not to bend a pin when inserting the breakout board.  If one of the pins bend, use needle-nose pliers to re-straighten it.
 - Install a Caravel Breakout board into the socket on the Caravel Hat board
   - the Efabless logo should face the USB connector on the Hat
 - Connect the USB cable from the connector CN1 on the Nucleo to a workstation / laptop
