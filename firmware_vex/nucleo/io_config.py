@@ -348,7 +348,7 @@ def run():
 
     print("===================================================================")
     print(" ")
-    print("*** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
+    print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
     led_blue.off()
     while True:
