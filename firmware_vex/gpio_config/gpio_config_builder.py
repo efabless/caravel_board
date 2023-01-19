@@ -46,7 +46,8 @@ def build_stream_dependent(stream, config):
         # s = stream + '0010000000010'
         s = stream + '0010000000011'
     elif config == C_USER_OUT:
-        s = stream + '0110000000010'
+        # s = stream + '0110000000010'
+        s = stream + '1100000000000'
     else:
         s = stream + '1100000000000'
     return s
@@ -70,7 +71,8 @@ def build_stream_independent(stream, config):
     elif config == C_USER_IN_NOPULL:
         s = stream + '001000000001'
     elif config == C_USER_OUT:
-        s = stream + '00110000000010'
+        # s = stream + '00110000000010'
+        s = stream + '110000000000'
     else:
         s = stream + '110000000000'
     return s
@@ -94,7 +96,8 @@ def build_stream_none(stream, config):
     elif config == C_USER_IN_NOPULL:
         s = stream + '0010000000010'
     elif config == C_USER_OUT:
-        s = stream + '0110000000010'
+        # s = stream + '0110000000010'
+        s = stream + '1100000000000'
     else:
         s = stream + '1100000000000'
     return s
