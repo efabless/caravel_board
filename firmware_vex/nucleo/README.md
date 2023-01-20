@@ -44,9 +44,6 @@ INSTALLATION
 
 ```bash
 git clone https://github.com/efabless/caravel_board.git
-
-cd caravel_board/firmware_vex/nucleo
-
 pip3 install mpremote
 ```
 
@@ -62,6 +59,7 @@ This should output the device name which you can edit at the top of the Makefile
 RUNNING THE DIAGNOSTIC
 
 ```bash
+cd caravel_board/firmware_vex/nucleo
 make run
 ```
 
