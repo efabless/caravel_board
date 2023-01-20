@@ -50,8 +50,6 @@ cd caravel_board/firmware_vex/nucleo
 
 pip3 install mpremote
 
-cd firmware_vex/nucleo
-
 make run
 ```
 
