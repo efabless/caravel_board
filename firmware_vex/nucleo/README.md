@@ -40,8 +40,7 @@ CONFIGURATION
 <div align="left" style="margin-left: 30px; margin-bottom: 30px;"><img src="docs/caravel+nucleo_2.jpg" alt="alt text" width="200"/>
 <img src="docs/caravel+nucleo.jpg" alt="alt text" width="445"/></div>
 
-
-RUNNING THE DIAGNOSTIC
+INSTALLATION
 
 ```bash
 git clone https://github.com/efabless/caravel_board.git
@@ -49,7 +48,20 @@ git clone https://github.com/efabless/caravel_board.git
 cd caravel_board/firmware_vex/nucleo
 
 pip3 install mpremote
+```
 
+FINDING YOUR DEVICE
+
+```bash
+mpremote connect list
+```
+
+This should output the device name which you can edit at the top of the Makefile.
+
+
+RUNNING THE DIAGNOSTIC
+
+```bash
 make run
 ```
 
