@@ -337,18 +337,18 @@ def run():
     print("===================================================================")
 
     if low_chain_passed:
-        print("== LOW chain PASSED.   Valid IO = 0 thur 18.                      ==")
+        print("== LOW chain PASSED.   Valid IO = 0 thru 18.                      ==")
     else:
-        print("== LOW chain FAILED.   Valid IO = 0 thur {:02}.                      ==".format(low_chain_io_failed))
+        print("== LOW chain FAILED.   Valid IO = 0 thru {:02}.                      ==".format(low_chain_io_failed))
 
     if high_chain_passed:
-        print("== HIGH chain PASSED.  Valid IO = 19 thur 37.                     ==")
+        print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
     else:
-        print("== HIGH chain FAILED.  Valid IO = {:02} thur 37.                    ==".format(high_chain_io_failed))
+        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed))
 
     print("===================================================================")
     print(" ")
-    print("*** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
+    print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
     led_blue.off()
     while True:
