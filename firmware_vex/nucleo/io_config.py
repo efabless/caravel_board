@@ -344,7 +344,7 @@ def run():
     if high_chain_passed:
         print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
     else:
-        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed-1))
+        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed+1))
 
     print("===================================================================")
     print(" ")
