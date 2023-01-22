@@ -59,11 +59,13 @@ The test will begin with the green LED on the Nucleo flashing 5 times.
 
 When the test concludes, the green and red leds will be as follows:
 
-| GREEN            | RED    | STATUS                                                   |
-|------------------|--------|----------------------------------------------------------|
-| 2 short + 4 long | off    | Full Success    - BOTH IO chains configured successfully |
-| 2 short          | 2 long | Partial Success - LOW IO chains configured successfully  |
-| 2 short          | 4 long | Partial Success - HIGH IO chains configured successfully |
+| GREEN            | RED              | STATUS                                                   |
+|------------------|------------------|----------------------------------------------------------|
+| 2 short + 4 long | off              | Full Success    - BOTH IO chains configured successfully |
+| 2 long           | 2 short          | Partial Success - LOW IO chains configured successfully  |
+| 4 long           | 2 short          | Partial Success - HIGH IO chains configured successfully |
+| off              | 2 short + 4 long | Failed - BOTH IO chains failed to configured fully       |
+| off              | solid            | Test failed to complete                                  |
 
 If the test completed for the part, run the following to retrieve the configuration file.  The file will indicated the 
 IO that were successfully configured.  Successfully configured IO can be used for this part for firmware routines.
