@@ -339,12 +339,12 @@ def run():
     if low_chain_passed:
         print("== LOW chain PASSED.   Valid IO = 0 thur 18.                      ==")
     else:
-        print("== LOW chain FAILED.   Valid IO = 0 thur {:02}.                      ==".format(low_chain_io_failed))
+        print("== LOW chain FAILED.   Valid IO = 0 thur {:02}.                      ==".format(low_chain_io_failed-1))
 
     if high_chain_passed:
         print("== HIGH chain PASSED.  Valid IO = 19 thur 37.                     ==")
     else:
-        print("== HIGH chain FAILED.  Valid IO = {:02} thur 37.                    ==".format(high_chain_io_failed))
+        print("== HIGH chain FAILED.  Valid IO = {:02} thur 37.                    ==".format(high_chain_io_failed-1))
 
     print("===================================================================")
     print(" ")
@@ -357,6 +357,8 @@ def run():
         elif low_chain_passed:
             led_red.blink(short=2)
             led_green.blink(short=0, long=2)
-        else:
+        elif high_chain_passed:
             led_red.blink(short=2)
             led_green.blink(short=0, long=4)
+        else:
+            led_red.blink(short=2, long=4)
