@@ -30,7 +30,7 @@ copy: compile
 #	rshell --port ${DEV} ls /flash
 
 # copies scripts to nucleo
-copy2: compile
+copy2: compile check_volume
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
@@ -75,7 +75,7 @@ poweron:
 	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.7; test.power_up_sequence()"
 
 # flash firmware on caravel hat while mounted to Nucleo
-flash:
+flash: check_volume
 ifndef FILE
 	$(error FILE is undefined, please export it before running make flash)
 else
@@ -104,6 +104,12 @@ F413ZH:
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
 	ls ${FLASH}
+
+check_volume:
+	@if [ ! -d "$(FLASH)" ]; then \
+		echo "Nucleo volume not found.  Please export FLASH=/<my_path>/PYBFLASH"; \
+		exit 1; \
+	fi
 
 # ---- targets for building hex file
 
