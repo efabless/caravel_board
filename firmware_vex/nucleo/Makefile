@@ -7,6 +7,7 @@ export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
 #FLASH=/media/efabless/PYBFLASH/
 FLASH?=//Volumes/PYBFLASH/
+DEV=$(shell mpremote connect list | grep STLink | cut -f 1 -d ' ')
 
 
 boot:
@@ -121,7 +122,7 @@ check_volume:
 
 check_device:
 ifndef DEV
-	export DEV=$(mpremote connect list | grep STLink | cut -f 1 -d ' ')
+		$(error "Nucleo device file not found")
 endif
 
 # ---- targets for building hex file

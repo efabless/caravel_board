@@ -132,7 +132,7 @@ def exec_flash(test, test_name):
 
 
 def exec_data_flash(test, test_name, config_stream):
-    print("\n*** flashing Caravel")
+    print("*** flashing Caravel")
     test.apply_reset()
     test.powerup_sequence()
     erase()
@@ -341,6 +341,7 @@ def run_sanity_check():
 
     gpio_l = Gpio()
     gpio_h = Gpio()
+
     print(" ")
     print("===================================================================")
     print("== Beginning SANITY for LOW IO chain...                          ==")
@@ -348,6 +349,7 @@ def run_sanity_check():
     print(" ")
     led_green.blink(short=3, long=2)
     low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h)
+
     gpio_l = Gpio()
     gpio_h = Gpio()
 
@@ -358,6 +360,7 @@ def run_sanity_check():
     print(" ")
     led_green.blink(short=3, long=4)
     high_chain_passed, high_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h, "high", True)
+
     print(" ")
     print("===================================================================")
     print("== HIGH IO chain test complete. SANITY test complete.            ==")

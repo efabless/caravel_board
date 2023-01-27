@@ -85,4 +85,15 @@ make get_config
 
 ## Using the Configuration File
 
+RUN A SANITY CHECK
+
+The following will run a sanity check test using the gpio_config_def.py produced from the diagnostic above.  The
+gpio_config_def.py file is stored from the 'make get_config' run above and local on your desktop. The file is specific
+to the part you ran the diagnostic with. Each part will have a different gpio_config_def.py file.
+
+To run the sanity check:
+```bash
+cd caravel_board/firmware_vex/nucleo
+FILE=./gpio_config_def.py make sanity_check
+```
 ... coming soon
