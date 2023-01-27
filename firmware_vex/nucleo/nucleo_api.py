@@ -130,11 +130,11 @@ class Test:
         if self.voltage == 1.6:
             self.supply.write_1v8(0x1f)
         time.sleep(1)
-        self.en_1v8.off()
         self.en_3v3.off()
+        self.en_1v8.off()
         time.sleep(1)
-        self.en_3v3.on()
         self.en_1v8.on()
+        self.en_3v3.on()
         time.sleep(1)
 
     def turn_off_devices(self):
