@@ -53,7 +53,8 @@ FINDING YOUR DEVICE
 mpremote connect list
 ```
 
-This should output the device name which you can edit at the top of the Makefile.
+This will verify you can see the Nucleo board through mpremote.  The makefile 
+will automatically find and set the device.
 
 
 RUNNING THE DIAGNOSTIC
