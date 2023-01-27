@@ -99,7 +99,7 @@ TOOLCHAIN_PATH=/usr/local/bin/
 TOOLCHAIN_PREFIX=riscv64-unknown-elf
 #TOOLCHAIN_PREFIX=riscv32-unknown-linux-gnu
 
-SED_CMD=sed -i '.orig' -e
+SED_CMD=sed -i'.orig' -e
 #SED_CMD=sed -ie
 
 .SUFFIXES:
