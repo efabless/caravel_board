@@ -271,6 +271,7 @@ def choose_test(
 
     return test_result, channel_failed
 
+
 def sanity_check(
     test,
     test_name,
@@ -279,11 +280,6 @@ def sanity_check(
     chain="low",
     high=False,
 ):
-    print(" ")
-    print("===================================================================")
-    print("==                       STARTING SANITY CHECK                   ==")
-    print("===================================================================")
-    print(" ")
     import gpio_config_def
     test_result = False
     channel_failed_h = None
@@ -314,6 +310,8 @@ def sanity_check(
             print("**** SANITY CHECK FOR HIGH CHAIN FAILED!!")
             break
 
+    return test_result, channel_failed
+
 
 def test_passed(test, gpio_l, gpio_h, chain):
     f = open(config_filename, "a")
@@ -337,18 +335,63 @@ def test_passed(test, gpio_l, gpio_h, chain):
         f.write(']\n')
     f.close()
 
-def run_sanity_check(hex_file_name):
+
+def run_sanity_check():
     test = Test()
+
     gpio_l = Gpio()
     gpio_h = Gpio()
-    sanity_check(test, hex_file_name, gpio_l, gpio_h)
+    print(" ")
+    print("===================================================================")
+    print("== Beginning SANITY for LOW IO chain...                          ==")
+    print("===================================================================")
+    print(" ")
+    led_green.blink(short=3, long=2)
+    low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io", gpio_l, gpio_h)
     gpio_l = Gpio()
     gpio_h = Gpio()
-    sanity_check(test, hex_file_name, gpio_l, gpio_h, "high", True)
+
+    print(" ")
+    print("===================================================================")
+    print("== LOW IO chain test complete.  Testing HIGH IO chain...         ==")
+    print("===================================================================")
+    print(" ")
+    led_green.blink(short=3, long=4)
+    high_chain_passed, high_chain_io_failed = sanity_check(test, hex_file_name, gpio_l, gpio_h, "high", True)
+    print(" ")
+    print("===================================================================")
+    print("== HIGH IO chain test complete. SANITY test complete.            ==")
+    print("===================================================================")
+    print(" ")
+    print(" ")
+    print("===================================================================")
+
+    if low_chain_passed:
+        print("== LOW chain PASSED.   Valid IO = 0 thru 18.                      ==")
+    else:
+        print("== LOW chain FAILED.   Valid IO = 0 thru {:02}.                      ==".format(low_chain_io_failed-1))
+
+    if high_chain_passed:
+        print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
+    else:
+        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed+1))
+
+    print("===================================================================")
+
     test.turn_off_devices()
     led_blue.off()
     while True:
-        led_green.on()
+        if low_chain_passed and high_chain_passed:
+            led_green.blink(short=2, long=4)
+        elif low_chain_passed:
+            led_red.blink(short=2)
+            led_green.blink(short=0, long=2)
+        elif high_chain_passed:
+            led_red.blink(short=2)
+            led_green.blink(short=0, long=4)
+        else:
+            led_red.blink(short=2, long=4)
+
 
 def run():
     if config_filename in os.listdir():

@@ -23,6 +23,7 @@ H_NONE = 0
 H_DEPENDENT = 1
 H_INDEPENDENT = 2
 H_SPECIAL = 3
+H_UNKNOWN = 4
 
 # defines these values for IO configurations
 C_MGMT_OUT = 0
@@ -188,8 +189,12 @@ def correct_dd_holds(stream, bpos):
 # ------------------------------------------
 
 
-def build_config(arg_gpio_h, arg_gpio_l):
-    gpio_h, gpio_l = setup(arg_gpio_h, arg_gpio_l)
+def build_config(arg_gpio_h, arg_gpio_l, flag):
+    if flag:
+        gpio_h, gpio_l = setup(arg_gpio_h, arg_gpio_l)
+    else:
+        gpio_h = arg_gpio_h
+        gpio_l = arg_gpio_l
     clock = 1
     stream_h = ""
     stream_l = ""
@@ -203,7 +208,7 @@ def build_config(arg_gpio_h, arg_gpio_l):
         # build upper IO stream
         if gpio_h[k][1] == H_DEPENDENT:
             stream_h = build_stream_dependent(stream_h, config_h[k])
-        elif gpio_h[k][1] == H_INDEPENDENT:
+        elif gpio_h[k][1] == H_INDEPENDENT or gpio_h[k][1] == H_UNKNOWN:
             stream_h = build_stream_independent(stream_h, config_h[k])
         elif gpio_h[k][1] == H_SPECIAL:
             stream_h = build_stream_special(stream_h, config_h[k])

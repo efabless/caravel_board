@@ -68,6 +68,16 @@ run: check_device
 get_config: check_device
 	mpremote connect ${DEV} cp :gpio_config_def.py .
 
+# run a sanity check using the gpio_config_def.py file on the nucleo
+sanity_check: check_device
+ifndef FILE
+	$(error FILE is undefined, please export it before running make flash)
+else
+	cp ${FILE} ${FLASH}/gpio_config_def.py
+	sleep 2
+	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check()"
+endif
+
 # power up the caravel hat while mounted to Nucleo
 poweron: check_device
 	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.7; test.powerup_sequence()"
