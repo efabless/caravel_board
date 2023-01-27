@@ -347,7 +347,7 @@ def run_sanity_check():
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=2)
-    low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io", gpio_l, gpio_h)
+    low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h)
     gpio_l = Gpio()
     gpio_h = Gpio()
 
@@ -357,7 +357,7 @@ def run_sanity_check():
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=4)
-    high_chain_passed, high_chain_io_failed = sanity_check(test, hex_file_name, gpio_l, gpio_h, "high", True)
+    high_chain_passed, high_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h, "high", True)
     print(" ")
     print("===================================================================")
     print("== HIGH IO chain test complete. SANITY test complete.            ==")
