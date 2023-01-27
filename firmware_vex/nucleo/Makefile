@@ -1,14 +1,12 @@
 
 export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
-#DEV=/dev/cu.usbmodem3103
-DEV=/dev/cu.usbmodem33203
-#DEV=/dev/cu.usbmodem34103
+# --- automatically set ---
+#DEV=/dev/cu.usbmodem33203
 #DEV=/dev/ttyACM0
-#FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
+
 #FLASH=/media/efabless/PYBFLASH/
-FLASH=//Volumes/PYBFLASH/
-NUCLEO_CMD=
+FLASH?=//Volumes/PYBFLASH/
 
 
 boot:
@@ -56,26 +54,26 @@ compile:
 	mpy-cross boot.py
 
 # runs script from the local filesystem
-reset:
+reset: check_device
 	#mpremote connect ${DEV} soft-reset
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
 # run io_config test to characterize a new part
 # alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 # alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
-run:
+run: check_device
 	mpremote connect ${DEV} exec "import io_config; io_config.run()"
 
 # copy the definition file for a part after running io_config
-get_config:
+get_config: check_device
 	mpremote connect ${DEV} cp :gpio_config_def.py .
 
 # power up the caravel hat while mounted to Nucleo
-poweron:
-	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.7; test.power_up_sequence()"
+poweron: check_device
+	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.7; test.powerup_sequence()"
 
 # flash firmware on caravel hat while mounted to Nucleo
-flash: check_volume
+flash: check_volume check_device
 ifndef FILE
 	$(error FILE is undefined, please export it before running make flash)
 else
@@ -110,6 +108,11 @@ check_volume:
 		echo "Nucleo volume not found.  Please export FLASH=/<my_path>/PYBFLASH"; \
 		exit 1; \
 	fi
+
+check_device:
+ifndef DEV
+	export DEV=$(mpremote connect list | grep STLink | cut -f 1 -d ' ')
+endif
 
 # ---- targets for building hex file
 
