@@ -65,7 +65,11 @@ led_red = Led("B14")
 def run_builder(gpio_l, gpio_h):
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    return gpio_config_builder.build_config(gpio_h, gpio_l)
+    return gpio_config_builder.build_config(gpio_h, gpio_l, True)
+
+
+def run_builder_sanity(gpio_l, gpio_h):
+    return gpio_config_builder.build_config(gpio_h, gpio_l, False)
 
 
 def data_flash(test_name, hex_data, first_line=1):
@@ -267,6 +271,49 @@ def choose_test(
 
     return test_result, channel_failed
 
+def sanity_check(
+    test,
+    test_name,
+    gpio_l,
+    gpio_h,
+    chain="low",
+    high=False,
+):
+    print(" ")
+    print("===================================================================")
+    print("==                       STARTING SANITY CHECK                   ==")
+    print("===================================================================")
+    print(" ")
+    import gpio_config_def
+    test_result = False
+    channel_failed_h = None
+    channel_failed_l = None
+    while not test_result:
+        test.test_name = test_name
+        config_stream = run_builder_sanity(gpio_config_def.gpio_l, gpio_config_def.gpio_h)
+        exec_data_flash(test, test_name, config_stream)
+        test_result, channel_failed = run_test(test, chain)
+        for i in gpio_config_def.gpio_h:
+            if i[1] == 4:
+                channel_failed_h = int(i[0].split('[')[1].split(']')[0])
+                break
+        for i in gpio_config_def.gpio_l:
+            if i[1] == 4:
+                channel_failed_l = int(i[0].split('[')[1].split(']')[0])
+                break
+        if chain == "low" and channel_failed == channel_failed_l:
+            print("**** SANITY CHECK FOR LOW CHAIN PASSED!!")
+            break
+        elif chain == "low" and channel_failed != channel_failed_l:
+            print("**** SANITY CHECK FOR LOW CHAIN FAILED!!")
+            break
+        elif chain == "high" and channel_failed == channel_failed_h:
+            print("**** SANITY CHECK FOR HIGH CHAIN PASSED!!")
+            break
+        elif chain == "high" and channel_failed != channel_failed_h:
+            print("**** SANITY CHECK FOR HIGH CHAIN FAILED!!")
+            break
+
 
 def test_passed(test, gpio_l, gpio_h, chain):
     f = open(config_filename, "a")
@@ -290,6 +337,18 @@ def test_passed(test, gpio_l, gpio_h, chain):
         f.write(']\n')
     f.close()
 
+def run_sanity_check(hex_file_name):
+    test = Test()
+    gpio_l = Gpio()
+    gpio_h = Gpio()
+    sanity_check(test, hex_file_name, gpio_l, gpio_h)
+    gpio_l = Gpio()
+    gpio_h = Gpio()
+    sanity_check(test, hex_file_name, gpio_l, gpio_h, "high", True)
+    test.turn_off_devices()
+    led_blue.off()
+    while True:
+        led_green.on()
 
 def run():
     if config_filename in os.listdir():
