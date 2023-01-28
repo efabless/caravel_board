@@ -299,12 +299,14 @@ def sanity_check(
                 break
         if chain == "low" and channel_failed == channel_failed_l:
             print("**** SANITY CHECK FOR LOW CHAIN PASSED!!")
+            test_result = True
             break
         elif chain == "low" and channel_failed != channel_failed_l:
             print("**** SANITY CHECK FOR LOW CHAIN FAILED!!")
             break
         elif chain == "high" and channel_failed == channel_failed_h:
             print("**** SANITY CHECK FOR HIGH CHAIN PASSED!!")
+            test_result = True
             break
         elif chain == "high" and channel_failed != channel_failed_h:
             print("**** SANITY CHECK FOR HIGH CHAIN FAILED!!")
