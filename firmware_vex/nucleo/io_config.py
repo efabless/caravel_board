@@ -437,6 +437,7 @@ def run(part_name="** unspecified **"):
     led_green.blink(short=3, long=2)
     low_chain_passed, low_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h)
 
+    # don't reset LOW chain IO config when testing HIGH chain
     # gpio_l = Gpio()
     # gpio_h = Gpio()
 
