@@ -30,6 +30,7 @@ SECTIONS
 		KEEP(*(.text.isr))
 
 		*(.text .stub .text.* .gnu.linkonce.t.*)
+		. = ALIGN(256);
 		_etext = .;
 	} > flash
 
@@ -39,7 +40,7 @@ SECTIONS
 		_frodata = .;
 		*(.rodata .rodata.* .gnu.linkonce.r.*)
 		*(.rodata1)
-		. = ALIGN(8);
+		. = ALIGN(256);
 		_erodata = .;
 	} > flash
 

@@ -41,6 +41,7 @@ extern uint32_t flashio_worker_end;
 #define reg_uart_data   (*(volatile uint32_t*) CSR_UART_RXTX_ADDR)
 #define reg_uart_txfull   (*(volatile uint32_t*) CSR_UART_TXFULL_ADDR)
 #define reg_uart_enable (*(volatile uint32_t*) CSR_UART_ENABLED_OUT_ADDR)
+#define reg_uart_irq_en    (*(volatile uint32_t*) CSR_UART_EV_ENABLE_ADDR) // ADDED
 
 // DEBUG (0x2000_0000)
 //#define reg_uart_clkdiv (*(volatile uint32_t*)0x20000000)
@@ -168,10 +169,11 @@ extern uint32_t flashio_worker_end;
 #define FLASH_ENABLE		0x80000000
 
 // Counter-Timer 0 Configuration
-#define reg_timer0_config (*(volatile uint32_t*) CSR_TIMER0_EN_ADDR)
+#define reg_timer0_config (*(volatile uint32_t*) CSR_TIMER0_EN_ADDR) // this is enable not config
 #define reg_timer0_update  (*(volatile uint32_t*) CSR_TIMER0_UPDATE_VALUE_ADDR)
 #define reg_timer0_value  (*(volatile uint32_t*) CSR_TIMER0_VALUE_ADDR)
 #define reg_timer0_data   (*(volatile uint32_t*) CSR_TIMER0_LOAD_ADDR)
+#define reg_timer0_data_periodic  (*(volatile uint32_t*) CSR_TIMER0_RELOAD_ADDR)
 #define reg_timer0_irq_en   (*(volatile uint32_t*) CSR_TIMER0_EV_ENABLE_ADDR)
 
 // Bit fields for Counter-timer configuration
@@ -221,6 +223,13 @@ extern uint32_t flashio_worker_end;
 // Bit fields for reg_irq_source
 #define IRQ7_SOURCE 0x01
 #define IRQ8_SOURCE 0x02
+// Added IRQ bit enable
+#define reg_user0_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_0_EV_ENABLE_ADDR)
+#define reg_user1_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_1_EV_ENABLE_ADDR)
+#define reg_user2_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_2_EV_ENABLE_ADDR)
+#define reg_user3_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_3_EV_ENABLE_ADDR)
+#define reg_user4_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_4_EV_ENABLE_ADDR) // mprj[7]
+#define reg_user5_irq_en   (*(volatile uint32_t*) CSR_USER_IRQ_5_EV_ENABLE_ADDR)
 
 // Individual bit fields for the GPIO pad control
 #define MGMT_ENABLE	      0x0001
@@ -235,46 +244,30 @@ extern uint32_t flashio_worker_end;
 #define TRIPPOINT_SEL	  0x0200
 #define DIGITAL_MODE_MASK 0x1c00
 
-//// Useful GPIO mode values
-////#define GPIO_MODE_MGMT_STD_INPUT_NOPULL    0x0403
-//#define GPIO_MODE_MGMT_STD_INPUT_PULLDOWN  0x0803
-//#define GPIO_MODE_MGMT_STD_INPUT_PULLUP	   0x0c03
-//#define GPIO_MODE_MGMT_STD_OUTPUT	       0x1809
-//#define GPIO_MODE_MGMT_STD_BIDIRECTIONAL   0x1801
-////#define GPIO_MODE_MGMT_STD_ANALOG   	   0x000b
-//
-//#define GPIO_MODE_USER_STD_INPUT_NOPULL	   0x0402
-//#define GPIO_MODE_USER_STD_INPUT_PULLDOWN  0x0802
-//#define GPIO_MODE_USER_STD_INPUT_PULLUP	   0x0c02
-//#define GPIO_MODE_USER_STD_OUTPUT	       0x1808
-//#define GPIO_MODE_USER_STD_BIDIRECTIONAL   0x1800
-//#define GPIO_MODE_USER_STD_OUT_MONITORED   0x1802
-////#define GPIO_MODE_USER_STD_ANALOG   	   0x000a
-//
-//
-//#define GPIO_MODE_MGMT_STD_INPUT_NOPULL	    0x1003
-////#define GPIO_MODE_MGMT_STD_OUTPUT	        0x1809
-//#define GPIO_MODE_MGMT_STD_ANALOG	        0x100b
-//
-////#define GPIO_MODE_USER_STD_INPUT_NOPULL	    0x0402
-////#define GPIO_MODE_USER_STD_OUTPUT	        0x0c00
-//#define GPIO_MODE_USER_STD_ANALOG	        0x0000
-
 // Useful GPIO mode values
-#define GPIO_MODE_MGMT_STD_INPUT_NOPULL    0x0403
-#define GPIO_MODE_MGMT_STD_INPUT_PULLDOWN  0x0c01
-#define GPIO_MODE_MGMT_STD_INPUT_PULLUP	   0x0801
-#define GPIO_MODE_MGMT_STD_OUTPUT	       0x1809
+//#define GPIO_MODE_MGMT_STD_INPUT_NOPULL    0x0403
+#define GPIO_MODE_MGMT_STD_INPUT_PULLDOWN  0x0803
+#define GPIO_MODE_MGMT_STD_INPUT_PULLUP	   0x0c03
+//#define GPIO_MODE_MGMT_STD_OUTPUT	       0x1809
 #define GPIO_MODE_MGMT_STD_BIDIRECTIONAL   0x1801
-#define GPIO_MODE_MGMT_STD_ANALOG   	   0x000b
+//#define GPIO_MODE_MGMT_STD_ANALOG   	   0x000b
 
-#define GPIO_MODE_USER_STD_INPUT_NOPULL	   0x0402
-#define GPIO_MODE_USER_STD_INPUT_PULLDOWN  0x0c00
-#define GPIO_MODE_USER_STD_INPUT_PULLUP	   0x0800
+//#define GPIO_MODE_USER_STD_INPUT_NOPULL	   0x0402
+#define GPIO_MODE_USER_STD_INPUT_PULLDOWN  0x0802
+#define GPIO_MODE_USER_STD_INPUT_PULLUP	   0x0c02
 #define GPIO_MODE_USER_STD_OUTPUT	       0x1808
 #define GPIO_MODE_USER_STD_BIDIRECTIONAL   0x1800
 #define GPIO_MODE_USER_STD_OUT_MONITORED   0x1802
-#define GPIO_MODE_USER_STD_ANALOG   	   0x000a
+//#define GPIO_MODE_USER_STD_ANALOG   	   0x000a
+
+
+#define GPIO_MODE_MGMT_STD_INPUT_NOPULL	    0x1003
+#define GPIO_MODE_MGMT_STD_OUTPUT	        0x1809
+#define GPIO_MODE_MGMT_STD_ANALOG	        0x100b
+
+#define GPIO_MODE_USER_STD_INPUT_NOPULL	    0x0402
+//#define GPIO_MODE_USER_STD_OUTPUT	        0x0c00
+#define GPIO_MODE_USER_STD_ANALOG	        0x0000
 
 // --------------------------------------------------------
 #endif
