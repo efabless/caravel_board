@@ -105,31 +105,31 @@ for k in range(len(config_data_h)):
     # while clock <= n_clocks:
     print(" {:3d}:".format(clock), end=" ")
     clock += 1
-    saved_bit = last_bit = prev_last_bit = 0
+    current_shifted_out = previous_shifted_out = previous_reg_last_bit = 0
 
     # iterate through each gpio
     for i in range(len(gpio_h_reg)):
 
         # store bit to be shifted off
-        saved_bit = gpio_h_reg[i][12]
+        current_shifted_out = gpio_h_reg[i][12]
 
         # right shift all bits in the register
         gpio_h_reg[i].ror(1)
 
         if gpio_h[i][1] == H_INDEPENDENT:
             # shift in bit from previous gpio register, skipping the first bit
-            gpio_h_reg[i][1] = last_bit
-            gpio_h_reg[i][0] = prev_last_bit
+            gpio_h_reg[i][1] = previous_shifted_out
+            gpio_h_reg[i][0] = previous_reg_last_bit
 
-        elif gpio_h[i][1] == H_DEPENDENT and prev_last_bit == 0:
+        elif gpio_h[i][1] == H_DEPENDENT and previous_reg_last_bit == 0:
                 gpio_h_reg[i][0] = 0
 
         else:
             # shift in bit from previous gpio register
-            gpio_h_reg[i][0] = last_bit
+            gpio_h_reg[i][0] = previous_shifted_out
 
-        last_bit = saved_bit
-        prev_last_bit = gpio_h_reg[i][12]
+        previous_shifted_out = current_shifted_out
+        previous_reg_last_bit = gpio_h_reg[i][12]
 
 
     # shift in next bit from configuration stream
@@ -167,31 +167,31 @@ for k in range(len(config_data_l)):
     # while clock <= n_clocks:
     print(" {:3d}:".format(clock), end=" ")
     clock += 1
-    saved_bit = last_bit = prev_last_bit = 0
+    current_shifted_out = previous_shifted_out = previous_reg_last_bit = 0
 
     # iterate through each gpio
     for i in range(len(gpio_l_reg)):
 
         # store bit to be shifted off
-        saved_bit = gpio_l_reg[i][12]
+        current_shifted_out = gpio_l_reg[i][12]
 
         # right shift all bits in the register
         gpio_l_reg[i].ror(1)
 
         if gpio_l[i][1] == H_INDEPENDENT:
             # shift in bit from previous gpio register, skipping the first bit
-            gpio_l_reg[i][1] = last_bit
-            gpio_l_reg[i][0] = prev_last_bit
+            gpio_l_reg[i][1] = previous_shifted_out
+            gpio_l_reg[i][0] = previous_reg_last_bit
 
-        elif gpio_l[i][1] == H_DEPENDENT and prev_last_bit == 0:
+        elif gpio_l[i][1] == H_DEPENDENT and previous_reg_last_bit == 0:
                 gpio_l_reg[i][0] = 0
 
         else:
             # shift in bit from previous gpio register
-            gpio_l_reg[i][0] = last_bit
+            gpio_l_reg[i][0] = previous_shifted_out
 
-        last_bit = saved_bit
-        prev_last_bit = gpio_l_reg[i][12]
+        previous_shifted_out = current_shifted_out
+        previous_reg_last_bit = gpio_l_reg[i][12]
 
 
     # shift in next bit from configuration stream

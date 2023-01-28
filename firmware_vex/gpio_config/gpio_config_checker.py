@@ -101,7 +101,7 @@ def check_stream(stream, config):
         result = True
     elif config == C_USER_IN_NOPULL and stream.bin == '0010000000010':
         result = True
-    elif config == C_USER_OUT and stream.bin == '0110000000010':
+    elif config == C_USER_OUT and stream.bin == '0110000000000':
         result = True
     # else:
     #     s = stream + '1100000000000'
@@ -235,27 +235,29 @@ for k in range(len(config_data_l)):
 error = False
 for i in range(len(gpio_l_reg)):
     if not check_stream(gpio_l_reg[i], config_l[i]):
-        print("FAIL: *** Low gpio does not match ***")
-        print_header(gpio_l)
-        print("   0:", end=" ")
-        for x in gpio_l_reg:
-            print(x.bin, end=" ")
-        print()
         error = True
 
 if not error:
     print("PASS: Low gpio matches.")
+else:
+    print("FAIL: *** Low gpio does not match ***")
+    print_header(gpio_l)
+    print("   0:", end=" ")
+    for x in gpio_l_reg:
+        print(x.bin, end=" ")
+    print()
 
 error = False
 for i in range(len(gpio_h_reg)):
     if not check_stream(gpio_h_reg[i], config_h[i]):
-        print("FAIL: *** High gpio does not match ***")
-        print("   0:", end=" ")
-        print_header(gpio_h)
-        for x in gpio_h_reg:
-            print(x.bin, end=" ")
-        print()
         error = True
 
 if not error:
     print("PASS: High gpio matches.")
+else:
+    print("FAIL: *** High gpio does not match ***")
+    print("   0:", end=" ")
+    print_header(gpio_h)
+    for x in gpio_h_reg:
+        print(x.bin, end=" ")
+    print()

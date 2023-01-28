@@ -47,7 +47,8 @@ def build_stream_dependent(stream, config):
         s = stream + '0010000000011'
     elif config == C_USER_OUT:
         # s = stream + '0110000000010'
-        s = stream + '1100000000000'
+        # s = stream + '0110000000010'
+        s = stream + '0110000000000'
     else:
         s = stream + '1100000000000'
     return s
@@ -72,7 +73,8 @@ def build_stream_independent(stream, config):
         s = stream + '001000000001'
     elif config == C_USER_OUT:
         # s = stream + '00110000000010'
-        s = stream + '110000000000'
+        # s = stream + '011000000001'
+        s = stream + '011000000000'
     else:
         s = stream + '110000000000'
     return s
@@ -86,7 +88,7 @@ def build_stream_none(stream, config):
     elif config == C_MGMT_IN:
         s = stream + '1000000000011'
     elif config == C_DISABLE:
-        s = stream + '0000000001011'
+        s = stream + '0000000000000'
     elif config == C_ALL_ONES:
         s = stream + '1111111111111'
     elif config == C_USER_BIDIR_WPU:
@@ -97,7 +99,8 @@ def build_stream_none(stream, config):
         s = stream + '0010000000010'
     elif config == C_USER_OUT:
         # s = stream + '0110000000010'
-        s = stream + '1100000000000'
+        s = stream + '0110000000000'
+        # s = stream + '0110000000010'
     else:
         s = stream + '1100000000000'
     return s
@@ -148,10 +151,10 @@ for k in reversed(range(NUM_IO)):
         stream_l = build_stream_none(stream_l, config_l[k])
 
 n_bits = max(len(stream_h), len(stream_l))
-if len(stream_h) < n_bits:
-    stream_h = stream_h.zfill(n_bits)
-if len(stream_l) < n_bits:
-    stream_l = stream_l.zfill(n_bits)
+while len(stream_h) < n_bits:
+    stream_h = '0' + stream_h
+while len(stream_l) < n_bits:
+    stream_l = '0' + stream_l
 
 bpos_h = len(stream_h)
 bpos_l = len(stream_l)
@@ -185,6 +188,7 @@ for k in range(n_bits):
     # config_stream.append(0x16 + value)
 
 config_stream += [0x0] * (247 - len(config_stream))
+n_bits = len(config_stream)
 
 #
 #  create output files
@@ -207,11 +211,11 @@ f.write("\n")
 
 # f.write("int n_bits = " + str(n_bits) + ";\n")
 
-f.write("char config_stream[] = {")
-f.write("0x{:02x}, ".format(n_bits))
+f.write("char config_stream[] = { ")
+f.write("0x{:02x}".format(n_bits))
 for x in config_stream:
-    f.write("0x{:02x}, ".format(x))
-f.write("};\n")
+    f.write(", 0x{:02x}".format(x))
+f.write(" };\n")
 
 f.close()
 
