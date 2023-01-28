@@ -14,109 +14,61 @@ void main()
 
 //	i = 1;
 
-    reg_mprj_io_18 = 0x3;
-    reg_mprj_io_17 = 0x1fc7;
-    reg_mprj_io_16 = 0x1f8f;
-    reg_mprj_io_15 = 0x1f1f;
-    reg_mprj_io_14 = 0x1e3f;
-    reg_mprj_io_13 = 0x1c7f;
-    reg_mprj_io_12 = 0x18ff;
-    reg_mprj_io_11 = 0x10ff;
-    reg_mprj_io_10 = 0xfe;
-    reg_mprj_io_9 = 0xfc;
-    reg_mprj_io_8 = 0xf8;
-    reg_mprj_io_7 = 0x1f0;
-    reg_mprj_io_6 = 0x1e0;
-    reg_mprj_io_5 = 0x3c0;
-    reg_mprj_io_4 = 0x380;
-    reg_mprj_io_3 = 0x700;
-    reg_mprj_io_2 = 0xe00;
-    reg_mprj_io_1 = 0xc00;
-    reg_mprj_io_0 = 0x1801;
-    reg_mprj_io_19 = 0x0;
-    reg_mprj_io_20 = 0x7c0;
-    reg_mprj_io_21 = 0xf80;
-    reg_mprj_io_22 = 0x1f01;
-    reg_mprj_io_23 = 0x1e03;
-    reg_mprj_io_24 = 0x1c07;
-    reg_mprj_io_25 = 0x180f;
-    reg_mprj_io_26 = 0x101f;
-    reg_mprj_io_27 = 0x3e;
-    reg_mprj_io_28 = 0x7c;
-    reg_mprj_io_29 = 0xf8;
-    reg_mprj_io_30 = 0x1f0;
-    reg_mprj_io_31 = 0x3e0;
-    reg_mprj_io_32 = 0x7c0;
-    reg_mprj_io_33 = 0xf80;
-    reg_mprj_io_34 = 0xf00;
-    reg_mprj_io_35 = 0xe00;
-    reg_mprj_io_36 = 0x1c00;
-    reg_mprj_io_37 = 0x1801;
+void set_registers() {
 
-    // Initiate the serial transfer
-    reg_mprj_xfer = 1;
-    while (reg_mprj_xfer == 1);
+    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_ANALOG;
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_5 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_7 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_8 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_9 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_11 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_12 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_13 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_14 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_15 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_16 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_17 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_18 = GPIO_MODE_MGMT_STD_OUTPUT;
 
-    // Left side I/O
-    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_27 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_26 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_25 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_24 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_23 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_22 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_21 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_19 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_20 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_21 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_22 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_23 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_24 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_25 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_26 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_27 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_28 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_29 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_30 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_31 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_32 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
 
-    // Right side I/O
-	reg_mprj_io_18 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_17 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_16 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_15 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_14 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_13 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_12 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_11 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_10 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_9 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_8 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_7 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_6 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_5 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_4 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_3 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_2 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_1 =   GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_0 =   GPIO_MODE_MGMT_STD_OUTPUT;
+}
 
-	reg_gpio_out = 1; // OFF
     reg_gpio_mode1 = 1;
     reg_gpio_mode0 = 0;
     reg_gpio_ien = 1;
     reg_gpio_oe = 1;
 
-//    // Configure All LA probes as inputs to the cpu
-//	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
-//	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
-//	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
-//	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
-//
-//    // Configure LA[64] LA[65] as outputs from the cpu
-//	reg_la2_oenb = reg_la2_iena = 0x00000003;
+    set_registers();
+    reg_mprj_datah = 0;
+    reg_mprj_datal = 0;
+    gpio_config_io();
 
-	// Set clk & reset to one
-//	reg_la2_data = 0x00000003;
-
-//    gpio_config_io();
-    reg_gpio_out = 0x1;
+    reg_gpio_out = 1; // OFF
 
 	while(1) {
 
@@ -137,4 +89,16 @@ void main()
 	}
 
 }
+
+//    // Configure All LA probes as inputs to the cpu
+//	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
+//	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+//	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
+//	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
+//
+//    // Configure LA[64] LA[65] as outputs from the cpu
+//	reg_la2_oenb = reg_la2_iena = 0x00000003;
+
+	// Set clk & reset to one
+//	reg_la2_data = 0x00000003;
 

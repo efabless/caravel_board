@@ -45,10 +45,10 @@ flash: gpio_test.hex
 	python3 ../util/caravel_hkstop.py
 
 flash_nucleo: gpio_test.hex
-	FILE=gpio_test.hex make -f ../nucleo/Makefile flash
+	make -f ../nucleo/Makefile flash FILE=gpio_test.hex
 
 sanity_check: gpio_config_def.py
-	FILE=gpio_config_def.py make -f ../nucleo/Makefile sanity_check
+	make -f ../nucleo/Makefile sanity_check FILE=gpio_config_def.py
 
 # ---- Clean ----
 
