@@ -336,6 +336,20 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.close()
 
 
+def run_flash_caravel():
+    test = Test()
+    print("*** flashing Caravel")
+    test.apply_reset()
+    test.powerup_sequence()
+    erase()
+    if flash(f"firmware.hex"):
+        print("status Good")
+    else:
+        print("failed!")
+    test.powerup_sequence()
+    test.release_reset()
+
+
 def run_sanity_check():
     test = Test()
 

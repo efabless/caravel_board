@@ -90,7 +90,7 @@ ifndef FILE
 else
 	cp ${FILE} ${FLASH}/firmware.hex
 	sleep 2
-	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.apply_reset(); test.turn_off_devices(); test.powerup_sequence(); flash('firmware.hex'); test.release_reset()"
+	mpremote connect ${DEV} exec "import io_config; io_config.run_flash_caravel()"
 endif
 
 # enter repl on nucleo
