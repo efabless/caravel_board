@@ -1,7 +1,8 @@
 
 TOOLCHAIN_PATH=/usr/local/bin/
 #TOOLCHAIN_PATH=/opt/riscv32imc/bin/
-# TOOLCHAIN_PATH=/ef/apps/bin/
+#TOOLCHAIN_PATH=/ef/apps/bin/
+#TOOLCHAIN_PATH=/usr/bin/
 
 # Set the prefix for `riscvXX-unknown-elf-*`
 # On installations using `multilib`, this will be `riscv64` even for compiling to 32-bit targets
@@ -32,7 +33,7 @@ check: gpio_config_def.py gpio_config_io.py gpio_config_data.c
 
 %.hex: %.elf
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O verilog $< $@
-	sed -i '.orig' -e 's/@1000/@0000/g' $@
+	sed -i.orig -e 's/@1000/@0000/g' $@
 
 %.bin: %.elf
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O binary $< $@
