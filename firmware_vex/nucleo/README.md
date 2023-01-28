@@ -83,17 +83,92 @@ IO that were successfully configured.  Successfully configured IO can be used fo
 make get_config
 ```
 
+The file is specific to the part you ran the diagnostic with. Each part will have a different gpio_config_def.py file because the timing
+failure pattern will be different for each part.  
+
 ## Using the Configuration File
 
 RUN A SANITY CHECK
 
 The following will run a sanity check test using the gpio_config_def.py produced from the diagnostic above.  The
-gpio_config_def.py file is stored from the 'make get_config' run above and local on your desktop. The file is specific
-to the part you ran the diagnostic with. Each part will have a different gpio_config_def.py file.
+gpio_config_def.py file is stored from the 'make get_config' run above and local on your desktop. 
 
 To run the sanity check:
 ```bash
 cd caravel_board/firmware_vex/nucleo
 FILE=./gpio_config_def.py make sanity_check
 ```
-... coming soon
+
+BUILDING YOUR OWN FIRMWARE
+
+The **gpio_test** directory (`caravel_board/firmware_vex/gpio_test`) provides example for creating your own firmware.  We recommend you 
+copy this directory as a template to create your own firmware.
+
+You will need to copy the `gpio_config_def.py` for your part into this directory.
+
+## Troubleshooting
+There are cases where the diagnostic software on the Nucleo may stop working or not work correctly.  This is likely due 
+to the Flash filesystem on the Nucleo getting corrupted.
+
+The following steps will re-flash the Nucleo firmware and copy the software to the filesystem.
+
+In addition to **mpremote**, you will need **stlink** and **mpy-cross**
+
+**mpy-cross** is a cross compiler for micropython the compiles a python file into a binary format which can be run in 
+micropython.  It is used here to reduce the size of the files because the size of the flash on the Nucleo board is 
+limited on some models.
+
+To get **mpy-cross**, simply run:
+```bash
+pip3 install mpy-cross
+```
+
+**stlink** is a set of utilities for working with the Nucleo boards.  We use st-flash to flash a custom micropython image 
+on the board. The customization enables IO on the Nucleo required by the diagnostic for 
+testing Caravel.
+
+Installation for **stlink** is platform specific.
+
+For macOS:
+```bash
+brew install stlink
+```
+
+For other platforms, see instructions on the github ST-LINK project README...
+
+https://github.com/stlink-org/stlink/tree/master
+
+You will also need to connect both USB ports on the Nucleo to you desktop.  The second USB is on the opposite side of
+Nucleo board from the ST-LINK USB port.  This port presents a mountable volume for the Flash filesystem on Nucleo and 
+is how the software and firmware files on copied on to Nucleo.  It is also used to retrieve the **gpio_config_def.py**
+file after the diagnostic completes.
+
+After you made both connections, you will need to find the path for the Flash volume.  
+
+On MacOS, it should be located at `//Volumes/PYBFLASH`.
+
+On Ubuntu, it should be mounted at `/media/<userid>/PYBFLASH`.
+
+You will need to `export FLASH=<path>` or set the path in the Makefile at the top of the file.
+
+Once complete, you can re-flash the Nucleo and copy software to the Flash volume by running one of the following make 
+targets based on the model of your Nucleo board.  You can find the model of the Nucleo board on a label in the lower
+left corner of the Nucleo board opposite the ST-LINK breakaway board.
+ 
+```bash
+# for the F746ZG Nucleo board
+make F746ZG
+
+# for F413ZH
+make F413ZH
+```
+
+You can also just recompile and copy the files onto the flash by running on of the following make targets:
+
+```bash
+# for the F746ZG Nucleo board
+make F746ZG-copy
+
+# for F413ZH
+make F413ZH-copy
+```

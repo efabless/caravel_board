@@ -1,4 +1,3 @@
-
 export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
 # --- automatically set ---
@@ -9,37 +8,6 @@ export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 FLASH?=//Volumes/PYBFLASH/
 DEV=$(shell mpremote connect list | grep STLink | cut -f 1 -d ' ')
 
-
-boot:
-	rshell --port ${DEV} cp boot.py /flash
-
-# pip install rshell to use this target
-copy: compile
-	mpremote connect ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy :
-	mpremote connect ${DEV} cp config_io_o.hex :
-	mpremote connect ${DEV} cp io_config.mpy :
-	mpremote connect ${DEV} cp main.py :
-	mpremote connect ${DEV} ls :
-
-#copy: compile
-#	rshell --port ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /flash
-#	rshell --port ${DEV} cp config_io_o.hex /flash
-#	rshell --port ${DEV} cp io_config.mpy /flash
-#	rshell --port ${DEV} cp main.py /flash
-#	rshell --port ${DEV} ls /flash
-
-# copies scripts to nucleo
-copy2: compile check_volume
-	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
-	ls ${FLASH}
-
-copy3:
-	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
-	ls ${FLASH}
 
 # cross compile python to micropython bin.
 
@@ -62,8 +30,8 @@ reset: check_device
 # run io_config test to characterize a new part
 # alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 # alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
-run: check_device
-	mpremote connect ${DEV} exec "import io_config; io_config.run()"
+run: check_device check_part
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)')"
 
 # copy the definition file for a part after running io_config
 get_config: check_device
@@ -101,14 +69,21 @@ repl:
 F746ZG: compile
 	st-flash --connect-under-reset --format ihex write F746ZG_firmware.hex
 	sleep 5
+	make F746ZG-copy
+
+F413ZH:
+	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
+	sleep 7
+	make F413ZH-copy
+
+# copies scripts to nucleo
+copy2 F746ZG-copy: compile check_volume
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
 	ls ${FLASH}
 
-F413ZH:
-	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
-	sleep 7
+copy3 F413ZH-copy: check_volume
 	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
@@ -122,7 +97,12 @@ check_volume:
 
 check_device:
 ifndef DEV
-		$(error "Nucleo device file not found")
+	$(error "Nucleo device file not found")
+endif
+
+check_part:
+ifndef PART
+	$(error "PART not defined.  Please use 'make run PART=<part_id>'")
 endif
 
 # ---- targets for building hex file

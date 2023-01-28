@@ -410,11 +410,13 @@ def run_sanity_check():
             led_red.blink(short=2, long=4)
 
 
-def run():
+def run(part_name="** unspecified **"):
+
     if config_filename in os.listdir():
         os.remove(config_filename)
 
-    with open(config_filename, "a") as f:
+    with open(config_filename, "w") as f:
+        f.write(f"# gpio_config_def.py file for part {part_name}\n")
         f.write(f"H_NONE        = 0  \n")
         f.write(f"H_DEPENDENT   = 1  \n")
         f.write(f"H_INDEPENDENT = 2  \n")
@@ -435,8 +437,8 @@ def run():
     led_green.blink(short=3, long=2)
     low_chain_passed, low_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h)
 
-    gpio_l = Gpio()
-    gpio_h = Gpio()
+    # gpio_l = Gpio()
+    # gpio_h = Gpio()
 
     print(" ")
     print("===================================================================")
