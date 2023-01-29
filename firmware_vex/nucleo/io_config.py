@@ -386,14 +386,14 @@ def run_sanity_check():
     print("===================================================================")
 
     if low_chain_passed:
-        print("== LOW chain PASSED.   Valid IO = 0 thru 18.                      ==")
+        print("== LOW chain PASSED.                                             ==")
     else:
-        print("== LOW chain FAILED.   Valid IO = 0 thru {:02}.                      ==".format(low_chain_io_failed-1))
+        print("== LOW chain FAILED.                                             ==")
 
     if high_chain_passed:
-        print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
+        print("== HIGH chain PASSED.                                            ==")
     else:
-        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed+1))
+        print("== HIGH chain FAILED.                                            ==")
 
     print("===================================================================")
 
