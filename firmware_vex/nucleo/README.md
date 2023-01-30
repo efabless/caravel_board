@@ -91,7 +91,7 @@ failure pattern will be different for each part.
 RUN A SANITY CHECK
 
 The following will run a sanity check test using the gpio_config_def.py produced from the diagnostic above.  The
-gpio_config_def.py file is stored from the 'make get_config' run above and local on your desktop. 
+`gpio_config_def.py` file is stored from the `make get_config` run above and local on your desktop. 
 
 To run the sanity check:
 
@@ -106,6 +106,49 @@ The **gpio_test** directory (`caravel_board/firmware_vex/gpio_test`) provides ex
 copy this directory as a template to create your own firmware.
 
 You will need to copy the `gpio_config_def.py` for your part into this directory.
+
+Update `gpio_config_io.c` with the correct IO configuration for your project.  Each IO should be set to Management or 
+User mode which defines whether the output is driven from the Management or User area.  The IO can be set to output or 
+inputs with either pull-down, pull-up or no terminating resistors.
+
+NOTE: You will not be able to configure any IO that is defined as `H_UNKNOWNED` in your `gpio_config_def.py` file.  We 
+recommend setting these IO (as well as any other IO you are not using) to `C_DISABLE` in your `gpio_config_io.py` file.
+
+You can check that your IO configuration to ensure that you can achieve the desired configuration by running `make check`
+from the project directory.  If the configuration can not be configured for that part, you can try changing the 
+configuration or switching to a different part that can me configured. 
+
+In your main firmware, you need to include `defs.h` and `gpio_config_io.c` at the top of your file.
+
+Before using IO, you need to call `configure_io()`.
+```c
+#include "../defs.h"
+#include "../gpio_config/gpio_config_io.c"
+
+int main() {
+
+  # initialization
+  
+  configure_io();
+  
+  # my routine using IO pads
+
+}
+```
+
+You should leave the Caravel Nucleo board mounted and powered by Nucleo.  The timing failure pattern specified in the 
+`gpio_config_def.py` is sensitive to the capacitance loading on the pins that is present when the Caravel board is
+mounted on the Nucleo and may not be the same when the board is detached.
+
+You can flash and run your firmware with the Caravel Hat mounted on the Nucleo by running:
+
+```bash
+make clean flash_nucleo
+```
+
+This will rebuild the firmware prior to flashing Caravel through the Nucleo board.  Note, you need to have both USB 
+cables connected to the Nucleo to support this.  You also need to have the FLASH variable set correctly per the 
+instructions in the [Troubleshooting](#Troubleshoting) section below.
 
 ## Troubleshooting
 
