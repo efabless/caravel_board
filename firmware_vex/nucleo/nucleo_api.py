@@ -141,6 +141,10 @@ class Test:
         self.en_1v8.off()
         self.en_3v3.off()
 
+    def release_pins(self):
+        for i in range(38):
+            self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
+
 
 class ProgSupply:
     

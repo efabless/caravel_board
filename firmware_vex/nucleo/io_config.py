@@ -350,6 +350,7 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
+    test.release_pins()
 
 
 def run_sanity_check():

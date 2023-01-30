@@ -104,10 +104,10 @@ class SPI:
             self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
             self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
         else:
-            self.cs = Pin('SPI5_CS', mode=Pin.IN)
-            self.sck = Pin('SPI5_SCK', mode=Pin.IN)
-            self.mosi = Pin('SPI5_MISO', mode=Pin.IN)  # PF9 = IO[2] = caravel input
-            self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
+            self.cs = Pin('SPI5_CS', mode=Pin.IN, pull=None)
+            self.sck = Pin('SPI5_SCK', mode=Pin.IN, pull=None)
+            self.mosi = Pin('SPI5_MISO', mode=Pin.IN, pull=None)  # PF9 = IO[2] = caravel input
+            self.miso = Pin('SPI5_MOSI', mode=Pin.IN, pull=None)  # PF8 = IO[1] = caravel output
             self.spi = None
 
     def write(self, buf):
