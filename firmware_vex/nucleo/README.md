@@ -17,6 +17,7 @@ or scan the QR code...
 ## Setup
 
 COMPONENTS
+
 - NUCLEO-F746ZG or NUCLEO-F413ZH
 - Caravel Nucleo Hat
 - One or more Caravel breakout boards with a Caravel part installed
@@ -24,6 +25,7 @@ COMPONENTS
 - USB micro-B to USB-A cable
 
 CONFIGURATION
+
 - Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo.
 - Plug the Caravel Nucleo Hat in Nucleo board pins 
   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
@@ -35,7 +37,6 @@ CONFIGURATION
 - Clone the github repo https://github.com/efabless/caravel_board.git
 - Change to the firmware_vex/nucleo directory
 - Run `pip install mpremote`
-
 
 <div align="left" style="margin-left: 30px; margin-bottom: 30px;"><img src="docs/caravel+nucleo_2.jpg" alt="alt text" width="200"/>
 <img src="docs/caravel+nucleo.jpg" alt="alt text" width="445"/></div>
@@ -56,12 +57,11 @@ mpremote connect list
 This will verify you can see the Nucleo board through mpremote.  The makefile 
 will automatically find and set the device.
 
-
 RUNNING THE DIAGNOSTIC
 
 ```bash
 cd caravel_board/firmware_vex/nucleo
-make run
+make run PART=<part id>
 ```
 
 The test will begin with the green LED on the Nucleo flashing 5 times.  
@@ -69,7 +69,7 @@ The test will begin with the green LED on the Nucleo flashing 5 times.
 When the test concludes, the green and red leds will be as follows:
 
 | GREEN            | RED              | STATUS                                                   |
-|------------------|------------------|----------------------------------------------------------|
+| ---------------- | ---------------- | -------------------------------------------------------- |
 | 2 short + 4 long | off              | Full Success    - BOTH IO chains configured successfully |
 | 2 long           | 2 short          | Partial Success - LOW IO chains configured successfully  |
 | 4 long           | 2 short          | Partial Success - HIGH IO chains configured successfully |
@@ -94,9 +94,10 @@ The following will run a sanity check test using the gpio_config_def.py produced
 gpio_config_def.py file is stored from the 'make get_config' run above and local on your desktop. 
 
 To run the sanity check:
+
 ```bash
 cd caravel_board/firmware_vex/nucleo
-FILE=./gpio_config_def.py make sanity_check
+make sanity_check FILE=gpio_config_def.py
 ```
 
 BUILDING YOUR OWN FIRMWARE
@@ -107,6 +108,7 @@ copy this directory as a template to create your own firmware.
 You will need to copy the `gpio_config_def.py` for your part into this directory.
 
 ## Troubleshooting
+
 There are cases where the diagnostic software on the Nucleo may stop working or not work correctly.  This is likely due 
 to the Flash filesystem on the Nucleo getting corrupted.
 
@@ -119,6 +121,7 @@ micropython.  It is used here to reduce the size of the files because the size o
 limited on some models.
 
 To get **mpy-cross**, simply run:
+
 ```bash
 pip3 install mpy-cross
 ```
@@ -130,6 +133,7 @@ testing Caravel.
 Installation for **stlink** is platform specific.
 
 For macOS:
+
 ```bash
 brew install stlink
 ```
@@ -154,7 +158,7 @@ You will need to `export FLASH=<path>` or set the path in the Makefile at the to
 Once complete, you can re-flash the Nucleo and copy software to the Flash volume by running one of the following make 
 targets based on the model of your Nucleo board.  You can find the model of the Nucleo board on a label in the lower
 left corner of the Nucleo board opposite the ST-LINK breakaway board.
- 
+
 ```bash
 # for the F746ZG Nucleo board
 make F746ZG
