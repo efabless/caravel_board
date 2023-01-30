@@ -150,11 +150,17 @@ def run_test(test, chain):
         channel = 0
         end_pulses = 18
     else:
-        channel = 38
+        channel = 37
         end_pulses = 19
     for i in range(0,end_pulses):
         pulse_count = test.receive_packet()
         if pulse_count == 2:
+            accurate_delay(500)
+            if channel == 0:
+                test.send_reset()
+            else:
+                test.send_increment()
+            # if pulse_count == 2:
             if chain == "low":
                 channel = channel + 1
             else:
@@ -163,7 +169,7 @@ def run_test(test, chain):
             timeout = time.time() + 10
             state = 0
             io_pulse = 0
-            led_blue.on()
+            # led_blue.on()
             while 1:
                 val = Dio(f"IO_{channel}").get_value()
                 if val != state:
@@ -172,20 +178,20 @@ def run_test(test, chain):
                 if io_pulse == 8:
                     io_pulse = 0
                     print(f"gpio[{channel}] >> Passed")
-                    led_green.blink()
+                    # led_green.blink()
                     # led_blue.off()
                     break
                 if time.time() >= timeout:
                     print(f"gpio[{channel}] >> TIMED OUT")
-                    led_red.blink(short=2)
-                    led_blue.off()
+                    # led_red.blink(short=2)
+                    # led_blue.off()
                     return False, channel
         elif pulse_count == 0:
-            led_red.blink()
-            led_blue.off()
+            # led_red.blink()
+            # led_blue.off()
             return False, channel
 
-    led_blue.off()
+    # led_blue.off()
     return True, None
 
 

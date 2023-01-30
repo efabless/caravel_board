@@ -73,12 +73,20 @@ class Dio:
         else:
             self.pin.value(0)
 
+    def send_pulses(self, num_pulses):
+        for i in range(0,num_pulses):
+            self.set_value(1)
+            accurate_delay(25)
+            self.set_value(0)
+            accurate_delay(25)
+
 class Test:
     def __init__(
         self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
     ):
         self.rstb = Dio("MR", True)
-        self.gpio_mgmt = Dio("IO_0", True)
+        self.gpio_mgmt_in = Dio("IO_0", True)
+        self.gpio_mgmt_out = Dio("IO_37", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
@@ -90,11 +98,11 @@ class Test:
     def receive_packet(self):
         pulses = 0
         io_pulse = 0
-        self.gpio_mgmt.set_state(False)
+        self.gpio_mgmt_in.set_state(False)
         timeout = time.time() + 10
         state = 0
         while 1:
-            val = self.gpio_mgmt.get_value()
+            val = self.gpio_mgmt_in.get_value()
             if val != state:
                 io_pulse = io_pulse + 1
                 state = val
@@ -104,6 +112,14 @@ class Test:
             if time.time() >= timeout:
                 return 0
         return pulses
+
+    def send_increment(self):
+        self.gpio_mgmt_out.set_state(True)
+        self.gpio_mgmt_out.send_pulses(4)
+    
+    def send_reset(self):
+        self.gpio_mgmt_out.set_state(True)
+        self.gpio_mgmt_out.send_pulses(2)
 
     def apply_reset(self):
         #print("   applying reset on channel 0 device 1")
