@@ -148,7 +148,7 @@ void main()
             }
             count_down(PULSE_WIDTH * 10); 
             for (i = 0; i < num_pulses; i++){
-                if (z>32){
+                if (z>=32){
                     reg_mprj_datah = 0x1 << z-32;
                 }
                 reg_mprj_datal = mask;
