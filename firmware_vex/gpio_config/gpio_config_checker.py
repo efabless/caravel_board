@@ -91,7 +91,7 @@ def check_stream(stream, config):
         result = True
     elif config == C_MGMT_IN and stream.bin == '1000000000011':
         result = True
-    elif config == C_DISABLE and stream.bin == '0000000001011':
+    elif config == C_DISABLE and stream.bin == '0000000000000':
         result = True
     elif config == C_ALL_ONES and stream.bin == '1111111111111':
         result = True
