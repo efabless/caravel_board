@@ -167,19 +167,21 @@ def run_test(test, chain):
             accurate_delay(50)
 
             for state in states:
+                c = 0
                 if state:
                     test.apply_gpio_high()
                 else:
                     test.apply_gpio_low()
                 accurate_delay(50)
-                timeout = time.time() + 2
+                tm = time.ticks_us()
+                timeout = time.ticks_add(tm, int(50000))
                 while 1:
                     val = Dio(f"IO_{channel}").get_value()
                     if val != state:
                         print(f"gpio[{channel}] >> Failed")
                         test.apply_gpio_low()
                         return False, channel
-                    if time.time() >= timeout:
+                    if time.ticks_us() >= timeout:
                         break
             print(f"gpio[{channel}] >> Passed")
         elif pulse_count == 0:
