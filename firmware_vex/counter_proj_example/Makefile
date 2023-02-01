@@ -27,7 +27,7 @@ check: gpio_config_def.py gpio_config_io.py gpio_config_data.c
 	python3 ../gpio_config/gpio_config_checker.py
 
 %.elf: %.c ../sections.lds ../crt0_vex.S gpio_config_data.c
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc $(INCLUDES) -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc $(INCLUDES) -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D $@ > $*.lst
 
 %.hex: %.elf
@@ -43,6 +43,12 @@ client: client.c
 flash: counter.hex
 	python3 ../util/caravel_hkflash.py $<
 	python3 ../util/caravel_hkstop.py
+
+flash_nucleo: counter.hex
+	make -f ../nucleo/Makefile flash FILE=counter.hex
+
+sanity_check: gpio_config_def.py
+	make -f ../nucleo/Makefile sanity_check FILE=gpio_config_def.py
 
 # ---- Clean ----
 
