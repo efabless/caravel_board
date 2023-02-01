@@ -272,7 +272,9 @@ def choose_test(
             gpio_l, gpio_h = change_config(
                 channel_failed, gpio_l, gpio_h, test.voltage, test
             )
-        if gpio_h.get_gpio_failed() or gpio_l.get_gpio_failed():
+        if chain == "low" and gpio_l.get_gpio_failed():
+            break
+        if chain == "high" and gpio_h.get_gpio_failed():
             break
 
     return test_result, channel_failed
