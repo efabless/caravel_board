@@ -108,7 +108,7 @@ void set_registers() {
 */
 void main()
 {
-	int i,j,z;
+	int i,j,high_chain_io;
     int num_pulses = 4;
     //int num_bits = 19;
     //configure_io0_37();
@@ -117,6 +117,8 @@ void main()
     reg_gpio_mode0 = 0;
     reg_gpio_ien = 1;
     reg_gpio_oe = 1;
+    int old_recieved;
+    int recieved;
 
     set_registers();
     reg_mprj_datah = 0;
@@ -126,38 +128,68 @@ void main()
     reg_gpio_out = 1; // OFF
     int flag = 0;
     int mask;
+    int mask_io37 = 0x1 << 5;
     int io_num = 0;
+    int recieved_bit;
+    // send_packet_io0(2);
 
     while (1){
         flag = recieve_io37();
-        if (flag == 2){
-            io_num = 0;
-            flag = 1;
-            // send_packet_io0(4);
-        }
+        // if (flag == 2){
+        //     io_num = 0;
+        //     flag = 1;
+        //     // send_packet_io0(4);
+        // }
         if (flag == 1){
+            
             io_num++;
             mask = 0;
-            z = 37 - io_num;
-            if (z<32){
-                mask = 0x1 << io_num;
-                mask = mask | 0x1 << z;
-            }
-            else{
-                mask = 0x1 << io_num;
-            }
-            count_down(PULSE_WIDTH * 10); 
-            for (i = 0; i < num_pulses; i++){
-                if (z>=32){
-                    reg_mprj_datah = 0x1 << z-32;
+            high_chain_io = 37 - io_num;
+            int counter = 0;
+            // send_packet_io0(4);
+            while(1){
+                old_recieved = reg_mprj_datah & mask_io37;
+                while(1){
+                    recieved = reg_mprj_datah & mask_io37;
+                    if (recieved != old_recieved){
+                        // send_packet_io0(4);
+                        recieved_bit = recieved >> 5;
+                        if (high_chain_io<32){
+                            mask = recieved_bit << io_num;
+                            mask = mask | recieved_bit << high_chain_io;
+                        }
+                        else{
+                            mask = recieved_bit << io_num;
+                        }
+                        if (high_chain_io>=32){
+                            reg_mprj_datah = recieved_bit << high_chain_io-32;
+                        }
+                        reg_mprj_datal = mask;
+                        // old_recieved = recieved;
+                        // send_packet_io0(4);
+                        counter++;
+                        break;
+                    }
                 }
-                reg_mprj_datal = mask;
-                count_down(PULSE_WIDTH); 
-                reg_mprj_datah = 0x0;
-                reg_mprj_datal = 0x0;  
-                count_down(PULSE_WIDTH); 
+                if (counter == 4){
+                    count_down(PULSE_WIDTH*2);
+                    break;
+                }
             }
         }
+            
+            // count_down(PULSE_WIDTH * 10); 
+            // for (i = 0; i < num_pulses; i++){
+            //     if (z>=32){
+            //         reg_mprj_datah = 0x1 << z-32;
+            //     }
+            //     reg_mprj_datal = mask;
+            //     count_down(PULSE_WIDTH); 
+            //     reg_mprj_datah = 0x0;
+            //     reg_mprj_datal = 0x0;  
+            //     count_down(PULSE_WIDTH); 
+            // }
+        // }
     }
 
 }

@@ -92,22 +92,23 @@ int recieve_io37(){
         if (recieved != old_recieved){
             pulse++;
             old_recieved = recieved;
-        }else{
-            timeout_count++;
         }
+        // else{
+        //     timeout_count++;
+        // }
         if (pulse == 8){
             flag = 1;
             return flag;
         }
-        if (timeout_count > timeout){
-            if (pulse == 4){
-                flag = 2;
-                return flag;
-            }
-            else{
-                return 0;
-            }
-        }
+        // if (timeout_count > timeout){
+        //     if (pulse == 4){
+        //         flag = 2;
+        //         return flag;
+        //     }
+        //     else{
+        //         return 0;
+        //     }
+        // }
     }
 }
 

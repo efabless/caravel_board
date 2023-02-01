@@ -144,52 +144,53 @@ def exec_data_flash(test, test_name, config_stream):
 
 
 def run_test(test, chain):
-    phase = 0
-    io_pulse = 0
     if chain == "low":
         channel = 0
         end_pulses = 18
     else:
         channel = 37
-        end_pulses = 19
+        end_pulses = 18
     for i in range(0,end_pulses):
-        pulse_count = test.receive_packet()
+        pulse_count = test.receive_packet(2)
         if pulse_count == 2:
+            test.apply_gpio_low()
             accurate_delay(500)
-            if channel == 0:
-                test.send_reset()
-            else:
-                test.send_increment()
+            test.send_increment()
+            test.apply_gpio_low()
             # if pulse_count == 2:
             if chain == "low":
                 channel = channel + 1
             else:
                 channel = channel - 1
             #print(f"start sending pulses to gpio[{channel}]")
-            timeout = time.time() + 10
-            state = 0
-            io_pulse = 0
-            # led_blue.on()
-            while 1:
-                val = Dio(f"IO_{channel}").get_value()
-                if val != state:
-                    io_pulse = io_pulse + 1
-                    state = val
-                if io_pulse == 8:
-                    io_pulse = 0
-                    print(f"gpio[{channel}] >> Passed")
-                    # led_green.blink()
-                    # led_blue.off()
-                    break
-                if time.time() >= timeout:
-                    print(f"gpio[{channel}] >> TIMED OUT")
-                    # led_red.blink(short=2)
-                    # led_blue.off()
-                    return False, channel
+            states = [True, False, True]
+            accurate_delay(50)
+
+            for state in states:
+                c = 0
+                if state:
+                    test.apply_gpio_high()
+                else:
+                    test.apply_gpio_low()
+                accurate_delay(50)
+                timeout = time.time() + 1
+                while 1:
+                    val = Dio(f"IO_{channel}").get_value()
+                    c = c + 1
+                    if val != state:
+                        print(f"gpio[{channel}] >> Failed")
+                        test.apply_gpio_low()
+                        return False, channel
+                    if time.time() >= timeout:
+                        print(c)
+                        break
+            print(f"gpio[{channel}] >> Passed")
         elif pulse_count == 0:
             # led_red.blink()
             # led_blue.off()
             return False, channel
+        
+        test.apply_gpio_low()
 
     # led_blue.off()
     return True, None
@@ -356,6 +357,7 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
+    test.release_pins()
 
 
 def run_sanity_check():
@@ -478,7 +480,7 @@ def run(part_name="** unspecified **"):
 
     print("===================================================================")
     print(" ")
-    print("*** Run 'make get_confg' to retrieve IO configure file ({})\n".format(config_filename))
+    print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
     led_blue.off()
     while True:
