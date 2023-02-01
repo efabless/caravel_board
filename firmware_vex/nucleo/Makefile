@@ -49,7 +49,7 @@ endif
 
 # power up the caravel hat while mounted to Nucleo
 poweron: check_device
-	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.7; test.powerup_sequence()"
+	mpremote connect ${DEV} exec "from nucleo_api import * ; test = Test(); test.voltage = 1.6; test.powerup_sequence(); test.release_reset()"
 
 # flash firmware on caravel hat while mounted to Nucleo
 flash: check_volume check_device

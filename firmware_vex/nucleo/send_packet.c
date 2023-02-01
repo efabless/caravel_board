@@ -73,3 +73,42 @@ reg_mprj_xfer = 0x06; reg_mprj_xfer = 0x16;
     reg_mprj_xfer = 0x06;		// Apply load
 }
 
+int recieve_io37(){
+    int mask = 0x1 << 5;
+    int old_recieved;
+    int recieved;
+    int pulse = 0;
+    int timeout_count = 0;
+    int timeout = 5000;
+    /*
+        flag == 1 --> increment
+        flag == 2 --> reset
+    */
+    int flag = 0;
+    old_recieved = reg_mprj_datah & mask;
+    send_packet_io0(2);
+    while(1){
+        recieved = reg_mprj_datah & mask;
+        if (recieved != old_recieved){
+            pulse++;
+            old_recieved = recieved;
+        }
+        // else{
+        //     timeout_count++;
+        // }
+        if (pulse == 8){
+            flag = 1;
+            return flag;
+        }
+        // if (timeout_count > timeout){
+        //     if (pulse == 4){
+        //         flag = 2;
+        //         return flag;
+        //     }
+        //     else{
+        //         return 0;
+        //     }
+        // }
+    }
+}
+

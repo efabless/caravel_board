@@ -73,12 +73,20 @@ class Dio:
         else:
             self.pin.value(0)
 
+    def send_pulses(self, num_pulses):
+        for i in range(0,num_pulses):
+            self.set_value(1)
+            accurate_delay(25)
+            self.set_value(0)
+            accurate_delay(25)
+
 class Test:
     def __init__(
         self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
     ):
         self.rstb = Dio("MR", True)
-        self.gpio_mgmt = Dio("IO_0", True)
+        self.gpio_mgmt_in = Dio("IO_0", False)
+        self.gpio_mgmt_out = Dio("IO_37", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
@@ -87,23 +95,32 @@ class Test:
         self.en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
         self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
 
-    def receive_packet(self):
+    def receive_packet(self, num_pulses):
         pulses = 0
         io_pulse = 0
-        self.gpio_mgmt.set_state(False)
+        self.gpio_mgmt_in.set_state(False)
         timeout = time.time() + 10
         state = 0
+        num_trans = num_pulses * 2
         while 1:
-            val = self.gpio_mgmt.get_value()
+            val = self.gpio_mgmt_in.get_value()
             if val != state:
                 io_pulse = io_pulse + 1
                 state = val
-            if io_pulse == 4:
-                pulses = 2
+            if io_pulse == num_trans:
+                pulses = num_pulses
                 break
             if time.time() >= timeout:
                 return 0
         return pulses
+
+    def send_increment(self):
+        self.gpio_mgmt_out.set_state(True)
+        self.gpio_mgmt_out.send_pulses(4)
+    
+    def send_reset(self):
+        self.gpio_mgmt_out.set_state(True)
+        self.gpio_mgmt_out.send_pulses(2)
 
     def apply_reset(self):
         #print("   applying reset on channel 0 device 1")
@@ -120,6 +137,12 @@ class Test:
         except:
             print("*** ERROR - attempting to reflash")
             flash(f"{hex_file}", debug=True)
+    
+    def apply_gpio_high(self):
+        self.gpio_mgmt_out.set_value(1)
+    
+    def apply_gpio_low(self):
+        self.gpio_mgmt_out.set_value(0)
 
     def powerup_sequence(self):
         self.supply.write_3v3(0x3a)
@@ -140,6 +163,10 @@ class Test:
     def turn_off_devices(self):
         self.en_1v8.off()
         self.en_3v3.off()
+    
+    def release_pins(self):
+        for i in range(38):
+            self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
 
     def release_pins(self):
         for i in range(38):
