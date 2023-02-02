@@ -143,13 +143,15 @@ def exec_data_flash(test, test_name, config_stream):
     test.release_reset()
 
 
-def run_test(test, chain):
+def run_test(test, chain, gpio_l, gpio_h):
     if chain == "low":
         channel = 0
         end_pulses = 18
+        gpio = gpio_l
     else:
         channel = 37
         end_pulses = 18
+        gpio = gpio_h
     for i in range(0,end_pulses):
         pulse_count = test.receive_packet(2)
         if pulse_count == 2:
@@ -178,7 +180,10 @@ def run_test(test, chain):
                 while 1:
                     val = Dio(f"IO_{channel}").get_value()
                     if val != state:
-                        print(f"gpio[{channel}] >> Failed")
+                        if chain == "low":
+                            print(f"gpio[{channel}] >> Failed with {gpio.get_config(channel)} hold violation")
+                        else:
+                            print(f"gpio[{channel}] >> Failed with {gpio.get_config(37 - channel)} hold violation")
                         test.apply_gpio_low()
                         return False, channel
                     if time.ticks_us() >= timeout:
@@ -264,7 +269,7 @@ def choose_test(
         test.test_name = test_name
         config_stream = run_builder(gpio_l.array, gpio_h.array)
         exec_data_flash(test, test_name, config_stream)
-        test_result, channel_failed = run_test(test, chain)
+        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h)
         if test_result:
             print("**** IO Configuration Test for {} Chain PASSED!!".format(chain))
             test_passed(test, gpio_l, gpio_h, chain)
@@ -494,10 +499,9 @@ def run(part_name="** unspecified **"):
     print("===================================================================")
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
-    
+
     test.turn_off_ios()
     test.turn_off_devices()
-    del test
     led_blue.off()
     while True:
         if low_chain_passed and high_chain_passed:
