@@ -185,18 +185,21 @@ def run_test(test, chain, gpio_l, gpio_h):
                         else:
                             print(f"gpio[{channel}] >> Failed with {gpio.get_config(37 - channel)} hold violation")
                         test.apply_gpio_low()
+                        led_red.blink(short=2)
+                        led_blue.off()
                         return False, channel
                     if time.ticks_us() >= timeout:
                         break
             print(f"gpio[{channel}] >> Passed")
+            led_green.blink()
         elif pulse_count == 0:
-            # led_red.blink()
-            # led_blue.off()
+            led_red.blink()
+            led_blue.off()
             return False, channel
         
         test.apply_gpio_low()
 
-    # led_blue.off()
+    led_blue.off()
     return True, None
 
 
