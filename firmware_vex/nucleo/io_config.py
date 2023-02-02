@@ -346,6 +346,16 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.close()
 
 
+def run_poweron(v="1.6"):
+    test = Test()
+    test.voltage = v
+    test.apply_reset()
+    test.powerup_sequence()
+    test.release_reset()
+    test.gpio_mgmt_out.set_state(False)
+    # test.release_pins()
+
+
 def run_flash_caravel():
     test = Test()
     print("*** flashing Caravel")
@@ -358,7 +368,8 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
-    test.release_pins()
+    test.gpio_mgmt_out.set_state(False)
+    # test.release_pins()
 
 
 def run_sanity_check():
@@ -483,6 +494,7 @@ def run(part_name="** unspecified **"):
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
+    del test
     led_blue.off()
     while True:
         if low_chain_passed and high_chain_passed:
