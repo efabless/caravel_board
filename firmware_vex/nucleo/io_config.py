@@ -378,8 +378,8 @@ def run_flash_caravel():
     test.release_reset()
 
 
-def run_sanity_check():
-    test = Test()
+def run_sanity_check(voltage=1.6):
+    test = Test(voltage=voltage)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
@@ -439,7 +439,7 @@ def run_sanity_check():
             led_red.blink(short=2, long=4)
 
 
-def run(part_name="** unspecified **"):
+def run(part_name="** unspecified **", voltage=1.6):
 
     if config_filename in os.listdir():
         os.remove(config_filename)
@@ -456,7 +456,7 @@ def run(part_name="** unspecified **"):
         f.write(f"\n")
         f.close()
 
-    test = Test()
+    test = Test(voltage=voltage)
     gpio_l = Gpio()
     gpio_h = Gpio()
 

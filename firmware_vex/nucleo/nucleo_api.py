@@ -2,6 +2,7 @@ from machine import Pin
 import time
 from flash import flash, erase
 from i2c import *
+import sys
 # from pyb import Timer
 
 def accurate_delay(delay):
@@ -152,10 +153,13 @@ class Test:
         self.supply.write_3v3(0x3a)
         if self.voltage == 1.7:
             self.supply.write_1v8(0x11)
-        if self.voltage == 1.8:
+        elif self.voltage == 1.8:
             self.supply.write_1v8(0x0b)
-        if self.voltage == 1.6:
+        elif self.voltage == 1.6:
             self.supply.write_1v8(0x1f)
+        else:
+            print(f"ERROR : {self.voltage}V is not supported")
+            sys.exit()
         time.sleep(1)
         self.en_3v3.off()
         self.en_1v8.off()

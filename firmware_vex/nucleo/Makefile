@@ -31,7 +31,7 @@ reset: check_device
 # alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 # alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
 run: check_device check_part
-	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)')"
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', $(VOLTAGE))"
 
 # copy the definition file for a part after running io_config
 get_config: check_device
@@ -45,7 +45,7 @@ else
 	cp ${FILE} ${FLASH}/gpio_config_def.py
 	sync
 	sleep 2
-	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check()"
+	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check($(VOLTAGE))"
 endif
 
 # power up the caravel hat while mounted to Nucleo
