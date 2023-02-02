@@ -43,6 +43,7 @@ ifndef FILE
 	$(error FILE is undefined, please export it before running make flash)
 else
 	cp ${FILE} ${FLASH}/gpio_config_def.py
+	sync
 	sleep 2
 	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check()"
 endif
@@ -57,6 +58,7 @@ ifndef FILE
 	$(error FILE is undefined, please export it before running make flash)
 else
 	cp ${FILE} ${FLASH}/firmware.hex
+	sync
 	sleep 2
 	mpremote connect ${DEV} exec "import io_config; io_config.run_flash_caravel()"
 endif
@@ -81,12 +83,14 @@ copy2 F746ZG-copy: compile check_volume
 	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
+	sync
 	ls ${FLASH}
 
 copy3 F413ZH-copy: check_volume
 	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
 	cp config_io_o.hex ${FLASH}
 	cp main.py ${FLASH}
+	sync
 	ls ${FLASH}
 
 check_volume:
