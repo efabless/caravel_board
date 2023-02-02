@@ -18,10 +18,16 @@ From these inputs, it then generates two files:
 * `gpio_config_data.c`
 * `gpio_config_data.py`
 
-`gpio_config_io.c` which can be included into the user program and it includes the routine gpio_config_io() along with the stream that will configure the io.
+`gpio_config_io.c` which can be included into the user program and it includes the routine gpio_config_io() along with 
+the stream that will configure the io.
 
-`debug_io.c` is the firmware example that uses it
+`gpio_test/gpio_test.c` is the firmware example that uses it
 
-## GPIO Config Simulator
+## GPIO Config Checker
 
-TO BE COMPLETED
+`gpio_config_checker.py` provides a routine to check if an IO configuration defined by `gpio_config_io.py` can be 
+successfully configured on a part with the timing violations defined by `gpio_config_def.py`.  If routine will report 
+HIGH and LOW chain matching if all IO can be configured.
+
+Note that any IO defined as H_UNKNOWN in the `gpio_config_def.py` will not be tested for matching as these IO can not be
+used for that part.
