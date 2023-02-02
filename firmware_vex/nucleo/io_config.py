@@ -357,7 +357,7 @@ def run_poweron(v="1.6"):
 
 
 def run_flash_caravel():
-    test = Test()
+    test = Test(config_mode=False)
     print("*** flashing Caravel")
     test.apply_reset()
     test.powerup_sequence()
@@ -368,8 +368,6 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
-    test.gpio_mgmt_out.set_state(False)
-    # test.release_pins()
 
 
 def run_sanity_check():
@@ -417,6 +415,7 @@ def run_sanity_check():
 
     print("===================================================================")
 
+    test.turn_off_ios()
     test.turn_off_devices()
     led_blue.off()
     while True:
@@ -495,6 +494,8 @@ def run(part_name="** unspecified **"):
     print("===================================================================")
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
+    
+    test.turn_off_ios()
     test.turn_off_devices()
     del test
     led_blue.off()

@@ -79,14 +79,18 @@ class Dio:
             accurate_delay(25)
             self.set_value(0)
             accurate_delay(25)
+    
+    def turn_io_off(self):
+        Pin(self.channel).off()
 
 class Test:
     def __init__(
-        self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
+        self, test_name = None, passing_criteria = [], voltage=1.6, sram=1, config_mode=True
     ):
         self.rstb = Dio("MR", True)
         self.gpio_mgmt_in = Dio("IO_0", False)
-        self.gpio_mgmt_out = Dio("IO_37", True)
+        if config_mode:
+            self.gpio_mgmt_out = Dio("IO_37", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
@@ -161,12 +165,18 @@ class Test:
         time.sleep(1)
 
     def turn_off_devices(self):
+        self.supply.write_1v8(0)
+        self.supply.write_3v3(0)
         self.en_1v8.off()
         self.en_3v3.off()
     
+    def turn_off_ios(self):
+        for i in range(38):
+            Dio(f"IO_{i}").turn_io_off()
+    
     def release_pins(self):
         for i in range(38):
-            self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
+            Dio(f"IO_{i}")
 
 
 class ProgSupply:
