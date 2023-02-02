@@ -6,7 +6,7 @@ import sys
 import pyb
 from machine import Pin
 
-
+VERSION = "io_config -- version 1.1.0"
 config_filename = "gpio_config_def.py"
 
 
@@ -439,6 +439,8 @@ def run(part_name="** unspecified **"):
 
     with open(config_filename, "w") as f:
         f.write(f"# gpio_config_def.py file for part {part_name}\n")
+        f.write(f"# {VERSION}\n")
+        f.write(f"\n")
         f.write(f"H_NONE        = 0  \n")
         f.write(f"H_DEPENDENT   = 1  \n")
         f.write(f"H_INDEPENDENT = 2  \n")
