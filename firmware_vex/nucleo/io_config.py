@@ -357,7 +357,7 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.close()
 
 
-def run_poweron(v="1.6"):
+def run_poweron(v=1.6):
     test = Test()
     test.voltage = v
     test.apply_reset()
