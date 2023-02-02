@@ -1,25 +1,11 @@
 #include "../defs.h"
-//#include "../gpio_config/gpio_config_io.c"
-#include "gpio_config_io.c"
-
-#include "../print_io.h"
+#include "../gpio_config/gpio_config_io.c"
 
 // --------------------------------------------------------
 // Firmware routines
 // --------------------------------------------------------
 
-void main()
-{
-	int i, j;
-
-	i = 1;
-
-	int clk;
-
-	clk = 0;
-
-    gpio_config_io();
-
+void set_registers() {
     // Left side I/O
     reg_mprj_io_37 = GPIO_MODE_USER_STD_OUTPUT;
     reg_mprj_io_36 = GPIO_MODE_USER_STD_OUTPUT;
@@ -60,6 +46,14 @@ void main()
 	reg_mprj_io_2 =   GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_1 =   GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_0 =   GPIO_MODE_USER_STD_OUTPUT;
+}
+
+void main()
+{
+
+    gpio_config_io();
+
+    set_registers();
 
 	reg_gpio_out = 1; // OFF
     reg_gpio_mode1 = 1;
@@ -79,30 +73,24 @@ void main()
 	// Set clk & reset to one
 	reg_la2_data = 0x00000003;
 
-        // DELAY
-        for (i=0; i<5; i=i+1) {}
+    delay(1000000);
 
-	// Toggle clk & de-assert reset
-	for (i=0; i<11; i=i+1) {
-		clk = !clk;
-		reg_la2_data = 0x00000000 | clk;
-	}
+	// De-assert reset
+	reg_la2_data = 0x00000000;
 
 	while(1) {
 
         reg_gpio_out = 0x0;  // LED on
 
-        clk = !clk;
-		reg_la2_data = 0x00000000 | clk; // pulse clk
+		reg_la2_data = 0x00000001; // pulse clk
 
-        delay(1000000);
+        delay(1000);
 
         reg_gpio_out = 0x1;   // LED off
 
-        clk = !clk;
-		reg_la2_data = 0x00000000 | clk;  // pulse clk
+		reg_la2_data = 0x00000000;  // pulse clk
 
-        delay(1000000);
+        delay(1000);
 
 	}
 

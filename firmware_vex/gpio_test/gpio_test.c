@@ -1,17 +1,9 @@
 #include "../defs.h"
 #include "../gpio_config/gpio_config_io.c"
 
-#include "../print_io.h"
-
 // --------------------------------------------------------
 // Firmware routines
 // --------------------------------------------------------
-
-void main()
-{
-//	int i, j;
-
-//	i = 1;
 
 void set_registers() {
 
@@ -57,6 +49,8 @@ void set_registers() {
 
 }
 
+void main()
+{
     reg_gpio_mode1 = 1;
     reg_gpio_mode0 = 0;
     reg_gpio_ien = 1;
@@ -88,16 +82,3 @@ void set_registers() {
 	}
 
 }
-
-//    // Configure All LA probes as inputs to the cpu
-//	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
-//	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
-//	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
-//	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
-//
-//    // Configure LA[64] LA[65] as outputs from the cpu
-//	reg_la2_oenb = reg_la2_iena = 0x00000003;
-
-	// Set clk & reset to one
-//	reg_la2_data = 0x00000003;
-

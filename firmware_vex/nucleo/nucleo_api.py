@@ -168,10 +168,6 @@ class Test:
         for i in range(38):
             self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
 
-    def release_pins(self):
-        for i in range(38):
-            self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
-
 
 class ProgSupply:
     

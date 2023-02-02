@@ -50,6 +50,10 @@ flash_nucleo: gpio_test.hex
 sanity_check: gpio_config_def.py
 	make -f ../nucleo/Makefile sanity_check FILE=gpio_config_def.py
 
+# run to bringup Caravel power while mounted on Nucleo
+poweron:
+	make -f ../nucleo/Makefile poweron
+
 # ---- Clean ----
 
 clean:

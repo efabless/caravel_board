@@ -6,7 +6,7 @@ import sys
 import pyb
 from machine import Pin
 
-
+VERSION = "io_config -- version 1.1.0"
 config_filename = "gpio_config_def.py"
 
 
@@ -346,6 +346,16 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.close()
 
 
+def run_poweron(v="1.6"):
+    test = Test()
+    test.voltage = v
+    test.apply_reset()
+    test.powerup_sequence()
+    test.release_reset()
+    test.gpio_mgmt_out.set_state(False)
+    # test.release_pins()
+
+
 def run_flash_caravel():
     test = Test()
     print("*** flashing Caravel")
@@ -358,7 +368,8 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
-    test.release_pins()
+    test.gpio_mgmt_out.set_state(False)
+    # test.release_pins()
 
 
 def run_sanity_check():
@@ -428,6 +439,8 @@ def run(part_name="** unspecified **"):
 
     with open(config_filename, "w") as f:
         f.write(f"# gpio_config_def.py file for part {part_name}\n")
+        f.write(f"# {VERSION}\n")
+        f.write(f"\n")
         f.write(f"H_NONE        = 0  \n")
         f.write(f"H_DEPENDENT   = 1  \n")
         f.write(f"H_INDEPENDENT = 2  \n")
@@ -483,6 +496,7 @@ def run(part_name="** unspecified **"):
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
     test.turn_off_devices()
+    del test
     led_blue.off()
     while True:
         if low_chain_passed and high_chain_passed:

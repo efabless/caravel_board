@@ -148,11 +148,14 @@ make clean flash_nucleo
 
 This will rebuild the firmware prior to flashing Caravel through the Nucleo board.  Note, you need to have both USB 
 cables connected to the Nucleo to support this.  You also need to have the FLASH variable set correctly per the 
-instructions in the [Troubleshooting](#Troubleshoting) section below.
+instructions in the [Updating Nucleo and Diagnostic Software](#updating-nucleo-and-diagnostic-software) section below.
 
-## Troubleshooting
+## Updating Nucleo and Diagnostic Software
 
-There are cases where the diagnostic software on the Nucleo may stop working or not work correctly.  This is likely due 
+Getting updates to the diagnostic software requires re-flashing the Nucleo and copying the updated software to the Flash
+volume on the Nucleo board.  
+
+There are also cases where the diagnostic software on the Nucleo may stop working or not work correctly.  This is likely due 
 to the Flash filesystem on the Nucleo getting corrupted.
 
 The following steps will re-flash the Nucleo firmware and copy the software to the filesystem.
