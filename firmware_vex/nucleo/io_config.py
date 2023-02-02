@@ -301,7 +301,7 @@ def sanity_check(
         test.test_name = test_name
         config_stream = run_builder_sanity(gpio_config_def.gpio_l, gpio_config_def.gpio_h)
         exec_data_flash(test, test_name, config_stream)
-        test_result, channel_failed = run_test(test, chain)
+        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h)
         for i in gpio_config_def.gpio_h:
             if i[1] == 4:
                 channel_failed_h = int(i[0].split('[')[1].split(']')[0])
