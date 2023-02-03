@@ -379,6 +379,7 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
+    test.gpio_mgmt_out.set_state(False)
 
 
 def run_sanity_check(voltage=1.6):
@@ -506,7 +507,7 @@ def run(part_name="** unspecified **", voltage=1.6):
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
 
-    test.turn_off_ios()
+    # test.turn_off_ios()
     test.turn_off_devices()
     led_blue.off()
     while True:

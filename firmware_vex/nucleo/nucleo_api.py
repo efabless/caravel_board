@@ -150,6 +150,11 @@ class Test:
         self.gpio_mgmt_out.set_value(0)
 
     def powerup_sequence(self):
+
+        self.en_3v3.off()
+        self.en_1v8.off()
+        time.sleep(1)
+
         # Keep 3.3V supply at 3.3V
         self.supply.write_3v3(0x3a)
 
@@ -172,18 +177,14 @@ class Test:
         self.supply.write_1v8(Pval)
 
         time.sleep(1)
-        self.en_3v3.off()
-        self.en_1v8.off()
-        time.sleep(1)
         self.en_1v8.on()
         self.en_3v3.on()
         time.sleep(1)
 
     def turn_off_devices(self):
-        self.supply.write_1v8(0)
-        self.supply.write_3v3(0)
         self.en_1v8.off()
         self.en_3v3.off()
+        time.sleep(1)
     
     def turn_off_ios(self):
         for i in range(38):
