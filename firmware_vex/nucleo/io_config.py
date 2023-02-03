@@ -437,7 +437,7 @@ def run_sanity_check(voltage=1.6):
     print(" ")
     print("              >>> Press <ctl-c> to exit <<<")
 
-    test.turn_off_ios()
+    # test.turn_off_ios()
     test.turn_off_devices()
     led_blue.off()
     while True:
