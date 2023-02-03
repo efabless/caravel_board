@@ -28,6 +28,10 @@ reset: check_device
 	#mpremote connect ${DEV} soft-reset
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
+# runs script from the local filesystem
+version: check_device
+	@mpremote connect ${DEV} exec "import io_config; io_config.version()"
+
 # run io_config test to characterize a new part
 # alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 # alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
@@ -109,6 +113,16 @@ check_part:
 ifndef PART
 	$(error "PART not defined.  Please use 'make run PART=<part_id>'")
 endif
+
+check-python:
+ifeq ($(shell which python3),)
+$(error Please install python 3.6+)
+endif
+
+setup: check-python
+	python3 -m pip install rshell
+	python3 -m pip install mpy-cross
+	python3 -m pip install mpremote
 
 # ---- targets for building hex file
 

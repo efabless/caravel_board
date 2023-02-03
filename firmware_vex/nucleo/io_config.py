@@ -357,6 +357,10 @@ def test_passed(test, gpio_l, gpio_h, chain):
     f.close()
 
 
+def version():
+    print(f"{VERSION}")
+
+
 def run_poweron(v=1.6):
     test = Test()
     test.voltage = v
@@ -389,6 +393,10 @@ def run_sanity_check(voltage=1.6):
     gpio_h = Gpio()
 
     print(" ")
+    print("===================================================================")
+    print(f"{VERSION}")
+    print("===================================================================")
+
     print("===================================================================")
     print("== Beginning SANITY for LOW IO chain...                          ==")
     print("===================================================================")
@@ -426,6 +434,8 @@ def run_sanity_check(voltage=1.6):
         print("== HIGH chain FAILED.                                            ==")
 
     print("===================================================================")
+    print(" ")
+    print("              >>> Press <ctl-c> to exit <<<")
 
     test.turn_off_ios()
     test.turn_off_devices()
@@ -463,6 +473,11 @@ def run(part_name="** unspecified **", voltage=1.6):
     test = Test(voltage=voltage)
     gpio_l = Gpio()
     gpio_h = Gpio()
+
+    print(" ")
+    print("===================================================================")
+    print(f"{VERSION}")
+    print("===================================================================")
 
     print(" ")
     print("===================================================================")
@@ -506,6 +521,9 @@ def run(part_name="** unspecified **", voltage=1.6):
     print("===================================================================")
     print(" ")
     print("*** Run 'make get_config' to retrieve IO configure file ({})\n".format(config_filename))
+    print(" ")
+    print("              >>> Press <ctl-c> to exit <<<")
+
 
     # test.turn_off_ios()
     test.turn_off_devices()

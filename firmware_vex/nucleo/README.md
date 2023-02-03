@@ -16,7 +16,7 @@ or scan the QR code...
 
 ## Setup
 
-COMPONENTS
+### COMPONENTS
 
 - NUCLEO-F746ZG or NUCLEO-F413ZH
 - Caravel Nucleo Hat
@@ -24,40 +24,112 @@ COMPONENTS
 - Two jumpers for J8 & J9
 - USB micro-B to USB-A cable
 
-CONFIGURATION
+### CONFIGURATION
 
-- Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo.
-- Plug the Caravel Nucleo Hat in Nucleo board pins 
-  - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
-  - IMPORTANT: the FlexyPin socket allows you to swap breakout boards with different parts.  You do not need to solder any pins.
-  - Be careful not to bend a pin when inserting the breakout board.  If one of the pins bend, use needle-nose pliers to re-straighten it.
-- Install a Caravel Breakout board into the socket on the Caravel Hat board
-  - the Efabless logo should face the USB connector on the Hat
-- Connect the USB cable from the connector CN1 on the Nucleo to a workstation / laptop
-- Clone the github repo https://github.com/efabless/caravel_board.git
-- Change to the firmware_vex/nucleo directory
-- Run `pip install mpremote`
+1. Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo. 
+2. Plug the Caravel Nucleo Hat in Nucleo board pins 
+   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
+   - IMPORTANT: the FlexyPin socket allows you to swap breakout boards with different parts.  You do not need to solder 
+  any pins.
+   - Be careful not to bend a pin when inserting the breakout board.  If one of the pins bend, use needle-nose pliers to 
+  re-straighten it.
+3. Install a Caravel Breakout board into the socket on the Caravel Hat board
+     - the Efabless logo should face the USB connector on the Hat
+4. Connect the USB cable from the connector CN1 on the Nucleo to your workstation / laptop.
+5. Connect a second USB cable from your desktop / workstation from connector CN13 on the opposite side the Nucleo board 
+   from the ST-LINK breakaway board.
+   - This port presents a mountable volume for the Flash filesystem on Nucleo and is how the software and firmware files
+   on copied on to Nucleo. It is also used to retrieve the gpio_config_def.py file after the diagnostic completes.
 
 <div align="left" style="margin-left: 30px; margin-bottom: 30px;"><img src="docs/caravel+nucleo_2.jpg" alt="alt text" width="200"/>
 <img src="docs/caravel+nucleo.jpg" alt="alt text" width="445"/></div>
 
-INSTALLATION
+### INSTALLATION
+
+1. Install the required tools including **mpremote**, **mpy-cross** and **rshell**.  The diagnostic runs on a customized
+   Micropython image on the Nucleo board.  The Nucleo firmware image, diagnostic software and Makefile targets for 
+   installing and running the routines are located in the `firmware_vex/nucleo` directory in the caravel_board repo.
 
 ```bash
-git clone https://github.com/efabless/caravel_board.git
-pip3 install mpremote
+  git clone https://github.com/efabless/caravel_board.git
+  cd caravel_board/firmware_vex/nucleo
+  make setup
 ```
 
-FINDING YOUR DEVICE
+- **mpremote** is used for connecting the Micropython
+- **mpy-cross** is a cross compiler for Micropython the compiles a python file into a binary format which can be run in 
+micropython.  It is used here to reduce the size of the files because the size of the flash on the Nucleo board is 
+limited on some models.
+
+2. You will also need to install the **stlink** tools for your client.   These are required to flash Micropython firmware on the Nucleo board.
+
+- For macOS:
 
 ```bash
-mpremote connect list
+      brew install stlink
 ```
 
-This will verify you can see the Nucleo board through mpremote.  The makefile 
-will automatically find and set the device.
+- For other platforms, see instructions on the github STLINK project README...
 
-RUNNING THE DIAGNOSTIC
+   - https://github.com/stlink-org/stlink/tree/master
+
+3. After you made both USB connections, you will need to find the path for the Flash volume.  
+
+   - On MacOS, it should be located at `//Volumes/PYBFLASH`.
+   - On Ubuntu, it should be mounted at `/media/<userid>/PYBFLASH`.
+   - You will need to `export FLASH=<path>` or set the path in the Makefile at the top of the file.
+   - NOTE: For some linux platforms, the PYBFLASH volume is not automatically
+   
+### FINDING YOUR DEVICE
+
+```bash
+  mpremote connect list
+```
+
+This will verify you can see the Nucleo board through **mpremote**.  The Makefile 
+will automatically find and set the device variable.
+
+### UPDATE THE DIAGNOSTIC SOFTWARE
+
+It will be required to update the diagnostic software to get the latest enhancements and bug fixes.
+
+You can find the model of the Nucleo board on a label in the lower
+left corner of the Nucleo board opposite the ST-LINK breakaway board.
+
+Run one of the following make targets based on the model of your Nucleo board. 
+
+```bash
+# for the F746ZG Nucleo board
+make F746ZG
+
+# for F413ZH
+make F413ZH
+```
+
+You can also just recompile and copy the files onto the flash by running on of the following make targets:
+
+```bash
+# for the F746ZG Nucleo board
+make F746ZG-copy
+
+# for F413ZH
+make F413ZH-copy
+```
+
+After the flash completes, check the version of the software...
+
+```bash
+make version
+
+io_config -- version 1.1.0
+```
+
+
+
+### RUNNING THE DIAGNOSTIC
+
+To run the diagnostic, enter the following commands.  The PART variable is an ID for the part you are testing defined by
+you.  It will be recorded in the output of the test for future reference.
 
 ```bash
 cd caravel_board/firmware_vex/nucleo
@@ -76,19 +148,19 @@ When the test concludes, the green and red leds will be as follows:
 | off              | 2 short + 4 long | Failed - BOTH IO chains failed to configured fully       |
 | off              | solid            | Test failed to complete                                  |
 
-If the test completed for the part, run the following to retrieve the configuration file.  The file will indicated the 
+Type `Ctrl-C` to exit the test diagnostid once it completes.  If the test completed for the part, run the following to retrieve the configuration file.  The file will indicated the 
 IO that were successfully configured.  Successfully configured IO can be used for this part for firmware routines.
 
 ```bash
 make get_config
 ```
 
-The file is specific to the part you ran the diagnostic with. Each part will have a different gpio_config_def.py file because the timing
+The file is specific to the part you ran the diagnostic with. Each part will have a different `gpio_config_def.py` file because the timing
 failure pattern will be different for each part.  
 
 ## Using the Configuration File
 
-RUN A SANITY CHECK
+### RUN A SANITY CHECK
 
 The following will run a sanity check test using the gpio_config_def.py produced from the diagnostic above.  The
 `gpio_config_def.py` file is stored from the `make get_config` run above and local on your desktop. 
@@ -102,8 +174,9 @@ make sanity_check FILE=gpio_config_def.py
 
 BUILDING YOUR OWN FIRMWARE
 
-The **gpio_test** directory (`caravel_board/firmware_vex/gpio_test`) provides example for creating your own firmware.  We recommend you 
-copy this directory as a template to create your own firmware.
+The **gpio_test** directory (`caravel_board/firmware_vex/gpio_test`) provides example for creating your own firmware.  
+We recommend you copy this directory as a template to create your own firmware.  After copying the directory, update 
+`gpio_test` to your firmware name in the Makefile.
 
 You will need to copy the `gpio_config_def.py` for your part into this directory.
 
@@ -148,77 +221,4 @@ make clean flash_nucleo
 
 This will rebuild the firmware prior to flashing Caravel through the Nucleo board.  Note, you need to have both USB 
 cables connected to the Nucleo to support this.  You also need to have the FLASH variable set correctly per the 
-instructions in the [Updating Nucleo and Diagnostic Software](#updating-nucleo-and-diagnostic-software) section below.
-
-## Updating Nucleo and Diagnostic Software
-
-Getting updates to the diagnostic software requires re-flashing the Nucleo and copying the updated software to the Flash
-volume on the Nucleo board.  
-
-There are also cases where the diagnostic software on the Nucleo may stop working or not work correctly.  This is likely due 
-to the Flash filesystem on the Nucleo getting corrupted.
-
-The following steps will re-flash the Nucleo firmware and copy the software to the filesystem.
-
-In addition to **mpremote**, you will need **stlink** and **mpy-cross**
-
-**mpy-cross** is a cross compiler for micropython the compiles a python file into a binary format which can be run in 
-micropython.  It is used here to reduce the size of the files because the size of the flash on the Nucleo board is 
-limited on some models.
-
-To get **mpy-cross**, simply run:
-
-```bash
-pip3 install mpy-cross
-```
-
-**stlink** is a set of utilities for working with the Nucleo boards.  We use st-flash to flash a custom micropython image 
-on the board. The customization enables IO on the Nucleo required by the diagnostic for 
-testing Caravel.
-
-Installation for **stlink** is platform specific.
-
-For macOS:
-
-```bash
-brew install stlink
-```
-
-For other platforms, see instructions on the github ST-LINK project README...
-
-https://github.com/stlink-org/stlink/tree/master
-
-You will also need to connect both USB ports on the Nucleo to you desktop.  The second USB is on the opposite side of
-Nucleo board from the ST-LINK USB port.  This port presents a mountable volume for the Flash filesystem on Nucleo and 
-is how the software and firmware files on copied on to Nucleo.  It is also used to retrieve the **gpio_config_def.py**
-file after the diagnostic completes.
-
-After you made both connections, you will need to find the path for the Flash volume.  
-
-On MacOS, it should be located at `//Volumes/PYBFLASH`.
-
-On Ubuntu, it should be mounted at `/media/<userid>/PYBFLASH`.
-
-You will need to `export FLASH=<path>` or set the path in the Makefile at the top of the file.
-
-Once complete, you can re-flash the Nucleo and copy software to the Flash volume by running one of the following make 
-targets based on the model of your Nucleo board.  You can find the model of the Nucleo board on a label in the lower
-left corner of the Nucleo board opposite the ST-LINK breakaway board.
-
-```bash
-# for the F746ZG Nucleo board
-make F746ZG
-
-# for F413ZH
-make F413ZH
-```
-
-You can also just recompile and copy the files onto the flash by running on of the following make targets:
-
-```bash
-# for the F746ZG Nucleo board
-make F746ZG-copy
-
-# for F413ZH
-make F413ZH-copy
-```
+instructions in the [Installation](#installation) section below.
