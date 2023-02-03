@@ -2,6 +2,7 @@ from machine import Pin
 import time
 from flash import flash, erase
 from i2c import *
+import sys
 # from pyb import Timer
 
 def accurate_delay(delay):
@@ -79,14 +80,18 @@ class Dio:
             accurate_delay(25)
             self.set_value(0)
             accurate_delay(25)
+    
+    def turn_io_off(self):
+        Pin(self.channel).off()
 
 class Test:
     def __init__(
-        self, test_name = None, passing_criteria = [], voltage=1.6, sram=1
+        self, test_name = None, passing_criteria = [], voltage=1.6, sram=1, config_mode=True
     ):
         self.rstb = Dio("MR", True)
         self.gpio_mgmt_in = Dio("IO_0", False)
-        self.gpio_mgmt_out = Dio("IO_37", True)
+        if config_mode:
+            self.gpio_mgmt_out = Dio("IO_37", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
@@ -145,16 +150,32 @@ class Test:
         self.gpio_mgmt_out.set_value(0)
 
     def powerup_sequence(self):
-        self.supply.write_3v3(0x3a)
-        if self.voltage == 1.7:
-            self.supply.write_1v8(0x11)
-        if self.voltage == 1.8:
-            self.supply.write_1v8(0x0b)
-        if self.voltage == 1.6:
-            self.supply.write_1v8(0x1f)
-        time.sleep(1)
+
         self.en_3v3.off()
         self.en_1v8.off()
+        time.sleep(1)
+
+        # Keep 3.3V supply at 3.3V
+        self.supply.write_3v3(0x3a)
+
+        # Note:
+        # Potentiometer is MCP4661 and has 10k ohms in
+        # 257 steps = 38.9 ohms/step.
+        # LDO is MIC2211, which has an output equal to
+        # R1 = R2 * (Vout / 1.25 - 1)
+        # Where R1 is between Vout and Adj and
+        # R2 is between Adj and ground.
+        # The caravel board has R1 = 360 and
+        # R2 = 5k // (500 + potentiometer value)
+
+        R2 = 360 / ((self.voltage / 1.25) - 1)
+        Rpot = (1 / (1 / R2 - 1 / 5000)) - 500
+        P = Rpot / 38.911
+        Pval = int(P)
+
+        # print('Writing ' + str(Pval) + ' to potentiometer.')
+        self.supply.write_1v8(Pval)
+
         time.sleep(1)
         self.en_1v8.on()
         self.en_3v3.on()
@@ -163,10 +184,15 @@ class Test:
     def turn_off_devices(self):
         self.en_1v8.off()
         self.en_3v3.off()
+        time.sleep(1)
+    
+    def turn_off_ios(self):
+        for i in range(38):
+            Dio(f"IO_{i}").turn_io_off()
     
     def release_pins(self):
         for i in range(38):
-            self.p[i] = Pin(f"IO_{i}", mode=Pin.IN, pull=None)
+            Dio(f"IO_{i}")
 
 
 class ProgSupply:
