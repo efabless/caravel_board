@@ -9,7 +9,7 @@
 
 void set_registers() {
 
-    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_ANALOG;
+    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
     reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_3 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -48,7 +48,8 @@ void set_registers() {
 //    reg_mprj_io_34 = 0x0403;
     reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
+    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
 //    reg_mprj_io_37 = 0x0403;
 
 }
