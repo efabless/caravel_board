@@ -144,7 +144,7 @@ def exec_data_flash(test, test_name, config_stream):
 
 
 def run_test(test, chain, gpio_l, gpio_h):
-    print("starting test...")
+    # print("starting test...")
     if chain == "low":
         channel = 0
         end_pulses = 18
