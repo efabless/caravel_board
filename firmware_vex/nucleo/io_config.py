@@ -182,9 +182,9 @@ def run_test(test, chain, gpio_l, gpio_h):
                     val = Dio(f"IO_{channel}").get_value()
                     if val != state:
                         if chain == "low":
-                            print(f"gpio[{channel}] - {gpio.get_config(channel)} >> Failed")
+                            print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Failed")
                         else:
-                            print(f"gpio[{channel}] - {gpio.get_config(37 - channel)} >> Failed")
+                            print(f"gpio[{channel:02}] - {gpio.get_config(37 - channel):13} >> Failed")
                         test.apply_gpio_low()
                         led_red.blink(short=2)
                         led_blue.off()
@@ -192,9 +192,9 @@ def run_test(test, chain, gpio_l, gpio_h):
                     if time.ticks_us() >= timeout:
                         break
             if chain == "low":
-                print(f"gpio[{channel}] - {gpio.get_config(channel)} >> Passed")
+                print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Passed")
             else:
-                print(f"gpio[{channel}] - {gpio.get_config(37 - channel)} >> Passed")
+                print(f"gpio[{channel:02}] - {gpio.get_config(37 - channel):13} >> Passed")
             led_green.blink()
         elif pulse_count == 0:
             led_red.blink()
