@@ -1,11 +1,6 @@
 #include "../defs.h"
 #include "gpio_config_io.c"
 #include "send_packet.c"
-//#include "../local_defs.h"
-//#include "../stub.c"
-
-//#include "../config_io.h"
-//#include "../defs_mpw-two-mfix.h"
 
 void set_registers() {
 
@@ -96,7 +91,6 @@ void main()
             mask = 0;
             high_chain_io = 37 - io_num;
             int counter = 0;
-            // send_packet_io0(4);
             while(1){
 //                old_recieved = reg_mprj_datah & mask_io37;
                 old_recieved = reg_mprj_datal & mask_io0;
@@ -131,18 +125,6 @@ void main()
             }
         }
             
-            // count_down(PULSE_WIDTH * 10); 
-            // for (i = 0; i < num_pulses; i++){
-            //     if (z>=32){
-            //         reg_mprj_datah = 0x1 << z-32;
-            //     }
-            //     reg_mprj_datal = mask;
-            //     count_down(PULSE_WIDTH); 
-            //     reg_mprj_datah = 0x0;
-            //     reg_mprj_datal = 0x0;  
-            //     count_down(PULSE_WIDTH); 
-            // }
-        // }
     }
 
 }

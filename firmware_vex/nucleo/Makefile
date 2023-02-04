@@ -36,7 +36,10 @@ version: check_device
 # alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
 # alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
 run: check_device check_part
-	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', $(VOLTAGE))"
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', voltage=$(VOLTAGE))"
+
+run_analog: check_device check_part
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', analog=True)"
 
 # copy the definition file for a part after running io_config
 get_config: check_device

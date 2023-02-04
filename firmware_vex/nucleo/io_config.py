@@ -134,6 +134,7 @@ def exec_flash(test, test_name):
 def exec_data_flash(test, test_name, config_stream):
     print("*** flashing Caravel")
     test.apply_reset()
+    # test.powerup_flash()
     test.powerup_sequence()
     erase()
     # test.flash(f"{test_name}.hex")
@@ -143,7 +144,7 @@ def exec_data_flash(test, test_name, config_stream):
     test.release_reset()
 
 
-def run_test(test, chain, gpio_l, gpio_h):
+def run_test(test, chain, gpio_l, gpio_h, bypass=False):
     # print("starting test...")
     if chain == "low":
         channel = 0
@@ -155,6 +156,21 @@ def run_test(test, chain, gpio_l, gpio_h):
         gpio = gpio_h
     for i in range(0,end_pulses):
         pulse_count = test.receive_packet(2)
+        if bypass and chain == "low" and i == 0:
+            test.apply_gpio_low()
+            accurate_delay(500)
+            test.send_increment()
+            test.apply_gpio_low()
+            channel = channel + 1
+            accurate_delay(50)
+            test.apply_gpio_high()
+            accurate_delay(50)
+            test.apply_gpio_low()
+            accurate_delay(50)
+            test.apply_gpio_high()
+            accurate_delay(50)
+            test.apply_gpio_low()
+            continue
         if pulse_count == 2:
             test.apply_gpio_low()
             accurate_delay(500)
@@ -268,7 +284,8 @@ def choose_test(
     gpio_l,
     gpio_h,
     chain="low",
-    high=False
+    high=False,
+    bypass=False
 ):
     test_result = False
     #exec_flash(test, test_name)
@@ -276,7 +293,7 @@ def choose_test(
         test.test_name = test_name
         config_stream = run_builder(gpio_l.array, gpio_h.array)
         exec_data_flash(test, test_name, config_stream)
-        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h)
+        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h, bypass)
         if test_result:
             print("**** IO Configuration Test for {} Chain PASSED!!".format(chain))
             test_passed(test, gpio_l, gpio_h, chain)
@@ -299,6 +316,7 @@ def sanity_check(
     gpio_h,
     chain="low",
     high=False,
+    bypass=False
 ):
     import gpio_config_def
     test_result = False
@@ -308,7 +326,7 @@ def sanity_check(
         test.test_name = test_name
         config_stream = run_builder_sanity(gpio_config_def.gpio_l, gpio_config_def.gpio_h)
         exec_data_flash(test, test_name, config_stream)
-        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h)
+        test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h, bypass)
         for i in gpio_config_def.gpio_h:
             if i[1] == 4:
                 channel_failed_h = int(i[0].split('[')[1].split(']')[0])
@@ -453,7 +471,7 @@ def run_sanity_check(voltage=1.6):
             led_red.blink(short=2, long=4)
 
 
-def run(part_name="** unspecified **", voltage=1.6):
+def run(part_name="** unspecified **", voltage=1.6, analog=False):
 
     if config_filename in os.listdir():
         os.remove(config_filename)
@@ -485,7 +503,7 @@ def run(part_name="** unspecified **", voltage=1.6):
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=2)
-    low_chain_passed, low_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h)
+    low_chain_passed, low_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h, bypass=analog)
 
     # don't reset LOW chain IO config when testing HIGH chain
     # gpio_l = Gpio()
@@ -497,7 +515,7 @@ def run(part_name="** unspecified **", voltage=1.6):
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=4)
-    high_chain_passed, high_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True)
+    high_chain_passed, high_chain_io_failed = choose_test(test, "config_io_o", gpio_l, gpio_h, "high", True, bypass=analog)
 
     print(" ")
     print("===================================================================")
