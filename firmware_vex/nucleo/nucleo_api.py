@@ -89,9 +89,11 @@ class Test:
         self, test_name = None, passing_criteria = [], voltage=1.6, sram=1, config_mode=True
     ):
         self.rstb = Dio("MR", True)
-        self.gpio_mgmt_in = Dio("IO_0", False)
+        # self.gpio_mgmt_in = Dio("IO_0", False)
+        self.gpio_mgmt_in = Dio("IO_37", False)
         if config_mode:
-            self.gpio_mgmt_out = Dio("IO_37", True)
+            # self.gpio_mgmt_out = Dio("IO_37", True)
+            self.gpio_mgmt_out = Dio("IO_0", True)
         self.test_name = test_name
         self.voltage = voltage
         self.sram = sram
