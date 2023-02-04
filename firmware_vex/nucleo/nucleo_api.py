@@ -5,12 +5,14 @@ from i2c import *
 import sys
 # from pyb import Timer
 
+
 def accurate_delay(delay):
     tm = time.ticks_us()
     tm_add = time.ticks_add(tm, int(delay*1000))
     while time.ticks_diff(tm_add, time.ticks_us()) > 0:
         pass
     return
+
 
 class Gpio:
     def __init__(self):
@@ -29,6 +31,9 @@ class Gpio:
 
     def increment_fail_count(self, channel):
         self.fail_count[channel] = self.fail_count[channel] + 1
+
+    def reset_fail_count(self, channel):
+        self.fail_count[channel] = 0
 
     def init_array(self):
         for i in range(0, 19):
@@ -83,6 +88,7 @@ class Dio:
     
     def turn_io_off(self):
         Pin(self.channel).off()
+
 
 class Test:
     def __init__(

@@ -8,6 +8,7 @@ from machine import Pin
 
 VERSION = "io_config -- version 1.2.0 (analog_test)"
 config_filename = "gpio_config_def.py"
+debug=False
 
 
 class Led:
@@ -145,7 +146,8 @@ def exec_data_flash(test, test_name, config_stream):
 
 
 def run_test(test, chain, gpio_l, gpio_h, bypass=False):
-    # print("starting test...")
+    if debug:
+        print("    starting test")
     if chain == "low":
         channel = 0
         end_pulses = 18
@@ -156,6 +158,8 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
         gpio = gpio_h
     for i in range(0,end_pulses):
         pulse_count = test.receive_packet(2)
+        if debug:
+            print(f"    received packet: pulses = {pulse_count}, i = {i}")
         if bypass and chain == "low" and i == 0:
             test.apply_gpio_low()
             accurate_delay(500)
@@ -170,6 +174,7 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
             test.apply_gpio_high()
             accurate_delay(50)
             test.apply_gpio_low()
+            print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Skipping")
             continue
         if pulse_count == 2:
             test.apply_gpio_low()
@@ -251,12 +256,19 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             test.turn_off_devices()
 
     else:
-        if gpio_l.get_config(channel) == "H_INDEPENDENT":
+        if channel == 2 and gpio_l.get_config(1) == "H_INDEPENDENT" and \
+                gpio_l.get_config(2) == "H_DEPENDENT":
+            print("*** changing IO[01] to H_DEPENDENT, resetting IO[2]")
+            gpio_l.set_config(1, "H_DEPENDENT")
+            gpio_l.set_config(2, "H_INDEPENDENT")
+            gpio_l.reset_fail_count(2)
+        elif gpio_l.get_config(channel) == "H_INDEPENDENT":
             gpio_l.set_config(channel, "H_DEPENDENT")
             gpio_l.increment_fail_count(channel)
         elif gpio_l.get_config(channel) == "H_DEPENDENT":
             gpio_l.set_config(channel, "H_INDEPENDENT")
             gpio_l.increment_fail_count(channel)
+
         if gpio_l.get_fail_count(channel) > 1:
             gpio_l.gpio_failed()
             f = open(config_filename, "a")

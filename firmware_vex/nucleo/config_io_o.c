@@ -60,8 +60,8 @@ void main()
     reg_gpio_mode0 = 0;
     reg_gpio_ien = 1;
     reg_gpio_oe = 1;
-    int old_recieved;
-    int recieved;
+    int old_received;
+    int received;
 
     set_registers();
     reg_mprj_datah = 0;
@@ -74,12 +74,12 @@ void main()
     int mask_io37 = 0x1 << 5;
     int mask_io0 = 0x1;
     int io_num = 0;
-    int recieved_bit;
+    int received_bit;
     // send_packet_io0(2);
 
     while (1){
-//        flag = recieve_io37();
-        flag = recieve_io0();
+//        flag = receive_io37();
+        flag = receive_io0();
         // if (flag == 2){
         //     io_num = 0;
         //     flag = 1;
@@ -92,34 +92,34 @@ void main()
             high_chain_io = 37 - io_num;
             int counter = 0;
             while(1){
-//                old_recieved = reg_mprj_datah & mask_io37;
-                old_recieved = reg_mprj_datal & mask_io0;
+//                old_received = reg_mprj_datah & mask_io37;
+                old_received = reg_mprj_datal & mask_io0;
                 while(1){
-//                    recieved = reg_mprj_datah & mask_io37;
-                    recieved = reg_mprj_datal & mask_io0;
-                    if (recieved != old_recieved){
+//                    received = reg_mprj_datah & mask_io37;
+                    received = reg_mprj_datal & mask_io0;
+                    if (received != old_received){
                         // send_packet_io0(4);
-//                        recieved_bit = recieved >> 5;
-                        recieved_bit = recieved;
+//                        received_bit = received >> 5;
+                        received_bit = received;
                         if (high_chain_io<32){
-                            mask = recieved_bit << io_num;
-                            mask = mask | recieved_bit << high_chain_io;
+                            mask = received_bit << io_num;
+                            mask = mask | received_bit << high_chain_io;
                         }
                         else{
-                            mask = recieved_bit << io_num;
+                            mask = received_bit << io_num;
                         }
                         if (high_chain_io>=32){
-                            reg_mprj_datah = recieved_bit << high_chain_io-32;
+                            reg_mprj_datah = received_bit << high_chain_io-32;
                         }
                         reg_mprj_datal = mask;
-                        // old_recieved = recieved;
+                        // old_received = received;
                         // send_packet_io0(4);
                         counter++;
                         break;
                     }
                 }
                 if (counter == 4){
-                    count_down(PULSE_WIDTH*2);
+                    count_down(PULSE_WIDTH*10);
                     break;
                 }
             }
