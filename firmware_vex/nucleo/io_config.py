@@ -362,12 +362,11 @@ def version():
 
 
 def run_poweron(v=1.6):
-    test = Test()
-    test.voltage = v
+    test = Test(config_mode=False, voltage=v)
     test.apply_reset()
     test.powerup_sequence()
     test.release_reset()
-    test.gpio_mgmt_out.set_state(False)
+    # test.gpio_mgmt_out.set_state(False)
     # test.release_pins()
 
 
@@ -383,7 +382,7 @@ def run_flash_caravel():
         print("failed!")
     test.powerup_sequence()
     test.release_reset()
-    test.gpio_mgmt_out.set_state(False)
+    # test.gpio_mgmt_out.set_state(False)
 
 
 def run_sanity_check(voltage=1.6):
