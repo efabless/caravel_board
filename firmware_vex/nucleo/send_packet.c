@@ -31,7 +31,7 @@ void send_pulse_io37(){
     reg_mprj_datah = temp; // 0
     count_down(PULSE_WIDTH);
     temp = reg_mprj_datah;
-    reg_mprj_datah = temp | 1; // 1
+    reg_mprj_datah = temp | 0x20; // 1
     count_down(PULSE_WIDTH);  
 }
 
@@ -89,6 +89,49 @@ int recieve_io37(){
     send_packet_io0(2);
     while(1){
         recieved = reg_mprj_datah & mask;
+        if (recieved != old_recieved){
+            pulse++;
+            old_recieved = recieved;
+        }
+        // else{
+        //     timeout_count++;
+        // }
+        if (pulse == 8){
+            flag = 1;
+            return flag;
+        }
+        // if (timeout_count > timeout){
+        //     if (pulse == 4){
+        //         flag = 2;
+        //         return flag;
+        //     }
+        //     else{
+        //         return 0;
+        //     }
+        // }
+    }
+}
+
+int recieve_io0(){
+//    int mask = 0x1 << 5;
+    int mask = 0x1;
+    int old_recieved;
+    int recieved;
+    int pulse = 0;
+    int timeout_count = 0;
+    int timeout = 5000;
+    /*
+        flag == 1 --> increment
+        flag == 2 --> reset
+    */
+    int flag = 0;
+//    old_recieved = reg_mprj_datah & mask;
+    old_recieved = reg_mprj_datal & mask;
+//    send_packet_io0(2);
+    send_packet_io37(2);
+    while(1){
+//        recieved = reg_mprj_datah & mask;
+        recieved = reg_mprj_datal & mask;
         if (recieved != old_recieved){
             pulse++;
             old_recieved = recieved;

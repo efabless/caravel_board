@@ -6,7 +6,7 @@ import sys
 import pyb
 from machine import Pin
 
-VERSION = "io_config -- version 1.1.0"
+VERSION = "io_config -- version 1.2.0 (analog_test)"
 config_filename = "gpio_config_def.py"
 
 
@@ -144,6 +144,7 @@ def exec_data_flash(test, test_name, config_stream):
 
 
 def run_test(test, chain, gpio_l, gpio_h):
+    print("starting test...")
     if chain == "low":
         channel = 0
         end_pulses = 18

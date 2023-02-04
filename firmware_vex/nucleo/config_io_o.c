@@ -53,60 +53,7 @@ void set_registers() {
 //    reg_mprj_io_37 = 0x0403;
 
 }
-/*
 
-@ start of test  after configuration
-    send packet with size = 1
-@ send 4 pulses at gpio[0]  
-    send packet with size = 2
-@ send 4 pulses at gpio[1]  
-    send packet with size = 3
-@ send 4 pulses at gpio[2]  
-    send packet with size = 4
-@ send 4 pulses at gpio[3]  
-    send packet with size = 5
-@ send 4 pulses at gpio[4]  
-    send packet with size = 6
-@ send 4 pulses at gpio[5]  
-    send packet with size = 7
-@ send 4 pulses at gpio[6]  
-    send packet with size = 8
-@ send 4 pulses at gpio[7]  
-    send packet with size = 9
-@ send 4 pulses at gpio[8]  
-    send packet with size = 10
-
-
-@ reset pulses
-    send packet with size = 1
-@ send 4 pulses at gpio[9]  
-    send packet with size = 2
-@ send 4 pulses at gpio[10]  
-    send packet with size = 3
-@ send 4 pulses at gpio[11]  
-    send packet with size = 4
-@ send 4 pulses at gpio[12]  
-    send packet with size = 5
-@ send 4 pulses at gpio[13]  
-    send packet with size = 6
-@ send 4 pulses at gpio[14]  
-    send packet with size = 7
-@ send 4 pulses at gpio[15]  
-    send packet with size = 8
-@ send 4 pulses at gpio[16]  
-    send packet with size = 9
-@ send 4 pulses at gpio[17]  
-    send packet with size = 10
-@ send 4 pulses at gpio[18]  
-    send packet with size = 11
-
-@ test finish 
-    send packet with size = 1
-    send packet with size = 1
-    send packet with size = 1
-
-
-*/
 void main()
 {
 	int i,j,high_chain_io;
@@ -130,12 +77,14 @@ void main()
     int flag = 0;
     int mask;
     int mask_io37 = 0x1 << 5;
+    int mask_io0 = 0x1;
     int io_num = 0;
     int recieved_bit;
     // send_packet_io0(2);
 
     while (1){
-        flag = recieve_io37();
+//        flag = recieve_io37();
+        flag = recieve_io0();
         // if (flag == 2){
         //     io_num = 0;
         //     flag = 1;
@@ -149,12 +98,15 @@ void main()
             int counter = 0;
             // send_packet_io0(4);
             while(1){
-                old_recieved = reg_mprj_datah & mask_io37;
+//                old_recieved = reg_mprj_datah & mask_io37;
+                old_recieved = reg_mprj_datal & mask_io0;
                 while(1){
-                    recieved = reg_mprj_datah & mask_io37;
+//                    recieved = reg_mprj_datah & mask_io37;
+                    recieved = reg_mprj_datal & mask_io0;
                     if (recieved != old_recieved){
                         // send_packet_io0(4);
-                        recieved_bit = recieved >> 5;
+//                        recieved_bit = recieved >> 5;
+                        recieved_bit = recieved;
                         if (high_chain_io<32){
                             mask = recieved_bit << io_num;
                             mask = mask | recieved_bit << high_chain_io;
