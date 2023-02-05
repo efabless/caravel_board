@@ -9,6 +9,7 @@ from machine import Pin
 VERSION = "io_config -- version 1.2.0 (analog_test)"
 config_filename = "gpio_config_def.py"
 debug=False
+# debug=True
 
 
 class Led:
@@ -133,7 +134,7 @@ def exec_flash(test, test_name):
 
 
 def exec_data_flash(test, test_name, config_stream):
-    print("*** flashing Caravel")
+    print("::::: flashing Caravel :::::")
     test.apply_reset()
     # test.powerup_flash()
     test.powerup_sequence()
@@ -218,6 +219,7 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
                 print(f"gpio[{channel:02}] - {gpio.get_config(37 - channel):13} >> Passed")
             led_green.blink()
         elif pulse_count == 0:
+            print(f"*** ERROR: failed to receive ready signal from firmware")
             led_red.blink()
             led_blue.off()
             return False, channel
@@ -258,7 +260,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
     else:
         if channel == 2 and gpio_l.get_config(1) == "H_INDEPENDENT" and \
                 gpio_l.get_config(2) == "H_DEPENDENT":
-            print("*** changing IO[01] to H_DEPENDENT, resetting IO[2]")
+            print("*** changing IO[01] to H_DEPENDENT, restarting gpio[02]")
             gpio_l.set_config(1, "H_DEPENDENT")
             gpio_l.set_config(2, "H_INDEPENDENT")
             gpio_l.reset_fail_count(2)
@@ -416,7 +418,7 @@ def run_flash_caravel():
     # test.gpio_mgmt_out.set_state(False)
 
 
-def run_sanity_check(voltage=1.6):
+def run_sanity_check(voltage=1.6, analog=False):
     test = Test(voltage=voltage)
 
     gpio_l = Gpio()
@@ -425,6 +427,7 @@ def run_sanity_check(voltage=1.6):
     print(" ")
     print("===================================================================")
     print(f"{VERSION}")
+    print(f"voltage = {voltage:1.2f}, analog = {analog}")
     print("===================================================================")
 
     print("===================================================================")
@@ -432,7 +435,7 @@ def run_sanity_check(voltage=1.6):
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=2)
-    low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h)
+    low_chain_passed, low_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h, bypass=analog)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
@@ -443,7 +446,8 @@ def run_sanity_check(voltage=1.6):
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=4)
-    high_chain_passed, high_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h, "high", True)
+    high_chain_passed, high_chain_io_failed = sanity_check(test, "config_io_o", gpio_l, gpio_h, "high", True, \
+                                                           bypass=analog)
 
     print(" ")
     print("===================================================================")
@@ -491,6 +495,8 @@ def run(part_name="** unspecified **", voltage=1.6, analog=False):
     with open(config_filename, "w") as f:
         f.write(f"# gpio_config_def.py file for part {part_name}\n")
         f.write(f"# {VERSION}\n")
+        f.write(f"voltage = {voltage:1.2f}\n")
+        f.write(f"analog = {analog}\n")
         f.write(f"\n")
         f.write(f"H_NONE        = 0  \n")
         f.write(f"H_DEPENDENT   = 1  \n")
@@ -507,6 +513,7 @@ def run(part_name="** unspecified **", voltage=1.6, analog=False):
     print(" ")
     print("===================================================================")
     print(f"{VERSION}")
+    print(f"voltage = {voltage:1.2f}, analog = {analog}")
     print("===================================================================")
 
     print(" ")
