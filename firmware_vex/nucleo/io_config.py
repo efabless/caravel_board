@@ -151,11 +151,17 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
         print("    starting test")
     if chain == "low":
         channel = 0
-        end_pulses = 18
+        if bypass:
+            end_pulses = 13
+        else:
+            end_pulses = 18
         gpio = gpio_l
     else:
         channel = 37
-        end_pulses = 18
+        if bypass:
+            end_pulses = 12
+        else:
+            end_pulses = 18
         gpio = gpio_h
     for i in range(0,end_pulses):
         pulse_count = test.receive_packet(2)
@@ -192,6 +198,9 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
             accurate_delay(50)
 
             for state in states:
+                # if bypass and channel == 1:
+                #     print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Skipping")
+                #     break
                 c = 0
                 if state:
                     test.apply_gpio_high()
@@ -230,7 +239,7 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
     return True, None
 
 
-def change_config(channel, gpio_l, gpio_h, voltage, test):
+def change_config(channel, gpio_l, gpio_h, voltage, test, bypass=False):
     if channel > 18:
         if gpio_h.get_config(37 - channel) == "H_INDEPENDENT":
             gpio_h.set_config(37 - channel, "H_DEPENDENT")
@@ -258,7 +267,7 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             test.turn_off_devices()
 
     else:
-        if channel == 2 and gpio_l.get_config(1) == "H_INDEPENDENT" and \
+        if bypass and channel == 2 and gpio_l.get_config(1) == "H_INDEPENDENT" and \
                 gpio_l.get_config(2) == "H_DEPENDENT":
             print("*** changing IO[01] to H_DEPENDENT, restarting gpio[02]")
             gpio_l.set_config(1, "H_DEPENDENT")
@@ -313,7 +322,7 @@ def choose_test(
             test_passed(test, gpio_l, gpio_h, chain)
         else:
             gpio_l, gpio_h = change_config(
-                channel_failed, gpio_l, gpio_h, test.voltage, test
+                channel_failed, gpio_l, gpio_h, test.voltage, test, bypass=bypass
             )
         if chain == "low" and gpio_l.get_gpio_failed():
             break
