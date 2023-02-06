@@ -1,15 +1,10 @@
 #include "../defs.h"
 #include "gpio_config_io.c"
 #include "send_packet.c"
-//#include "../local_defs.h"
-//#include "../stub.c"
-
-//#include "../config_io.h"
-//#include "../defs_mpw-two-mfix.h"
 
 void set_registers() {
 
-    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_ANALOG;
+    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
     reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_2 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_3 = GPIO_MODE_MGMT_STD_OUTPUT;
@@ -48,64 +43,12 @@ void set_registers() {
 //    reg_mprj_io_34 = 0x0403;
     reg_mprj_io_35 = GPIO_MODE_MGMT_STD_OUTPUT;
     reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
+    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+//    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
 //    reg_mprj_io_37 = 0x0403;
 
 }
-/*
 
-@ start of test  after configuration
-    send packet with size = 1
-@ send 4 pulses at gpio[0]  
-    send packet with size = 2
-@ send 4 pulses at gpio[1]  
-    send packet with size = 3
-@ send 4 pulses at gpio[2]  
-    send packet with size = 4
-@ send 4 pulses at gpio[3]  
-    send packet with size = 5
-@ send 4 pulses at gpio[4]  
-    send packet with size = 6
-@ send 4 pulses at gpio[5]  
-    send packet with size = 7
-@ send 4 pulses at gpio[6]  
-    send packet with size = 8
-@ send 4 pulses at gpio[7]  
-    send packet with size = 9
-@ send 4 pulses at gpio[8]  
-    send packet with size = 10
-
-
-@ reset pulses
-    send packet with size = 1
-@ send 4 pulses at gpio[9]  
-    send packet with size = 2
-@ send 4 pulses at gpio[10]  
-    send packet with size = 3
-@ send 4 pulses at gpio[11]  
-    send packet with size = 4
-@ send 4 pulses at gpio[12]  
-    send packet with size = 5
-@ send 4 pulses at gpio[13]  
-    send packet with size = 6
-@ send 4 pulses at gpio[14]  
-    send packet with size = 7
-@ send 4 pulses at gpio[15]  
-    send packet with size = 8
-@ send 4 pulses at gpio[16]  
-    send packet with size = 9
-@ send 4 pulses at gpio[17]  
-    send packet with size = 10
-@ send 4 pulses at gpio[18]  
-    send packet with size = 11
-
-@ test finish 
-    send packet with size = 1
-    send packet with size = 1
-    send packet with size = 1
-
-
-*/
 void main()
 {
 	int i,j,high_chain_io;
@@ -117,8 +60,8 @@ void main()
     reg_gpio_mode0 = 0;
     reg_gpio_ien = 1;
     reg_gpio_oe = 1;
-    int old_recieved;
-    int recieved;
+    int old_received;
+    int received;
 
     set_registers();
     reg_mprj_datah = 0;
@@ -129,12 +72,14 @@ void main()
     int flag = 0;
     int mask;
     int mask_io37 = 0x1 << 5;
+    int mask_io0 = 0x1;
     int io_num = 0;
-    int recieved_bit;
+    int received_bit;
     // send_packet_io0(2);
 
     while (1){
-        flag = recieve_io37();
+//        flag = receive_io37();
+        flag = receive_io0();
         // if (flag == 2){
         //     io_num = 0;
         //     flag = 1;
@@ -146,50 +91,40 @@ void main()
             mask = 0;
             high_chain_io = 37 - io_num;
             int counter = 0;
-            // send_packet_io0(4);
             while(1){
-                old_recieved = reg_mprj_datah & mask_io37;
+//                old_received = reg_mprj_datah & mask_io37;
+                old_received = reg_mprj_datal & mask_io0;
                 while(1){
-                    recieved = reg_mprj_datah & mask_io37;
-                    if (recieved != old_recieved){
+//                    received = reg_mprj_datah & mask_io37;
+                    received = reg_mprj_datal & mask_io0;
+                    if (received != old_received){
                         // send_packet_io0(4);
-                        recieved_bit = recieved >> 5;
+//                        received_bit = received >> 5;
+                        received_bit = received;
                         if (high_chain_io<32){
-                            mask = recieved_bit << io_num;
-                            mask = mask | recieved_bit << high_chain_io;
+                            mask = received_bit << io_num;
+                            mask = mask | received_bit << high_chain_io;
                         }
                         else{
-                            mask = recieved_bit << io_num;
+                            mask = received_bit << io_num;
                         }
                         if (high_chain_io>=32){
-                            reg_mprj_datah = recieved_bit << high_chain_io-32;
+                            reg_mprj_datah = received_bit << high_chain_io-32;
                         }
                         reg_mprj_datal = mask;
-                        // old_recieved = recieved;
+                        // old_received = received;
                         // send_packet_io0(4);
                         counter++;
                         break;
                     }
                 }
                 if (counter == 4){
-                    count_down(PULSE_WIDTH*2);
+                    count_down(PULSE_WIDTH*10);
                     break;
                 }
             }
         }
             
-            // count_down(PULSE_WIDTH * 10); 
-            // for (i = 0; i < num_pulses; i++){
-            //     if (z>=32){
-            //         reg_mprj_datah = 0x1 << z-32;
-            //     }
-            //     reg_mprj_datal = mask;
-            //     count_down(PULSE_WIDTH); 
-            //     reg_mprj_datah = 0x0;
-            //     reg_mprj_datal = 0x0;  
-            //     count_down(PULSE_WIDTH); 
-            // }
-        // }
     }
 
 }

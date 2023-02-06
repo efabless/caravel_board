@@ -38,6 +38,13 @@ version: check_device
 run: check_device check_part
 	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', $(VOLTAGE))"
 
+run_analog: check_device check_part
+ifdef VOLTAGE
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', voltage=$(VOLTAGE), analog=True)"
+else
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', analog=True)"
+endif
+
 # copy the definition file for a part after running io_config
 get_config: check_device
 	mpremote connect ${DEV} cp :gpio_config_def.py .
@@ -143,6 +150,9 @@ SED_CMD=sed -i'.orig' -e
 PATTERN = config_io_o
 
 hex:  ${PATTERN:=.hex}
+
+#gpio_config_data.c: gpio_config_def.py gpio_config_io.py
+#	python3 ../gpio_config/gpio_config_builder.py
 
 %.elf: %.c ../sections.lds ../crt0_vex.S ./gpio_config_data.c ./send_packet.c
 	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<

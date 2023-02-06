@@ -28,13 +28,19 @@ or scan the QR code...
 
 1. Install the jumpers on J8 and J9 in the 'HAT' position to enable the board to be powered by the Nucleo. 
 2. Plug the Caravel Nucleo Hat in Nucleo board pins 
-   - the USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
+   - The USB on the hat should face the ST-LINK breakoff board on Nucleo and away from the push buttons on Nucleo
    - IMPORTANT: the FlexyPin socket allows you to swap breakout boards with different parts.  You do not need to solder 
   any pins.
    - Be careful not to bend a pin when inserting the breakout board.  If one of the pins bend, use needle-nose pliers to 
   re-straighten it.
+   - When pressing the Caravel Hat board on the pin headers of the Nucleo, only press far enough to engage the pins.  If
+   you press to far, you can short the Flexy pins under the board against jumpers on the Nucleo.
+   
+
 3. Install a Caravel Breakout board into the socket on the Caravel Hat board
-     - the Efabless logo should face the USB connector on the Hat
+     - The Efabless logo should face the USB connector on the Hat
+     
+
 4. Connect the USB cable from the connector CN1 on the Nucleo to your workstation / laptop.
 5. Connect a second USB cable from your desktop / workstation from connector CN13 on the opposite side the Nucleo board 
    from the ST-LINK breakaway board.
@@ -128,12 +134,21 @@ io_config -- version 1.1.0
 
 ### RUNNING THE DIAGNOSTIC
 
-To run the diagnostic, enter the following commands.  The PART variable is an ID for the part you are testing defined by
+To run the diagnostic, enter the following commands.  The command depends on whether your project uses **Caravel** or 
+**Caravan** (for analog).  
+
+The PART variable is an ID for the part you are testing defined by
 you.  It will be recorded in the output of the test for future reference.
 
 ```bash
 cd caravel_board/firmware_vex/nucleo
+
+## for digital (or analog) projects using Caravel & user_project_wrapper
 make run PART=<part id>
+
+## for analog projects using Caravan & user_analog_project_wrapper
+make run_analog PART=<part id>
+
 ```
 
 The test will begin with the green LED on the Nucleo flashing 5 times.  
@@ -222,3 +237,19 @@ make clean flash_nucleo
 This will rebuild the firmware prior to flashing Caravel through the Nucleo board.  Note, you need to have both USB 
 cables connected to the Nucleo to support this.  You also need to have the FLASH variable set correctly per the 
 instructions in the [Installation](#installation) section below.
+
+## Troubleshooting
+
+If you are experiencing issues running the diagnostic, there are a few recommended items to check.
+
+1. Once installed and powered on, check if your part is warm to the touch.  If so, you likely have a short in that part
+   (or your project).  If its not in the project, try another part.
+2. Check voltages for the 3.3V and 1.8V supplies in pins J8 and J9.  They should be at 3.3V and 1.6V respectively.
+3. Ensure your Caravel Hat board is not pressed too far down on the pins to the Nucleo.  If it is, you may short some of
+Flexy pins underneath the Caravel Hat board against jumpers from the Nucleo board.  Carefully pull and ease the board up 
+on the pins of the 70 pin male headers on the Nucleo so that the female headers are just firmly connecting to the pins.
+4. There is a known issue wit IO[0] and IO[1] that prevent them from being used by the management SoC as outputs.  See 
+errata below.
+
+For further details and issues, please see the 
+[errata](https://docs.google.com/spreadsheets/d/1oErt0V6cgy-dxL2uRPfLjIaFMlooplvvDTThpU-rZAQ/edit?usp=sharing).
