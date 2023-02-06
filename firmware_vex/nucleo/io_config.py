@@ -5,7 +5,7 @@ from flash import flash_mem
 import sys
 from machine import Pin
 
-VERSION = "io_config -- version 1.2.0 (analog_test)"
+VERSION = "io_config -- version 1.2.0"
 config_filename = "gpio_config_def.py"
 debug = False
 # debug=True
@@ -238,7 +238,8 @@ def run_calibration(test, chain, gpio_l, gpio_h, bypass=False):
 
 
 def change_config(channel, gpio_l, gpio_h, voltage, test, bypass=False):
-    """changes default configuration (H_INDEPENDENT) to H_DEPENDENT for failed IO, if it is the second time the failure occure on the IO, it will exit the program
+    """changes default configuration (H_INDEPENDENT) to H_DEPENDENT for failed IO, if it is the second time the failure
+    occurs on the IO, it will exit the program
 
     Args:
         channel (int): channel number
@@ -353,7 +354,7 @@ def choose_test(test, test_name, gpio_l, gpio_h, chain="low", bypass=False):
     return test_result, channel_failed
 
 
-def sanity_check(test, test_name, gpio_l, gpio_h, chain="low", bypass=False):
+def sanity_check(test, test_name, gpio_l, gpio_h, chain="low"):
     """runs sanity check with an already known def file
 
     Args:
@@ -362,12 +363,12 @@ def sanity_check(test, test_name, gpio_l, gpio_h, chain="low", bypass=False):
         gpio_l (class): low chain class
         gpio_h (class): high chain class
         chain (str, optional): either low or high chain. Defaults to "low".
-        bypass (bool, optional): flag to use bypassing method for analog projects. Defaults to False.
 
     Returns:
         bool, int: flag if channel failed, and channel number
     """
     import gpio_config_def
+    bypass = gpio_config_def.analog
 
     test_result = False
     channel_failed_h = None
@@ -468,14 +469,15 @@ def run_flash_caravel():
     test.release_reset()
 
 
-def run_sanity_check(voltage=1.6, analog=False):
+def run_sanity_check():
     """Runs the sanity check
 
     Args:
         voltage (float, optional): voltage used in test. Defaults to 1.6.
         analog (bool, optional): flag to know if the project is analog. Defaults to False.
     """
-    test = Test(voltage=voltage)
+    import gpio_config_def
+    test = Test(voltage=gpio_config_def.voltage)
 
     gpio_l = Gpio()
     gpio_h = Gpio()
@@ -483,7 +485,7 @@ def run_sanity_check(voltage=1.6, analog=False):
     print(" ")
     print("===================================================================")
     print(f"{VERSION}")
-    print(f"voltage = {voltage:1.2f}, analog = {analog}")
+    print(f"voltage = {gpio_config_def.voltage:1.2f}, analog = {gpio_config_def.analog}")
     print("===================================================================")
 
     print("===================================================================")
@@ -492,7 +494,7 @@ def run_sanity_check(voltage=1.6, analog=False):
     print(" ")
     led_green.blink(short=3, long=2)
     low_chain_passed, low_chain_io_failed = sanity_check(
-        test, "config_io_o", gpio_l, gpio_h, bypass=analog
+        test, "config_io_o", gpio_l, gpio_h
     )
 
     gpio_l = Gpio()
@@ -505,7 +507,7 @@ def run_sanity_check(voltage=1.6, analog=False):
     print(" ")
     led_green.blink(short=3, long=4)
     high_chain_passed, high_chain_io_failed = sanity_check(
-        test, "config_io_o", gpio_l, gpio_h, "high", bypass=analog
+        test, "config_io_o", gpio_l, gpio_h, "high"
     )
 
     print(" ")
