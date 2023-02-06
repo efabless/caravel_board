@@ -3,12 +3,12 @@ import time
 from flash import flash, erase
 from i2c import *
 import sys
-# from pyb import Timer
+import pyb
 
 
 def accurate_delay(delay):
     tm = time.ticks_us()
-    tm_add = time.ticks_add(tm, int(delay*1000))
+    tm_add = time.ticks_add(tm, int(delay * 1000))
     while time.ticks_diff(tm_add, time.ticks_us()) > 0:
         pass
     return
@@ -54,6 +54,7 @@ class Gpio:
     def get_config(self, channel):
         return self.array[channel]
 
+
 class Dio:
     def __init__(self, channel, state=False):
         self.channel = channel
@@ -74,25 +75,25 @@ class Dio:
             self.pin = Pin(self.channel, Pin.IN)
 
     def set_value(self, value):
-        if value:            
+        if value:
             self.pin.value(1)
         else:
             self.pin.value(0)
 
     def send_pulses(self, num_pulses):
-        for i in range(0,num_pulses):
+        for i in range(0, num_pulses):
             self.set_value(1)
             accurate_delay(25)
             self.set_value(0)
             accurate_delay(25)
-    
+
     def turn_io_off(self):
         Pin(self.channel).off()
 
 
 class Test:
     def __init__(
-        self, test_name = None, passing_criteria = [], voltage=1.6, sram=1, config_mode=True
+        self, test_name=None, passing_criteria=[], voltage=1.6, sram=1, config_mode=True
     ):
         self.rstb = Dio("MR", True)
         # self.gpio_mgmt_in = Dio("IO_0", False)
@@ -105,8 +106,8 @@ class Test:
         self.sram = sram
         self.passing_criteria = passing_criteria
         self.supply = ProgSupply()
-        self.en_1v8 = Pin('EN_VOUT1', mode=Pin.OUT, value=1)
-        self.en_3v3 = Pin('EN_VOUT2', mode=Pin.OUT, value=1)
+        self.en_1v8 = Pin("EN_VOUT1", mode=Pin.OUT, value=1)
+        self.en_3v3 = Pin("EN_VOUT2", mode=Pin.OUT, value=1)
 
     def receive_packet(self, num_pulses):
         pulses = 0
@@ -130,17 +131,17 @@ class Test:
     def send_increment(self):
         self.gpio_mgmt_out.set_state(True)
         self.gpio_mgmt_out.send_pulses(4)
-    
+
     def send_reset(self):
         self.gpio_mgmt_out.set_state(True)
         self.gpio_mgmt_out.send_pulses(2)
 
     def apply_reset(self):
-        #print("   applying reset on channel 0 device 1")
+        # print("   applying reset on channel 0 device 1")
         self.rstb.set_value(0)
 
     def release_reset(self):
-        #print("   releasing reset on channel 0 device 1")
+        # print("   releasing reset on channel 0 device 1")
         self.rstb.set_value(1)
 
     def flash(self, hex_file):
@@ -150,10 +151,10 @@ class Test:
         except:
             print("*** ERROR - attempting to reflash")
             flash(f"{hex_file}", debug=True)
-    
+
     def apply_gpio_high(self):
         self.gpio_mgmt_out.set_value(1)
-    
+
     def apply_gpio_low(self):
         self.gpio_mgmt_out.set_value(0)
 
@@ -164,7 +165,7 @@ class Test:
         time.sleep(1)
 
         # Keep 3.3V supply at 3.3V
-        self.supply.write_3v3(0x3a)
+        self.supply.write_3v3(0x3A)
 
         # Note:
         # Potentiometer is MCP4661 and has 10k ohms in
@@ -193,41 +194,40 @@ class Test:
         self.en_1v8.off()
         self.en_3v3.off()
         time.sleep(1)
-    
+
     def turn_off_ios(self):
         for i in range(38):
             Dio(f"IO_{i}").turn_io_off()
-    
+
     def release_pins(self):
         for i in range(38):
             Dio(f"IO_{i}")
 
 
 class ProgSupply:
-    
     def __init__(self):
-        self.scl = Pin('I2C2_SCL', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
-        self.sda = Pin('I2C2_SDA', mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
+        self.scl = Pin("I2C2_SCL", mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
+        self.sda = Pin("I2C2_SDA", mode=Pin.OPEN_DRAIN, pull=Pin.PULL_UP, value=1)
         self.i2c = I2C(scl=self.scl, sda=self.sda)
         self.i2c.init()
-        
+
     def read_1v8(self):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        self.i2c.write_byte(0x0c, start=False, stop=False)
+        self.i2c.write_byte(0x0C, start=False, stop=False)
         self.i2c.write_byte(0x51, start=True, stop=False)
         value = self.i2c.read_byte(ack=True, stop=False) << 8
         value |= self.i2c.read_byte(ack=False, stop=True)
         return value
-    
+
     def write_1v8(self, value):
         self.i2c.write_byte(0x50, start=True, stop=False)
         self.i2c.write_byte(0x10 & value >> 8, start=False, stop=False)
-        ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
+        ack = self.i2c.write_byte(value & 0xFF, start=False, stop=True)
         return ack
 
     def read_3v3(self):
         self.i2c.write_byte(0x50, start=True, stop=False)
-        self.i2c.write_byte(0x1c, start=False, stop=False)
+        self.i2c.write_byte(0x1C, start=False, stop=False)
         self.i2c.write_byte(0x51, start=True, stop=False)
         value = self.i2c.read_byte(ack=True, stop=False) << 8
         value |= self.i2c.read_byte(ack=False, stop=True)
@@ -236,5 +236,42 @@ class ProgSupply:
     def write_3v3(self, value):
         self.i2c.write_byte(0x50, start=True, stop=False)
         self.i2c.write_byte(0x10 | (value >> 8), start=False, stop=False)
-        ack = self.i2c.write_byte(value & 0xff, start=False, stop=True)
+        ack = self.i2c.write_byte(value & 0xFF, start=False, stop=True)
         return ack
+
+
+class Led:
+    def __init__(self, pin_name):
+        self.led = Pin(pin_name, Pin.OUT)
+
+    def blink(self, short=1, long=0):
+        delay_short = 300
+        delay_long = 600
+
+        self.led.off()
+        for i in range(short):
+            self.led.on()
+            pyb.delay(delay_short)
+            self.led.off()
+            pyb.delay(delay_short)
+
+        if long > 0:
+            pyb.delay(delay_long)
+
+        for i in range(long):
+            self.led.on()
+            pyb.delay(delay_long)
+            self.led.off()
+            pyb.delay(delay_long)
+
+    def on(self):
+        self.led.on()
+
+    def off(self):
+        self.led.off()
+
+    def toggle(self):
+        if self.led.value():
+            self.led.off()
+        else:
+            self.led.on()
