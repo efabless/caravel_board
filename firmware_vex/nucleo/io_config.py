@@ -64,14 +64,14 @@ led_green = Led("B0")
 led_red = Led("B14")
 
 
-def run_builder(gpio_l, gpio_h):
+def run_builder(gpio_l, gpio_h, bypass):
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    return gpio_config_builder.build_config(gpio_h, gpio_l, True)
+    return gpio_config_builder.build_config(gpio_h, gpio_l, True, bypass)
 
 
-def run_builder_sanity(gpio_l, gpio_h):
-    return gpio_config_builder.build_config(gpio_h, gpio_l, False)
+def run_builder_sanity(gpio_l, gpio_h, bypass):
+    return gpio_config_builder.build_config(gpio_h, gpio_l, False, bypass)
 
 
 def data_flash(test_name, hex_data, first_line=1):
@@ -301,7 +301,7 @@ def choose_test(
     #exec_flash(test, test_name)
     while not test_result:
         test.test_name = test_name
-        config_stream = run_builder(gpio_l.array, gpio_h.array)
+        config_stream = run_builder(gpio_l.array, gpio_h.array, bypass)
         exec_data_flash(test, test_name, config_stream)
         test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h, bypass)
         if test_result:
@@ -334,7 +334,7 @@ def sanity_check(
     channel_failed_l = None
     while not test_result:
         test.test_name = test_name
-        config_stream = run_builder_sanity(gpio_config_def.gpio_l, gpio_config_def.gpio_h)
+        config_stream = run_builder_sanity(gpio_config_def.gpio_l, gpio_config_def.gpio_h, bypass)
         exec_data_flash(test, test_name, config_stream)
         test_result, channel_failed = run_test(test, chain, gpio_l, gpio_h, bypass)
         for i in gpio_config_def.gpio_h:
