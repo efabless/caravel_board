@@ -167,40 +167,20 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
         pulse_count = test.receive_packet(2)
         if debug:
             print(f"    received packet: pulses = {pulse_count}, i = {i}")
-        if bypass and chain == "low" and i == 0:
-            test.apply_gpio_low()
-            accurate_delay(500)
-            test.send_increment()
-            test.apply_gpio_low()
-            channel = channel + 1
-            accurate_delay(50)
-            test.apply_gpio_high()
-            accurate_delay(50)
-            test.apply_gpio_low()
-            accurate_delay(50)
-            test.apply_gpio_high()
-            accurate_delay(50)
-            test.apply_gpio_low()
-            print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Skipping")
-            continue
         if pulse_count == 2:
             test.apply_gpio_low()
             accurate_delay(500)
             test.send_increment()
             test.apply_gpio_low()
-            # if pulse_count == 2:
             if chain == "low":
                 channel = channel + 1
             else:
                 channel = channel - 1
-            #print(f"start sending pulses to gpio[{channel}]")
             states = [True, False, True]
             accurate_delay(50)
+            count = 0
 
             for state in states:
-                # if bypass and channel == 1:
-                #     print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Skipping")
-                #     break
                 c = 0
                 if state:
                     test.apply_gpio_high()
@@ -210,6 +190,11 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
                 tm = time.ticks_us()
                 timeout = time.ticks_add(tm, int(50000))
                 while 1:
+                    if bypass and channel == 1:
+                        if count == 0:
+                            print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Skipping")
+                            count = 1
+                        break
                     val = Dio(f"IO_{channel}").get_value()
                     if val != state:
                         if chain == "low":
@@ -222,7 +207,9 @@ def run_test(test, chain, gpio_l, gpio_h, bypass=False):
                         return False, channel
                     if time.ticks_us() >= timeout:
                         break
-            if chain == "low":
+            if bypass and channel == 1:
+                count = 0
+            elif chain == "low":
                 print(f"gpio[{channel:02}] - {gpio.get_config(channel):13} >> Passed")
             else:
                 print(f"gpio[{channel:02}] - {gpio.get_config(37 - channel):13} >> Passed")
@@ -554,12 +541,16 @@ def run(part_name="** unspecified **", voltage=1.6, analog=False):
     print("===================================================================")
     print("===================================================================")
 
-    if low_chain_passed:
+    if low_chain_passed and analog:
+        print("== LOW chain PASSED.   Valid IO = 0 thru 13.                      ==")
+    elif low_chain_passed:
         print("== LOW chain PASSED.   Valid IO = 0 thru 18.                      ==")
     else:
         print("== LOW chain FAILED.   Valid IO = 0 thru {:02}.                      ==".format(low_chain_io_failed-1))
 
-    if high_chain_passed:
+    if high_chain_passed and analog:
+        print("== HIGH chain PASSED.  Valid IO = 25 thru 37.                     ==")
+    elif high_chain_passed:
         print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
     else:
         print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed+1))
