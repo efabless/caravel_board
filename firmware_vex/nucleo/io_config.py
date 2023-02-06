@@ -26,7 +26,7 @@ led_green = Led("B0")
 led_red = Led("B14")
 
 
-def run_builder(gpio_l, gpio_h):
+def run_builder(gpio_l, gpio_h, bypass):
     """runs the builder to get the configuration stream
 
     Args:
@@ -36,12 +36,13 @@ def run_builder(gpio_l, gpio_h):
     Returns:
         array: configuration stream after running builder
     """
+
     gpio_l = ",".join(gpio_l)
     gpio_h = ",".join(gpio_h)
-    return gpio_config_builder.build_config(gpio_h, gpio_l, True)
+    return gpio_config_builder.build_config(gpio_h, gpio_l, True, bypass)
 
 
-def run_builder_sanity(gpio_l, gpio_h):
+def run_builder_sanity(gpio_l, gpio_h, bypass):
     """runs the builder for the sanity check, where it will skip the initiallization of low and high chain
 
     Args:
@@ -51,7 +52,7 @@ def run_builder_sanity(gpio_l, gpio_h):
     Returns:
         array: configuration sream after running builder
     """
-    return gpio_config_builder.build_config(gpio_h, gpio_l, False)
+    return gpio_config_builder.build_config(gpio_h, gpio_l, False, bypass)
 
 
 def flash_data(test_name, config_stream, first_line=1):
@@ -332,7 +333,7 @@ def choose_test(test, test_name, gpio_l, gpio_h, chain="low", bypass=False):
     test_result = False
     while not test_result:
         test.test_name = test_name
-        config_stream = run_builder(gpio_l.array, gpio_h.array)
+        config_stream = run_builder(gpio_l.array, gpio_h.array, bypass)
         exec_flash_data(test, test_name, config_stream)
         test_result, channel_failed = run_calibration(
             test, chain, gpio_l, gpio_h, bypass
@@ -374,7 +375,7 @@ def sanity_check(test, test_name, gpio_l, gpio_h, chain="low", bypass=False):
     while not test_result:
         test.test_name = test_name
         config_stream = run_builder_sanity(
-            gpio_config_def.gpio_l, gpio_config_def.gpio_h
+            gpio_config_def.gpio_l, gpio_config_def.gpio_h, bypass
         )
         exec_flash_data(test, test_name, config_stream)
         test_result, channel_failed = run_calibration(

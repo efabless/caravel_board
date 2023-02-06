@@ -145,11 +145,13 @@ def build_stream_independent(stream, config):
     return s
 
 
-def build_stream_none(stream, config):
+def build_stream_none(stream, config, bypass):
     s = ""
     if config == C_MGMT_OUT:
         # stream += '1100000001001'
         s = stream + '1100000000001'
+    elif config == C_MGMT_IN and bypass:
+        s = stream + '0010000000011'
     elif config == C_MGMT_IN:
         s = stream + '1000000000011'
     elif config == C_DISABLE:
@@ -189,7 +191,7 @@ def correct_dd_holds(stream, bpos):
 # ------------------------------------------
 
 
-def build_config(arg_gpio_h, arg_gpio_l, flag):
+def build_config(arg_gpio_h, arg_gpio_l, flag, bypass):
     if flag:
         gpio_h, gpio_l = setup(arg_gpio_h, arg_gpio_l)
     else:
@@ -215,7 +217,7 @@ def build_config(arg_gpio_h, arg_gpio_l, flag):
         elif gpio_h[k][1] == H_SPECIAL:
             stream_h = build_stream_special(stream_h, config_h[k])
         else:
-            stream_h = build_stream_none(stream_h, config_h[k])
+            stream_h = build_stream_none(stream_h, config_h[k], bypass)
 
         # build lower IO stream
         if gpio_l[k][1] == H_DEPENDENT:
@@ -225,7 +227,7 @@ def build_config(arg_gpio_h, arg_gpio_l, flag):
         elif gpio_l[k][1] == H_SPECIAL:
             stream_l = build_stream_special(stream_l, config_l[k])
         else:
-            stream_l = build_stream_none(stream_l, config_l[k])
+            stream_l = build_stream_none(stream_l, config_l[k], bypass)
 
     n_bits = max(len(stream_h), len(stream_l))
     while len(stream_h) < n_bits:
