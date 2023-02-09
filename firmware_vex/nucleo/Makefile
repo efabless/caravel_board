@@ -62,7 +62,7 @@ endif
 
 # power up the caravel hat while mounted to Nucleo
 poweron: check_device
-	mpremote connect ${DEV} exec "import io_config; io_config.run_poweron()"
+	mpremote connect ${DEV} exec "import io_config; io_config.run_poweron($(VOLTAGE))"
 
 # flash firmware on caravel hat while mounted to Nucleo
 flash: check_volume check_device
