@@ -253,3 +253,21 @@ errata below.
 
 For further details and issues, please see the 
 [errata](https://docs.google.com/spreadsheets/d/1oErt0V6cgy-dxL2uRPfLjIaFMlooplvvDTThpU-rZAQ/edit?usp=sharing).
+
+## Software
+
+This is a flowchart that describes the Software, keywords here are Firmware `code running on caravel` and Software `code running on Nucleo board`
+
+<img src="docs/software_flowchart.png" alt="alt text" style="width:200px;"/>
+
+### Functions used by the software
+
+The software is done in micropython and ran on the nucleo, some of the useful functions that can be used after running `make repl` and importing `io_config` are:
+
+```
+version # displays the version of this code
+run_poweron(v) # powers on caravel board using the nucleo, with voltage v (default is 1.6)
+run_flash_caravel() # flashes caravel with firmware.hex on the nucleo filesystem
+run_sanity_check() # runs the sanity check on an already existing gpio_config_def file on nucleo filesystem
+run(part_name, voltage, analog) # runs the calibration program, analog is a flag that speicifes if the project is analog
+```
