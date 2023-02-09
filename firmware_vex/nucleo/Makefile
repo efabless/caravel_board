@@ -57,7 +57,7 @@ else
 	$(COPY_CMD) ${FILE} ${FLASH}/gpio_config_def.py
 	sync
 	sleep 2
-	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check($(VOLTAGE))"
+	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check()"
 endif
 
 # power up the caravel hat while mounted to Nucleo
@@ -72,7 +72,7 @@ else
 	$(COPY_CMD) ${FILE} ${FLASH}/firmware.hex
 	sync
 	sleep 2
-	mpremote connect ${DEV} exec "import io_config; io_config.run_flash_caravel()"
+	mpremote connect ${DEV} exec "import io_config; io_config.run_flash_caravel($(VOLTAGE))"
 endif
 
 # enter repl on nucleo

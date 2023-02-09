@@ -37,25 +37,26 @@ config_h = [
 del config_h[NUM_IO:]
 
 config_l = [
-    C_MGMT_OUT,   #0
-    C_MGMT_OUT,   #1
-    C_MGMT_OUT,   #2
-    C_MGMT_OUT,   #3
-    C_MGMT_OUT,   #4
-    C_MGMT_OUT,   #5
-    C_MGMT_OUT,   #6
-    C_MGMT_OUT,   #7
+    C_DISABLE,   #0
+    C_DISABLE,   #1
+    C_DISABLE,   #2
+    C_DISABLE,   #3
+    C_DISABLE,   #4
+    C_DISABLE,   #5
+    C_DISABLE,   #6
+    C_DISABLE,   #7
+    # C_USER_IN_NOPULL,   #8
     C_MGMT_OUT,   #8
-    C_MGMT_OUT,   #9
-    C_MGMT_OUT,   #10
-    C_MGMT_OUT,   #11
-    C_MGMT_OUT,   #12
-    C_MGMT_OUT,   #13
-    C_MGMT_OUT,   #14
-    C_MGMT_OUT,   #15
-    C_MGMT_OUT,   #16
-    C_MGMT_OUT,   #17
-    C_MGMT_OUT,   #18
+    C_USER_OUT,   #9
+    C_USER_OUT,   #10
+    C_USER_OUT,   #11
+    C_USER_OUT,   #12
+    C_USER_OUT,   #13
+    C_USER_OUT,   #14
+    C_USER_OUT,   #15
+    C_USER_OUT,   #16
+    C_DISABLE,   #17
+    C_DISABLE,   #18
 ]
 
 del config_l[NUM_IO:]

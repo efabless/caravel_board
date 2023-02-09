@@ -10,6 +10,8 @@ TOOLCHAIN_PREFIX=riscv64
 #TOOLCHAIN_PREFIX=riscv32
 INCLUDES=-I$(shell pwd) -I../ -I../generated/
 
+VOLTAGE=$(shell python3 -c "from gpio_config_def import voltage; print(voltage)")
+
 # ---- Test patterns for project raven ----
 
 .SUFFIXES:
@@ -46,14 +48,14 @@ flash: gpio_test.hex
 	python3 ../util/caravel_hkstop.py
 
 flash_nucleo: gpio_test.hex
-	make -f ../nucleo/Makefile flash FILE=gpio_test.hex
+	make -f ../nucleo/Makefile flash FILE=gpio_test.hex VOLTAGE=$(VOLTAGE)
 
 sanity_check: gpio_config_def.py
 	make -f ../nucleo/Makefile sanity_check FILE=gpio_config_def.py
 
 # run to bringup Caravel power while mounted on Nucleo
 poweron:
-	make -f ../nucleo/Makefile poweron
+	make -f ../nucleo/Makefile poweron VOLTAGE=$(VOLTAGE)
 
 # ---- Clean ----
 

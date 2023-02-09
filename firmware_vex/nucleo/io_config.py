@@ -454,9 +454,13 @@ def run_poweron(v=1.6):
     test.release_reset()
 
 
-def run_flash_caravel():
-    """runs flashing sequence on file called firmware.hex"""
-    test = Test(config_mode=False)
+def run_flash_caravel(v=1.6):
+    """runs flashing sequence on file called firmware.hex
+
+    Args:
+        v (float, optional): voltage to power on. Defaults to 1.6.
+    """
+    test = Test(config_mode=False, voltage=v)
     print("*** flashing Caravel")
     test.apply_reset()
     test.powerup_sequence()
