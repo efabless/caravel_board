@@ -5,7 +5,7 @@ from flash import flash_mem
 import sys
 from machine import Pin
 
-VERSION = "io_config -- version 1.2.0"
+VERSION = "io_config -- version 1.2.1"
 config_filename = "gpio_config_def.py"
 debug = False
 # debug=True
@@ -452,6 +452,16 @@ def run_poweron(v=1.6):
     test.apply_reset()
     test.powerup_sequence()
     test.release_reset()
+
+
+def run_change_power(v):
+    """powers on the caravel board through the nucleo
+
+    Args:
+        v (float, optional): voltage to power on. Defaults to 1.6.
+    """
+    test = Test(config_mode=False, voltage=v)
+    test.change_power()
 
 
 def run_flash_caravel(v=1.6):

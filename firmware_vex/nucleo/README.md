@@ -264,10 +264,10 @@ This is a flowchart that describes the Software, keywords here are Firmware `cod
 
 The software is done in micropython and ran on the nucleo, some of the useful functions that can be used after running `make repl` and importing `io_config` are:
 
-```
-version # displays the version of this code
-run_poweron(v) # powers on caravel board using the nucleo, with voltage v (default is 1.6)
-run_flash_caravel() # flashes caravel with firmware.hex on the nucleo filesystem
-run_sanity_check() # runs the sanity check on an already existing gpio_config_def file on nucleo filesystem
-run(part_name, voltage, analog) # runs the calibration program, analog is a flag that speicifes if the project is analog
-```
+`version` :  displays the version of this code
+`run_poweron(v)` : powers on caravel board using the nucleo, with voltage v (default is 1.6)
+`run_change_power(v)` : changes 1v8 power on caravel board using the nucleo with voltage v and without resetting the 
+processor.  This can be used to modify the operating power after configuring IO at a different voltage.
+`run_flash_caravel()` : flashes caravel with firmware.hex on the nucleo filesystem
+`run_sanity_check()` : runs the sanity check on an already existing gpio_config_def file on nucleo filesystem
+`run(part_name, voltage, analog)` : runs the calibration program, analog is a flag that specifies if the project is analog

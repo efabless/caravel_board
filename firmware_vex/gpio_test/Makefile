@@ -57,6 +57,9 @@ sanity_check: gpio_config_def.py
 poweron:
 	make -f ../nucleo/Makefile poweron VOLTAGE=$(VOLTAGE)
 
+change_power:
+	make -f ../nucleo/Makefile change_power VOLTAGE=$(VOLTAGE)
+
 # ---- Clean ----
 
 clean:

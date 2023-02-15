@@ -64,6 +64,9 @@ endif
 poweron: check_device
 	mpremote connect ${DEV} exec "import io_config; io_config.run_poweron($(VOLTAGE))"
 
+change_power: check_device check_voltage
+	mpremote connect ${DEV} exec "import io_config; io_config.run_change_power($(VOLTAGE))"
+
 # flash firmware on caravel hat while mounted to Nucleo
 flash: check_volume check_device
 ifndef FILE
@@ -119,6 +122,11 @@ endif
 check_part:
 ifndef PART
 	$(error "PART not defined.  Please use 'make run PART=<part_id>'")
+endif
+
+check_voltage:
+ifndef VOLTAGE
+	$(error "VOLTAGE not defined.  Please use 'make change_power VOLTAGE=<voltage>'")
 endif
 
 check-python:

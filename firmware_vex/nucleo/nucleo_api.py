@@ -190,6 +190,20 @@ class Test:
         self.en_3v3.on()
         time.sleep(1)
 
+    def change_power(self):
+
+        # Keep 3.3V supply at 3.3V
+        self.supply.write_3v3(0x3A)
+
+        R2 = 360 / ((self.voltage / 1.25) - 1)
+        Rpot = (1 / (1 / R2 - 1 / 5000)) - 500
+        P = Rpot / 38.911
+        Pval = int(P)
+
+        self.supply.write_1v8(Pval)
+
+        time.sleep(1)
+
     def turn_off_devices(self):
         self.en_1v8.off()
         self.en_3v3.off()
