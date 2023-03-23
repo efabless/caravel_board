@@ -5,6 +5,15 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "Carvel Breakout board as M.2 Card ")
+    (rev "1")
+    (company "Efabless")
+    (comment 1 "4-layer Design")
+    (comment 2 "0.8mm PCB")
+    (comment 3 "45 degree chamfered edge")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (1 "In1.Cu" signal "GND")
