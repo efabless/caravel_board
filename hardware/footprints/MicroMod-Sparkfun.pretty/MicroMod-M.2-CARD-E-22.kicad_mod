@@ -255,4 +255,18 @@
   (pad "75" smd rect (at -9.24814 -1.27254 180) (size 0.35 1.45) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 66c40cd3-5a49-4a85-8350-d981cae8dfce))
   (pad "GND" thru_hole circle (at 3.95 -22 90) (size 5.5 5.5) (drill 3.5) (layers "*.Cu" "*.Mask")
     (solder_mask_margin 0.1016) (tstamp 2c5df392-9f7b-4051-b381-2b8a66333e90))
+  (zone (net 0) (net_name "") (layers "*.Cu") (tstamp c4b1cc2a-fe0b-44d0-8043-d5571c8befe5) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks allowed) (vias allowed) (pads allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy -10 -3.55)
+        (xy 9.89 -3.56)
+        (xy 9.9 0.01)
+        (xy -10.01 0.05)
+      )
+    )
+  )
 )
