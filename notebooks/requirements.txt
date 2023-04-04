@@ -1,0 +1,6 @@
+jupyterlab
+jupyter-micropython-upydevice
+mpremote
+mpy-cross
+rshell
+
