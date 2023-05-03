@@ -7,6 +7,10 @@ Open MPW and chipIgnite projects using Caravel.  It also provides schematics, la
 
 See the README for the the Nucleo automated test setup here -- https://bit.ly/3KPriWb
 
+## Stanford Projects
+
+See the  README for testing projects here -- 
+
 ## Firmware
 
 You will need python 3.6 or later.  
