@@ -2696,6 +2696,7 @@
     )
   )
 
+
   (junction (at 375.92 213.36) (diameter 0) (color 0 0 0 0)
     (uuid 00084c17-fc5e-430e-9f77-d9dd6a9c1b23)
   )
@@ -2714,17 +2715,14 @@
   (junction (at 246.38 52.07) (diameter 0) (color 0 0 0 0)
     (uuid 17d32b91-aafc-4ab4-abf2-539d29edb479)
   )
+  (junction (at 161.29 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid 1cc64b2a-e349-4f65-b424-813cea1d8a99)
+  )
   (junction (at 85.09 90.17) (diameter 0) (color 0 0 0 0)
     (uuid 2248cdfe-d2c6-4657-a9aa-4ea1a9a9c33e)
   )
-  (junction (at 139.7 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid 229c29bf-ce06-4afb-8884-fa21a533d979)
-  )
   (junction (at 85.09 195.58) (diameter 0) (color 0 0 0 0)
     (uuid 2a645667-494b-478f-9377-31bcce28f1c8)
-  )
-  (junction (at 181.61 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid 2b198b3b-5791-42d5-b253-384a72a6dc10)
   )
   (junction (at 368.3 195.58) (diameter 0) (color 0 0 0 0)
     (uuid 2b4991e6-0cf2-486e-b58a-58bc4bf1e59a)
@@ -2732,14 +2730,14 @@
   (junction (at 303.53 125.73) (diameter 0) (color 0 0 0 0)
     (uuid 2f80d645-a19d-4ba5-a15d-04902d42ede3)
   )
+  (junction (at 207.01 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid 32b316bb-cf00-4292-8466-ba4e3a5b1d73)
+  )
   (junction (at 30.48 143.51) (diameter 0) (color 0 0 0 0)
     (uuid 33755573-fa2f-44d5-af88-39df4df4d875)
   )
   (junction (at 177.8 137.16) (diameter 0) (color 0 0 0 0)
     (uuid 35cea5ff-baf8-4243-8dd2-d0f802b6d8f0)
-  )
-  (junction (at 204.47 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid 36254066-c099-42d8-a15b-a4221b8153dd)
   )
   (junction (at 67.31 33.02) (diameter 0) (color 0 0 0 0)
     (uuid 458c06c6-bef2-43f8-8b2c-a7e814510764)
@@ -2749,6 +2747,9 @@
   )
   (junction (at 328.93 213.36) (diameter 0) (color 0 0 0 0)
     (uuid 47434904-1a1e-4d3f-b3a2-698cc79b6798)
+  )
+  (junction (at 158.75 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid 4749b219-a1c3-4252-931c-daf618d6cebd)
   )
   (junction (at 375.92 193.04) (diameter 0) (color 0 0 0 0)
     (uuid 4c7a0d3b-a253-458d-9105-bdaf7db88f4c)
@@ -2764,15 +2765,6 @@
   )
   (junction (at 146.05 248.92) (diameter 0) (color 0 0 0 0)
     (uuid 5fc730ab-1e90-4b77-9267-a2ba48bd1cd9)
-  )
-  (junction (at 161.29 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid 63799a43-bc24-4c8e-95f1-90d7e43bf296)
-  )
-  (junction (at 158.75 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid 6b6a54c4-6ec8-4b90-b0f0-3111f4cb5179)
-  )
-  (junction (at 274.32 74.93) (diameter 0) (color 0 0 0 0)
-    (uuid 6dfb2778-2f5f-4742-8d88-a738384b993e)
   )
   (junction (at 92.71 195.58) (diameter 0) (color 0 0 0 0)
     (uuid 6f063b2f-f420-470b-ad24-5059383d2f6c)
@@ -2801,6 +2793,9 @@
   (junction (at 54.61 120.65) (diameter 0) (color 0 0 0 0)
     (uuid 81addeb6-cb5d-47e6-862a-300afc86a171)
   )
+  (junction (at 274.32 74.93) (diameter 0) (color 0 0 0 0)
+    (uuid 83d3c44e-f360-4eda-bcd4-95dd5362b179)
+  )
   (junction (at 350.52 213.36) (diameter 0) (color 0 0 0 0)
     (uuid 887b3a4f-6bf1-4153-9055-a5278d8f7be0)
   )
@@ -2810,20 +2805,23 @@
   (junction (at 172.72 137.16) (diameter 0) (color 0 0 0 0)
     (uuid 90c7872b-e250-446b-8345-fb9b72bd28df)
   )
-  (junction (at 276.86 74.93) (diameter 0) (color 0 0 0 0)
-    (uuid 97d7560d-c541-4de0-b44b-800e5b7af1db)
+  (junction (at 137.16 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid 9c24e59b-f1a0-46f3-a218-3990aa031feb)
+  )
+  (junction (at 204.47 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid 9e03433c-384e-438b-8f0f-8536f20a2a8b)
   )
   (junction (at 90.17 195.58) (diameter 0) (color 0 0 0 0)
     (uuid a3b6d868-7d25-417b-a1dd-671938b8c3ee)
-  )
-  (junction (at 207.01 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid aaf2004f-6e3f-4c39-87ef-9f55c330040e)
   )
   (junction (at 82.55 195.58) (diameter 0) (color 0 0 0 0)
     (uuid abdfc13d-687f-42fa-b6cf-baacae450b61)
   )
   (junction (at 328.93 193.04) (diameter 0) (color 0 0 0 0)
     (uuid adc9a8ae-e8f7-4404-a875-1f52db99084b)
+  )
+  (junction (at 184.15 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid b2333f7b-1739-406e-9cd5-0c7de93da28d)
   )
   (junction (at 262.89 87.63) (diameter 0) (color 0 0 0 0)
     (uuid b37bc3fe-85be-497d-99c1-a2fbf4e56446)
@@ -2846,8 +2844,14 @@
   (junction (at 59.69 33.02) (diameter 0) (color 0 0 0 0)
     (uuid ce6e2dda-a636-49a0-976e-fa2f2b31a617)
   )
+  (junction (at 276.86 74.93) (diameter 0) (color 0 0 0 0)
+    (uuid ce7af3a0-1973-4584-8ca5-d41a933e36b2)
+  )
   (junction (at 251.46 87.63) (diameter 0) (color 0 0 0 0)
     (uuid cf36f0bc-2a68-41c6-9a4b-d422eb5164e5)
+  )
+  (junction (at 181.61 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid d3603b81-4a65-49ac-b2b7-21912d8e9c63)
   )
   (junction (at 363.22 123.19) (diameter 0) (color 0 0 0 0)
     (uuid d5b8da04-fb5f-439f-8b25-9ebe05a09a7f)
@@ -2855,14 +2859,17 @@
   (junction (at 146.05 209.55) (diameter 0) (color 0 0 0 0)
     (uuid d5f606bf-3e3e-465b-827d-ab959c3c4e33)
   )
-  (junction (at 137.16 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid d6b8618f-668b-4994-a665-60623067f5d8)
+  (junction (at 139.7 26.67) (diameter 0) (color 0 0 0 0)
+    (uuid da336dd2-6e2b-4278-ac06-daf354af7d48)
   )
-  (junction (at 184.15 26.67) (diameter 0) (color 0 0 0 0)
-    (uuid e3ef253d-c07a-4e77-b4ed-ec2be164995c)
+  (junction (at 83.82 33.02) (diameter 0) (color 0 0 0 0)
+    (uuid da4923c4-6c33-4c2d-97f2-e24e4d51f7d1)
   )
   (junction (at 321.31 190.5) (diameter 0) (color 0 0 0 0)
     (uuid e4654948-4daf-42fe-a244-de760c5311d3)
+  )
+  (junction (at 86.36 33.02) (diameter 0) (color 0 0 0 0)
+    (uuid e96e381d-35cc-4aee-b1a9-8c2d595f5b53)
   )
   (junction (at 95.25 195.58) (diameter 0) (color 0 0 0 0)
     (uuid eb07a1e0-c879-4854-9c56-206e1e799779)
@@ -2958,10 +2965,6 @@
     (stroke (width 0) (type default))
     (uuid 02eeb970-ff65-4f57-94d6-cbf2d6a94b39)
   )
-  (wire (pts (xy 137.16 26.67) (xy 139.7 26.67))
-    (stroke (width 0) (type default))
-    (uuid 03c2a86b-d96b-4538-adba-cc1a86e3ca14)
-  )
   (wire (pts (xy 271.78 74.93) (xy 271.78 80.01))
     (stroke (width 0) (type default))
     (uuid 0521b8b1-0fc2-4ce0-903d-517b86f987f9)
@@ -3025,10 +3028,6 @@
   (wire (pts (xy 54.61 125.73) (xy 62.23 125.73))
     (stroke (width 0) (type default))
     (uuid 0bf99e3c-851d-4282-9274-c7d3ce1de5e9)
-  )
-  (wire (pts (xy 181.61 26.67) (xy 184.15 26.67))
-    (stroke (width 0) (type default))
-    (uuid 0c19285e-e227-4655-9677-590e9efefe89)
   )
   (wire (pts (xy 212.09 26.67) (xy 212.09 21.59))
     (stroke (width 0) (type default))
@@ -3182,6 +3181,10 @@
     (stroke (width 0) (type default))
     (uuid 21b90bd0-d0a8-40b6-a415-d13a7103979c)
   )
+  (wire (pts (xy 137.16 26.67) (xy 139.7 26.67))
+    (stroke (width 0) (type default))
+    (uuid 22d82515-1c47-4f5e-83cb-4577bf38d6f4)
+  )
   (wire (pts (xy 331.47 110.49) (xy 327.66 110.49))
     (stroke (width 0) (type default))
     (uuid 236ab42e-7cbd-4ce4-9d17-9c14cab59134)
@@ -3265,6 +3268,10 @@
   (wire (pts (xy 234.95 44.45) (xy 238.76 44.45))
     (stroke (width 0) (type default))
     (uuid 2acff170-110f-47a9-9cb2-2056d506cb9c)
+  )
+  (wire (pts (xy 274.32 74.93) (xy 276.86 74.93))
+    (stroke (width 0) (type default))
+    (uuid 2b09ecea-2baa-4d09-a7c0-54ac3f714f66)
   )
   (wire (pts (xy 30.48 161.29) (xy 30.48 175.26))
     (stroke (width 0) (type default))
@@ -3454,6 +3461,10 @@
     (stroke (width 0) (type default))
     (uuid 48936aad-0fdc-4dc6-abf0-93777cfab804)
   )
+  (wire (pts (xy 158.75 26.67) (xy 161.29 26.67))
+    (stroke (width 0) (type default))
+    (uuid 49bda8e6-194e-49f6-b84d-febcd514513e)
+  )
   (wire (pts (xy 381 73.66) (xy 377.19 73.66))
     (stroke (width 0) (type default))
     (uuid 4a028906-8ae0-4248-b237-9982e0095a3a)
@@ -3598,6 +3609,10 @@
     (stroke (width 0) (type default))
     (uuid 635e4ebc-bc3a-4ed5-b726-50f4536cc841)
   )
+  (wire (pts (xy 181.61 26.67) (xy 184.15 26.67))
+    (stroke (width 0) (type default))
+    (uuid 64328257-07ea-4ecb-a696-b319e3e998f8)
+  )
   (wire (pts (xy 97.79 195.58) (xy 95.25 195.58))
     (stroke (width 0) (type default))
     (uuid 64637dcc-b3b0-4ab2-be68-741c7d438cf3)
@@ -3634,6 +3649,10 @@
     (stroke (width 0) (type default))
     (uuid 6aadd97b-6927-47cf-aff9-2318b104e05c)
   )
+  (wire (pts (xy 204.47 26.67) (xy 207.01 26.67))
+    (stroke (width 0) (type default))
+    (uuid 6b950747-26ba-4fa1-a7e6-bd530031306a)
+  )
   (wire (pts (xy 90.17 195.58) (xy 87.63 195.58))
     (stroke (width 0) (type default))
     (uuid 6c121d1d-7685-4ee5-ad1f-40c000d6557a)
@@ -3641,10 +3660,6 @@
   (wire (pts (xy 124.46 167.64) (xy 124.46 165.1))
     (stroke (width 0) (type default))
     (uuid 6c5e8102-2183-4015-a2a7-9bb4bff83e3a)
-  )
-  (wire (pts (xy 274.32 74.93) (xy 276.86 74.93))
-    (stroke (width 0) (type default))
-    (uuid 6d424cab-3779-4ab0-aee8-06bbdab0ad46)
   )
   (wire (pts (xy 90.17 107.95) (xy 110.49 107.95))
     (stroke (width 0) (type default))
@@ -3790,6 +3805,10 @@
     (stroke (width 0) (type default))
     (uuid 83c80c1c-e1b2-40dc-a6cf-cae27646fe7f)
   )
+  (wire (pts (xy 83.82 33.02) (xy 86.36 33.02))
+    (stroke (width 0) (type default))
+    (uuid 88beb368-23f8-4754-848a-e4bd3a3fa929)
+  )
   (wire (pts (xy 77.47 257.81) (xy 83.82 257.81))
     (stroke (width 0) (type default))
     (uuid 8954d59a-b2aa-462c-b4d0-a69469baa0ae)
@@ -3898,10 +3917,6 @@
     (stroke (width 0) (type default))
     (uuid 9ae66cd3-c930-46e2-bcf8-6172b095efd0)
   )
-  (wire (pts (xy 204.47 26.67) (xy 207.01 26.67))
-    (stroke (width 0) (type default))
-    (uuid 9b56ca55-c552-4031-affb-4fb0a54b604e)
-  )
   (wire (pts (xy 381 38.1) (xy 377.19 38.1))
     (stroke (width 0) (type default))
     (uuid 9b957a0a-f5b1-48f0-ba53-5831037a5243)
@@ -3941,10 +3956,6 @@
   (wire (pts (xy 381 35.56) (xy 377.19 35.56))
     (stroke (width 0) (type default))
     (uuid a123e32d-01c8-494b-a5c8-765185f7329b)
-  )
-  (wire (pts (xy 158.75 26.67) (xy 161.29 26.67))
-    (stroke (width 0) (type default))
-    (uuid a14ece94-8cae-48cf-81f7-40d7e23caa77)
   )
   (wire (pts (xy 36.83 148.59) (xy 62.23 148.59))
     (stroke (width 0) (type default))
@@ -5779,7 +5790,7 @@
     (pin "1" (uuid 20277e33-5933-4b16-bfc0-6f1f378e2e81))
     (pin "2" (uuid 6ec85358-697d-4347-a52a-36c367fd6a6a))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C22") (unit 1)
         )
@@ -5805,7 +5816,7 @@
     (pin "1" (uuid 808a802a-405b-4380-84be-0b1ccedb0cb7))
     (pin "2" (uuid e19bcbff-e4cb-4e88-a286-9efb12c7a85d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C3") (unit 1)
         )
@@ -5833,7 +5844,7 @@
     (pin "3" (uuid f4afbf37-92ce-49f9-8213-a6d161d8668d))
     (pin "4" (uuid f352354b-f93f-4bcd-a9d6-52436c7189dd))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "X1") (unit 1)
         )
@@ -5858,7 +5869,7 @@
     )
     (pin "1" (uuid 90f66fcb-cbfc-43e1-8ba7-f5376a0deec8))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR053") (unit 1)
         )
@@ -5883,7 +5894,7 @@
     )
     (pin "1" (uuid 67faac27-4cbe-4483-ab29-f904927c8558))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR070") (unit 1)
         )
@@ -5908,7 +5919,7 @@
     )
     (pin "1" (uuid 509f930d-8708-442d-90e3-5ac5e8aa2614))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR067") (unit 1)
         )
@@ -5933,7 +5944,7 @@
     )
     (pin "1" (uuid 8c4250a7-a68f-47e7-bcbf-3a3d56470781))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR016") (unit 1)
         )
@@ -5962,7 +5973,7 @@
     (pin "4" (uuid 909a8197-761d-44e3-9a06-3d4f9450c78c))
     (pin "5" (uuid df34d492-fdba-4df0-8a64-dc2a0396001e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U5") (unit 1)
         )
@@ -5988,7 +5999,7 @@
     (pin "1" (uuid c0e5243f-b4c9-4a10-8dd3-6e74c057819e))
     (pin "2" (uuid e68411bb-6459-4a76-8ff2-a900c648a830))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "D3") (unit 1)
         )
@@ -6014,7 +6025,7 @@
     (pin "1" (uuid 9188a344-6adf-4651-8a7f-09828971f468))
     (pin "2" (uuid 1725558c-81ee-4183-988e-66f86622b829))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C1") (unit 1)
         )
@@ -6043,7 +6054,7 @@
     (pin "4" (uuid a1ef0292-7540-48a4-88f1-0468b3249147))
     (pin "5" (uuid 227757d2-935e-4980-b33e-47f943638d2b))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U4") (unit 1)
         )
@@ -6069,7 +6080,7 @@
     (pin "1" (uuid 12d94624-6ce1-4245-841e-430269dd372b))
     (pin "2" (uuid 1a07df75-fa02-496f-9b25-798d38000b0d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C2") (unit 1)
         )
@@ -6094,7 +6105,7 @@
     )
     (pin "1" (uuid 4735ee5b-ac6a-4c49-9fd6-7bcbab0a8427))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR048") (unit 1)
         )
@@ -6119,7 +6130,7 @@
     )
     (pin "1" (uuid 0cc46229-94d7-4d0c-90bf-167d6ad21a62))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR07") (unit 1)
         )
@@ -6145,7 +6156,7 @@
     (pin "1" (uuid 8a4a2be6-f85c-43c6-9bcc-02c32a9894ca))
     (pin "2" (uuid 35bc9720-4588-44e7-bfa5-766dc18b8353))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "D1") (unit 1)
         )
@@ -6186,7 +6197,7 @@
     (pin "4" (uuid 268bffc8-c67e-48e6-a4aa-9250128946e2))
     (pin "5" (uuid 727a86e2-398d-40cd-bcb8-024f863bd4dd))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U3") (unit 1)
         )
@@ -6212,7 +6223,7 @@
     (pin "1" (uuid c0208f54-1db5-4d59-8881-024067bcc7ac))
     (pin "2" (uuid 4c6ca279-41e0-4234-8ae7-5aed15bc3a87))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C8") (unit 1)
         )
@@ -6253,7 +6264,7 @@
     (pin "4" (uuid 0820af08-b711-4e75-8b14-ff693c187159))
     (pin "5" (uuid ff509fdd-f350-429c-bf6a-4e046aba7f56))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U2") (unit 1)
         )
@@ -6291,7 +6302,7 @@
     (pin "8" (uuid 28dad079-b637-428b-856f-a07444fb6e54))
     (pin "9" (uuid 1cf629d1-1996-4283-a8de-1f65639d0fad))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U10") (unit 1)
         )
@@ -6317,7 +6328,7 @@
     (pin "1" (uuid 840b7e2b-d56c-40a5-a1fa-1266a82c19af))
     (pin "2" (uuid 631db823-6f59-467b-b350-9fef5e68ea50))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R17") (unit 1)
         )
@@ -6410,7 +6421,7 @@
     (pin "A1" (uuid 1be44d8d-4e93-4d1c-824f-c515f8ce2923))
     (pin "A2" (uuid 9ed13da6-bebb-4e62-b263-2100cf95bdec))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U8") (unit 1)
         )
@@ -6435,7 +6446,7 @@
     )
     (pin "1" (uuid 6232f8e8-1e39-4b28-b9da-d1ef8cde81e8))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR049") (unit 1)
         )
@@ -6460,7 +6471,7 @@
     )
     (pin "1" (uuid 30aeda33-5da5-4276-8bdf-2d83bf277995))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR0104") (unit 1)
         )
@@ -6487,7 +6498,7 @@
     (pin "2" (uuid 406065cb-e52c-4815-bbe1-0822522237db))
     (pin "3" (uuid 9f3d2542-913a-40a1-97e8-71ec070a1b17))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J4") (unit 1)
         )
@@ -6512,7 +6523,7 @@
     )
     (pin "1" (uuid 98230f85-7eb3-4959-8998-7ed1b0f7dba8))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR032") (unit 1)
         )
@@ -6537,7 +6548,7 @@
     )
     (pin "1" (uuid df83115f-2de9-4fc9-b797-e3ff6654bd77))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR05") (unit 1)
         )
@@ -6562,7 +6573,7 @@
     )
     (pin "1" (uuid 3095cc4f-9e7c-4a73-a5f4-4f045b1bfabb))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR0108") (unit 1)
         )
@@ -6587,7 +6598,7 @@
     )
     (pin "1" (uuid 48d3daaa-0346-462c-bb60-dc4f6ff2db52))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR064") (unit 1)
         )
@@ -6612,7 +6623,7 @@
     )
     (pin "1" (uuid 3f10a975-2bb9-4b5d-92fa-01a35edfc6ee))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR058") (unit 1)
         )
@@ -6638,7 +6649,7 @@
     (pin "1" (uuid 4ad29072-5b1d-482f-a4e6-4cb316171b6f))
     (pin "2" (uuid c3be6356-e2f1-459c-a64b-b52f8d6a535d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C6") (unit 1)
         )
@@ -6663,7 +6674,7 @@
     )
     (pin "1" (uuid 0cc4bbe6-5fe0-477c-8031-b1546cd5f918))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR037") (unit 1)
         )
@@ -6688,7 +6699,7 @@
     )
     (pin "1" (uuid cc689621-8de0-433e-91db-905016b0fc5b))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR046") (unit 1)
         )
@@ -6714,7 +6725,7 @@
     (pin "1" (uuid 221085d4-120d-42fc-8e3e-3fc920e86593))
     (pin "2" (uuid 912ac371-58c4-4838-815d-bf14f4a220d2))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R13") (unit 1)
         )
@@ -6740,7 +6751,7 @@
     (pin "1" (uuid 744a3fd1-3633-4de7-ac1c-0e4ff8e78ebe))
     (pin "2" (uuid d49e1a6c-1592-44f5-a248-7ea6a65ca3f4))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C5") (unit 1)
         )
@@ -6792,7 +6803,7 @@
     (pin "8" (uuid 87561a4b-2407-4804-9fc8-d1a862a1e604))
     (pin "9" (uuid 0ccb93e5-7e6e-4384-96c3-d46ac12b7566))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J12") (unit 1)
         )
@@ -6817,7 +6828,7 @@
     )
     (pin "1" (uuid ba127b34-f61d-4079-bc5d-cf889c290168))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR020") (unit 1)
         )
@@ -6842,7 +6853,7 @@
     )
     (pin "1" (uuid fd09673f-951b-4ce7-894c-d04267e85653))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR025") (unit 1)
         )
@@ -6868,7 +6879,7 @@
     (pin "1" (uuid 6260c393-765e-48cb-800d-4009050fb95b))
     (pin "2" (uuid ac753c39-eaf9-4c09-9251-1c647b8a9737))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R3") (unit 1)
         )
@@ -6893,7 +6904,7 @@
     )
     (pin "1" (uuid 95d9ad88-8ea8-4e32-97c0-4ea5cc09f325))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR02") (unit 1)
         )
@@ -6919,7 +6930,7 @@
     (pin "1" (uuid 9dd2ad64-c8b4-46a6-a492-281a629db9f3))
     (pin "2" (uuid dd5dca6c-c047-46cd-a7ac-e2fc24c49165))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R5") (unit 1)
         )
@@ -6944,7 +6955,7 @@
     )
     (pin "1" (uuid 9b124f44-0d3c-4515-93cf-e73f5ccdac27))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR042") (unit 1)
         )
@@ -6970,7 +6981,7 @@
     (pin "1" (uuid da3f22d8-0f03-414e-84bf-7ff9f4eb5c69))
     (pin "2" (uuid ae245738-a10c-4cc7-8ace-291b3482df89))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C17") (unit 1)
         )
@@ -6981,7 +6992,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 139.7 21.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4e8eecbc-1257-4b52-b500-3b5a6278ef65)
-    (property "Reference" "J10" (at 140.8176 23.1648 90)
+    (property "Reference" "J10" (at 140.97 27.94 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x02_Male" (at 124.46 20.32 90)
@@ -6996,7 +7007,7 @@
     (pin "1" (uuid afff5c86-c41a-4daa-8a90-9de31daa9636))
     (pin "2" (uuid 5cb60742-9d08-4301-aab0-473156c919af))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J10") (unit 1)
         )
@@ -7022,7 +7033,7 @@
     (pin "1" (uuid 4cd487e5-0d14-4d88-9f04-cca8c3eb137c))
     (pin "2" (uuid 4b528b2f-200d-4780-93e9-505182bcdd41))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "D4") (unit 1)
         )
@@ -7047,7 +7058,7 @@
     )
     (pin "1" (uuid 5f1ae714-7eef-4426-9397-927f29596ed7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR060") (unit 1)
         )
@@ -7074,7 +7085,7 @@
     (pin "2" (uuid ba87084a-3cf3-455d-98e2-b58ed00cb3a9))
     (pin "3" (uuid b09c5155-a170-4cd6-a08e-605329d59cdf))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "Y1") (unit 1)
         )
@@ -7099,7 +7110,7 @@
     )
     (pin "1" (uuid 52303edf-6573-4dc9-92df-a57caf92b694))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR051") (unit 1)
         )
@@ -7125,7 +7136,7 @@
     (pin "1" (uuid c02ebde0-ba80-4cc4-ba51-052c2564d973))
     (pin "2" (uuid 8959fe8e-52fb-4a9b-a589-08ae45524446))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C15") (unit 1)
         )
@@ -7150,7 +7161,7 @@
     )
     (pin "1" (uuid bf13b5ad-f134-4417-865a-ecc5b8748015))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR066") (unit 1)
         )
@@ -7175,7 +7186,7 @@
     )
     (pin "1" (uuid 8844fc82-bd24-40d2-8d7e-e63f3b9743c3))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR033") (unit 1)
         )
@@ -7201,7 +7212,7 @@
     (pin "1" (uuid cb49f285-7d87-4fa2-ad26-08222f104fa2))
     (pin "2" (uuid 905fbf8f-4dd0-4641-8e88-6020fa8cf952))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R18") (unit 1)
         )
@@ -7226,7 +7237,7 @@
     )
     (pin "1" (uuid 113a231b-51a9-4eb2-a7b2-3210718418b7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "TP1") (unit 1)
         )
@@ -7264,7 +7275,7 @@
     (pin "8" (uuid d3abfa4f-311e-4010-812c-add94c887131))
     (pin "9" (uuid af35f3c9-47c1-4e2d-9e1a-fbb4e4508658))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U9") (unit 1)
         )
@@ -7290,7 +7301,7 @@
     (pin "1" (uuid 55d6eb20-987e-4ffc-8e0f-2c6c5cf32603))
     (pin "2" (uuid c8038d61-9544-4302-b9b5-64ed2a5a4458))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C12") (unit 1)
         )
@@ -7315,7 +7326,7 @@
     )
     (pin "1" (uuid 937b19e1-098f-4c73-997a-cdb703eadf57))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR09") (unit 1)
         )
@@ -7340,7 +7351,7 @@
     )
     (pin "1" (uuid fa2a9ba3-54cf-4fc6-8947-070547e5f589))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR027") (unit 1)
         )
@@ -7365,7 +7376,7 @@
     )
     (pin "1" (uuid 998bc11a-4d52-4a5d-91c7-60e47b9a2ec5))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR034") (unit 1)
         )
@@ -7391,7 +7402,7 @@
     (pin "1" (uuid 422b0aa5-967e-4525-979d-5c94419c95df))
     (pin "2" (uuid c7669aa6-488b-4d6c-bdcd-ee37e958876c))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R15") (unit 1)
         )
@@ -7416,7 +7427,7 @@
     )
     (pin "1" (uuid 89aed45d-58fb-40f5-9080-79d5d276039f))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR0101") (unit 1)
         )
@@ -7441,7 +7452,7 @@
     )
     (pin "1" (uuid 82bf434f-154c-4ccc-aa22-9dff991643a9))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR050") (unit 1)
         )
@@ -7466,7 +7477,7 @@
     )
     (pin "1" (uuid d163969d-abb5-4712-80b5-ad518cc7c2d1))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR08") (unit 1)
         )
@@ -7492,7 +7503,7 @@
     (pin "1" (uuid 4de6b443-9a6a-4421-92e9-e85f5807ef9d))
     (pin "2" (uuid 6ce544dc-b466-4d54-a00b-5d417478e709))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R10") (unit 1)
         )
@@ -7517,7 +7528,7 @@
     )
     (pin "1" (uuid b84fa23b-599d-43a0-a4c4-48a1c654b7d4))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR028") (unit 1)
         )
@@ -7543,7 +7554,7 @@
     (pin "1" (uuid c1c9b99c-a75c-465b-926e-cfbe793abf04))
     (pin "2" (uuid dc512e8f-6ec6-45ef-91c4-8ebff20547cd))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R8") (unit 1)
         )
@@ -7569,7 +7580,7 @@
     (pin "1" (uuid 9c5eacfc-b9bd-45a7-bd2d-89cb02113b17))
     (pin "2" (uuid ddb96a64-a360-4eda-b7a2-1513d8313f36))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "SW1") (unit 1)
         )
@@ -7594,7 +7605,7 @@
     )
     (pin "1" (uuid 50168ce5-5c55-4f96-9c33-8529be96688b))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR057") (unit 1)
         )
@@ -7619,7 +7630,7 @@
     )
     (pin "1" (uuid a28a4e71-36f6-4aeb-a4df-d032d656c9b1))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR011") (unit 1)
         )
@@ -7644,7 +7655,7 @@
     )
     (pin "1" (uuid 70bca11d-fc65-4727-b76b-495605be148f))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR029") (unit 1)
         )
@@ -7669,7 +7680,7 @@
     )
     (pin "1" (uuid e723bc8d-55b5-456c-b4d2-97a4785c9e64))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR038") (unit 1)
         )
@@ -7695,7 +7706,7 @@
     (pin "1" (uuid 99f9e488-6991-4bc6-b219-a3e4ac449797))
     (pin "2" (uuid 31039cee-664d-4510-abb6-8c8f97bdf184))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R2") (unit 1)
         )
@@ -7725,7 +7736,7 @@
     (pin "5" (uuid 7ae371f3-058c-419b-8809-f165a746cbfb))
     (pin "6" (uuid e7ee887a-fac4-4de1-b5e1-77e9ec631146))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J7") (unit 1)
         )
@@ -7755,7 +7766,7 @@
     (pin "5" (uuid 1291966a-94ee-4257-8ce0-7fb48b039bd0))
     (pin "6" (uuid 725a11ce-038f-4396-9528-ac1d9c7a955d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J1") (unit 1)
         )
@@ -7780,7 +7791,7 @@
     )
     (pin "1" (uuid 4d014d60-8730-4e69-8c8f-c022514c1c0a))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR045") (unit 1)
         )
@@ -7806,7 +7817,7 @@
     (pin "1" (uuid 7e3acdd0-5e2f-4b80-98ec-3e57418d33e1))
     (pin "2" (uuid 46d3a588-fcd4-4d94-aa09-b61fa7e48825))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R9") (unit 1)
         )
@@ -7830,7 +7841,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "T2") (unit 1)
         )
@@ -7855,7 +7866,7 @@
     )
     (pin "1" (uuid 0ca460d1-696b-4aaf-b62b-088c260b3804))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR061") (unit 1)
         )
@@ -7880,7 +7891,7 @@
     )
     (pin "1" (uuid f2412ee5-d877-4a54-b061-8733d7daf837))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR054") (unit 1)
         )
@@ -7905,7 +7916,7 @@
     )
     (pin "1" (uuid 48998d39-ccc0-401c-8623-e32ef2180f05))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR026") (unit 1)
         )
@@ -7930,7 +7941,7 @@
     )
     (pin "1" (uuid 167cab21-529e-4a28-9255-bd8b7dbcc8e2))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR0103") (unit 1)
         )
@@ -7955,7 +7966,7 @@
     )
     (pin "1" (uuid e0ba2a7e-454f-48a0-8ff2-c88ea4992d34))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR023") (unit 1)
         )
@@ -7980,7 +7991,7 @@
     )
     (pin "1" (uuid ff99f557-c804-44f2-aa23-36ebd48fac23))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR063") (unit 1)
         )
@@ -8006,7 +8017,7 @@
     (pin "1" (uuid a231db70-1675-46bb-b610-245e58f05917))
     (pin "2" (uuid f99f7f7c-feff-4f04-9182-0a4b77f3f45e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J8") (unit 1)
         )
@@ -8030,7 +8041,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "T1") (unit 1)
         )
@@ -8055,7 +8066,7 @@
     )
     (pin "1" (uuid b3f7bd1e-eab6-47b1-8f04-4803a4e1808d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR047") (unit 1)
         )
@@ -8080,7 +8091,7 @@
     )
     (pin "1" (uuid ae4ed24d-4d18-4c7b-bc65-cde00583cc1f))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR062") (unit 1)
         )
@@ -8105,7 +8116,7 @@
     )
     (pin "1" (uuid 12946dd3-8c3e-46ac-b5ce-7dcc4cbf6eba))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR065") (unit 1)
         )
@@ -8177,7 +8188,7 @@
     (pin "8" (uuid 4b12ab86-af31-498e-a754-79553c7f02ca))
     (pin "9" (uuid 1faeb261-3d49-46ae-b6d1-4a4202ebf8e2))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U1") (unit 1)
         )
@@ -8203,7 +8214,7 @@
     (pin "1" (uuid ce8a5f27-801a-406e-bf90-c61de8c8a3ee))
     (pin "2" (uuid 1544850c-8313-4855-bfd8-ae8fab831ccc))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C9") (unit 1)
         )
@@ -8228,7 +8239,7 @@
     )
     (pin "1" (uuid 56192253-dfe1-4484-aacb-e9e4411bb613))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR015") (unit 1)
         )
@@ -8253,7 +8264,7 @@
     )
     (pin "1" (uuid dcb13654-e6e2-4638-82f1-196976a0860d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR024") (unit 1)
         )
@@ -8279,7 +8290,7 @@
     (pin "1" (uuid d1a4e2fd-4d5b-4426-8708-3252db908b74))
     (pin "2" (uuid b1429bfa-be91-4872-9c7c-7e17a07e5be7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C19") (unit 1)
         )
@@ -8304,7 +8315,7 @@
     )
     (pin "1" (uuid ad6b5164-e177-46a2-9b26-cfb0ba3ade4e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR036") (unit 1)
         )
@@ -8329,7 +8340,7 @@
     )
     (pin "1" (uuid 26d74c26-1069-417a-b029-1521207f5c9e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR022") (unit 1)
         )
@@ -8354,7 +8365,7 @@
     )
     (pin "1" (uuid 18f8e04b-4288-443d-828a-6e463603c4e5))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR04") (unit 1)
         )
@@ -8380,7 +8391,7 @@
     (pin "1" (uuid e7e31c8e-ad4f-4105-b6ef-6ec98157087a))
     (pin "2" (uuid 04c4e1ce-0055-4190-84e5-9bfaae54fcc7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R7") (unit 1)
         )
@@ -8391,7 +8402,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 161.29 21.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b0156e65-4eaa-4cb4-8817-6a2de6c95341)
-    (property "Reference" "J9" (at 162.4076 23.1648 90)
+    (property "Reference" "J9" (at 162.56 27.94 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x02_Male" (at 146.05 20.32 90)
@@ -8406,7 +8417,7 @@
     (pin "1" (uuid f9564f9d-a12d-43a3-9daf-45bdd8a04b30))
     (pin "2" (uuid fe686469-b86e-4ece-87a2-541f0460e261))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J9") (unit 1)
         )
@@ -8431,7 +8442,7 @@
     )
     (pin "1" (uuid e3bb2b8e-731e-48a2-bd49-35709080b9a5))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR052") (unit 1)
         )
@@ -8456,7 +8467,7 @@
     )
     (pin "1" (uuid dec43a59-4808-4f3f-a4bb-8be6c990aec0))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR056") (unit 1)
         )
@@ -8480,7 +8491,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "H1") (unit 1)
         )
@@ -8506,7 +8517,7 @@
     (pin "1" (uuid 6b4edb59-8d13-437f-8a03-58d1be8ba32b))
     (pin "2" (uuid a9a5f801-bc07-4805-bab8-97e5a4fa9b6d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R14") (unit 1)
         )
@@ -8532,7 +8543,7 @@
     (pin "1" (uuid 0c5a7a2c-898f-489e-b9b3-ca07af36277a))
     (pin "2" (uuid 5389bb49-94d7-4941-9c51-1964a527e496))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R6") (unit 1)
         )
@@ -8557,7 +8568,7 @@
     )
     (pin "1" (uuid c05bb104-28dc-4c06-8089-15964cdd0cb9))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR031") (unit 1)
         )
@@ -8582,7 +8593,7 @@
     )
     (pin "1" (uuid 5c0021a8-df25-461a-b17a-a532d1c991ae))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR074") (unit 1)
         )
@@ -8607,7 +8618,7 @@
     )
     (pin "1" (uuid 7a4c4315-8389-41fb-a708-f2dd4f85a862))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR043") (unit 1)
         )
@@ -8632,7 +8643,7 @@
     )
     (pin "1" (uuid a9d1fce0-e35f-4cb5-833d-5de7b94fb274))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR055") (unit 1)
         )
@@ -8658,7 +8669,7 @@
     (pin "1" (uuid 6a398406-0fab-4373-9d90-d47da349e977))
     (pin "2" (uuid 663204fa-5af2-4ae8-83be-9e34be12c945))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C11") (unit 1)
         )
@@ -8683,7 +8694,7 @@
     )
     (pin "1" (uuid 74bab1ba-c0db-4efa-8de7-e6be0e23a93d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR041") (unit 1)
         )
@@ -8709,7 +8720,7 @@
     (pin "1" (uuid 0aae0c3a-5252-4125-a471-51ebc4741fcf))
     (pin "2" (uuid d579b094-fa27-4319-bd7c-47a6e44e8d9a))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C20") (unit 1)
         )
@@ -8720,7 +8731,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 207.01 21.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c870e49c-8d16-4341-b518-4ec6fd013f78)
-    (property "Reference" "J3" (at 208.1276 23.1648 0)
+    (property "Reference" "J3" (at 208.28 27.94 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x02_Male" (at 191.77 20.32 90)
@@ -8735,7 +8746,7 @@
     (pin "1" (uuid 9ad713c8-b461-4af5-9371-03c917389df4))
     (pin "2" (uuid 5c665629-fae5-4229-b78e-27d25b1e46c8))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J3") (unit 1)
         )
@@ -8760,7 +8771,7 @@
     )
     (pin "1" (uuid 00c7baf1-ec54-40d5-ac6b-36304d5c7ee0))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR073") (unit 1)
         )
@@ -8786,7 +8797,7 @@
     (pin "1" (uuid 22825ad3-ec21-4f3c-a4cb-a1f89fbe4aed))
     (pin "2" (uuid 9b729e53-894e-4b54-8070-7c7406fbbb93))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R4") (unit 1)
         )
@@ -8797,7 +8808,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 184.15 21.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d0d47e55-96d9-4c49-9e91-4a4a761c5e5e)
-    (property "Reference" "J5" (at 185.2676 23.1648 0)
+    (property "Reference" "J5" (at 185.42 27.94 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x02_Male" (at 168.91 20.32 90)
@@ -8812,7 +8823,7 @@
     (pin "1" (uuid c61f0447-69a8-4820-b600-25a271dfe560))
     (pin "2" (uuid b41980af-1692-4b0c-8b61-4bb6a981bf84))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J5") (unit 1)
         )
@@ -8838,7 +8849,7 @@
     (pin "1" (uuid e5d4ea69-7a12-4211-8751-8cf44e769aa6))
     (pin "2" (uuid 74c9a9c2-d630-4fdf-87e4-d3b32e4e5a51))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C18") (unit 1)
         )
@@ -8863,7 +8874,7 @@
     )
     (pin "1" (uuid 5141360c-a8c0-4ccd-856d-5fa927ca8aa2))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR044") (unit 1)
         )
@@ -8888,7 +8899,7 @@
     )
     (pin "1" (uuid 755f95c6-9229-4927-b055-d063d9d8abdd))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR014") (unit 1)
         )
@@ -8913,7 +8924,7 @@
     )
     (pin "1" (uuid 0f5451a3-4d09-4e03-ab24-9361198f7b10))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "TP2") (unit 1)
         )
@@ -8951,7 +8962,7 @@
     (pin "8" (uuid b714d9aa-da48-46d8-8dae-3d1fdb979be1))
     (pin "9" (uuid 3c1eac13-29a0-454e-885a-61ca252e456e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U6") (unit 1)
         )
@@ -8977,7 +8988,7 @@
     (pin "1" (uuid 73ade201-35af-45bd-badc-9fe051642f87))
     (pin "2" (uuid 2a9238ff-2d62-44ed-a064-47f9bd44dd95))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R16") (unit 1)
         )
@@ -9003,7 +9014,7 @@
     (pin "1" (uuid e51e95b0-479c-4746-b481-ce1366e46594))
     (pin "2" (uuid 7c023c3f-96a8-48f0-91fb-cea1e064e0dc))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "D2") (unit 1)
         )
@@ -9028,7 +9039,7 @@
     )
     (pin "1" (uuid 01fbdc05-b6d2-4258-8859-64a1887649a3))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR021") (unit 1)
         )
@@ -9054,7 +9065,7 @@
     (pin "1" (uuid 47224efd-235a-4bd2-a648-fcdcc335e821))
     (pin "2" (uuid 6e874a5f-5d35-41ba-a266-824ca5311704))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C4") (unit 1)
         )
@@ -9079,7 +9090,7 @@
     )
     (pin "1" (uuid 7b6902be-f707-45ff-a4b2-9b3954319a60))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR01") (unit 1)
         )
@@ -9104,7 +9115,7 @@
     )
     (pin "1" (uuid 64275c73-307b-4c96-aad6-bbc5ea789142))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR010") (unit 1)
         )
@@ -9129,7 +9140,7 @@
     )
     (pin "1" (uuid a4fa3a23-6a51-4f09-8968-b334f52989b7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR059") (unit 1)
         )
@@ -9154,7 +9165,7 @@
     )
     (pin "1" (uuid 8a731655-4cb7-4ab9-9f26-f705fdcf927c))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR017") (unit 1)
         )
@@ -9180,7 +9191,7 @@
     (pin "1" (uuid 96fb859a-f380-4743-a8ea-2701467d6ed2))
     (pin "2" (uuid c563c456-b0e2-4b97-b6f6-8ee2e7a79eee))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R1") (unit 1)
         )
@@ -9205,7 +9216,7 @@
     )
     (pin "1" (uuid 416a55f2-3019-4ae1-9acc-1c59c387decf))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR012") (unit 1)
         )
@@ -9237,7 +9248,7 @@
     (pin "7" (uuid fcd25d4b-8e9d-478b-9bb7-b1821cce4478))
     (pin "8" (uuid 8fb32e76-bbbc-4c84-bf76-75e0e643f8c9))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "U7") (unit 1)
         )
@@ -9263,7 +9274,7 @@
     (pin "1" (uuid 4b944230-a430-4c06-82f0-3653953722e3))
     (pin "2" (uuid 80572753-ffca-44aa-8813-d09ddf064dd5))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C21") (unit 1)
         )
@@ -9288,7 +9299,7 @@
     )
     (pin "1" (uuid cc884765-5556-42d7-a114-75933bfa52ce))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR0102") (unit 1)
         )
@@ -9313,7 +9324,7 @@
     )
     (pin "1" (uuid 4371d341-acae-488a-82f3-6465342e5930))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR039") (unit 1)
         )
@@ -9339,7 +9350,7 @@
     (pin "1" (uuid 252ea570-4fc6-45e4-a09a-334e9beba0a0))
     (pin "2" (uuid 368efea0-2c42-49d6-b5e0-2c30c9faa806))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C10") (unit 1)
         )
@@ -9364,7 +9375,7 @@
     )
     (pin "1" (uuid 188e808e-e1ff-45d4-b7c7-e89b6738f90b))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR018") (unit 1)
         )
@@ -9390,7 +9401,7 @@
     (pin "1" (uuid 462aaa1a-ecdc-41ac-9038-34ffdcd40490))
     (pin "2" (uuid c06874c7-e901-4173-bde7-33b0220dd38d))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J6") (unit 1)
         )
@@ -9415,7 +9426,7 @@
     )
     (pin "1" (uuid 82b842a1-0138-4b9c-9abe-aeedd9a57dce))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR072") (unit 1)
         )
@@ -9440,7 +9451,7 @@
     )
     (pin "1" (uuid 8db63704-834d-4af1-b5dc-5dfe43871e1f))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR013") (unit 1)
         )
@@ -9465,7 +9476,7 @@
     )
     (pin "1" (uuid e806d8af-b776-42f8-85c2-c43039f84d1f))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR071") (unit 1)
         )
@@ -9490,7 +9501,7 @@
     )
     (pin "1" (uuid 02a16089-ef76-4f3c-af2a-7c21281b368c))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR035") (unit 1)
         )
@@ -9516,7 +9527,7 @@
     (pin "1" (uuid 1de13e6e-330f-4a37-9c7d-ef7e3d6400b2))
     (pin "2" (uuid 92bf7d75-9243-4f63-a275-d1d89ff9628a))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C14") (unit 1)
         )
@@ -9541,7 +9552,7 @@
     )
     (pin "1" (uuid f310c0c5-7186-46f7-94dc-e07a1a0c9ce3))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR030") (unit 1)
         )
@@ -9567,7 +9578,7 @@
     (pin "1" (uuid 8834315c-5ad0-475c-9ca7-8e1b7c708819))
     (pin "2" (uuid 19db2610-396d-4cff-a9c0-dfb49b9d3cad))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R11") (unit 1)
         )
@@ -9593,7 +9604,7 @@
     (pin "1" (uuid 9fec2312-fb23-4fd4-af83-68687019bbf7))
     (pin "2" (uuid 01960c82-4e58-4abc-8121-93a32d9b82f2))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C7") (unit 1)
         )
@@ -9619,7 +9630,7 @@
     (pin "1" (uuid facec0a1-758b-44f9-83bf-a647bf9a54c3))
     (pin "2" (uuid a667de93-52e0-4bc0-82b0-16cfbffa4f2e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "R12") (unit 1)
         )
@@ -9645,7 +9656,7 @@
     (pin "1" (uuid ed2b5762-0c4c-4347-abb1-8315250e9f77))
     (pin "2" (uuid 1b323b06-2fc0-4df6-b808-4152a7be5558))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J13") (unit 1)
         )
@@ -9671,7 +9682,7 @@
     (pin "1" (uuid fad70b89-27a6-4c4c-9ffa-464d20116cc2))
     (pin "2" (uuid acfc8e6c-d995-4083-9ac2-f82404580289))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C13") (unit 1)
         )
@@ -9696,7 +9707,7 @@
     )
     (pin "1" (uuid 26f5679b-ff6c-4e40-819d-4b24bb0410c7))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR03") (unit 1)
         )
@@ -9721,7 +9732,7 @@
     )
     (pin "1" (uuid 1fcfe778-7d38-4ae0-a3cf-ae260359b2e5))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR040") (unit 1)
         )
@@ -9746,7 +9757,7 @@
     )
     (pin "1" (uuid bc94ee3c-6174-452c-af3e-e1f66b8ea587))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR019") (unit 1)
         )
@@ -9771,7 +9782,7 @@
     )
     (pin "1" (uuid b81fc97a-4b0e-42ab-a719-694ecb7eac1e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "#PWR06") (unit 1)
         )
@@ -9797,7 +9808,7 @@
     (pin "1" (uuid 8e0b0d77-2177-435b-b03b-daea0ed228bf))
     (pin "2" (uuid 800d3242-a469-4244-87c0-3e69e7361a0e))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "C16") (unit 1)
         )
@@ -9823,7 +9834,7 @@
     (pin "1" (uuid 2466dd3b-cd85-47af-9b14-8f2353d1299b))
     (pin "2" (uuid 4dce81f2-0e50-4946-a2b6-64621e47bdea))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J2") (unit 1)
         )
@@ -9875,7 +9886,7 @@
     (pin "8" (uuid 5ff5c5ca-6116-4ded-b400-d0191fcbd8ff))
     (pin "9" (uuid dd27a775-71c1-46be-a8a6-c9ee7a1f35d0))
     (instances
-      (project "caravel_GF-dev-v1-M.2"
+      (project "5V-dev-v6-M.2"
         (path "/6d7a4d05-3bd6-4623-a293-816712af04ea"
           (reference "J11") (unit 1)
         )
