@@ -9,7 +9,7 @@ See the README for the the Nucleo automated test setup here -- https://bit.ly/3K
 
 ## Stanford Projects
 
-See the  README for testing projects here -- 
+See the  README for testing projects here -- https://github.com/efabless/caravel_board/tree/main/stanford#readme
 
 ## Firmware
 
