@@ -1,4 +1,4 @@
-# Stanford University - Project Test
+# Stanford University - Project Testing
 
 This directory provides instruction and firmware for test project for Stanford University on the chipIgnite 2206 shuttle.
 
