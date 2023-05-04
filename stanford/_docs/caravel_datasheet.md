@@ -1,5 +1,12 @@
 # Caravel Datasheet
 
++----------------------------------------+------------------------------------+
+| Register                               | Address                            |
++========================================+====================================+
+| :ref:`DEBUG_MODE_OUT <DEBUG_MODE_OUT>` | :ref:`0xf0000800 <DEBUG_MODE_OUT>` |
++----------------------------------------+------------------------------------+
+
+
 CTRL_RESET
 <p><img src="https://svg.wavedrom.com/{'reg': [{'name': 'soc_rst',  'type': 4, 'bits': 1},{'name': 'cpu_rst',  'bits': 1},{'bits': 30}], 'config': {'hspace': 400, 'bits': 32, 'lanes': 4 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 4}}"/></p>
 
