@@ -1,13 +1,7 @@
 # Caravel Datasheet
 
-<img src="https://svg.wavedrom.com/{signal:[{name:'clk',wave:'p......'},{name:'bus',wave:'x.34.5x',data:'head body tail'},{name:'wire',wave:'0.1..0.'}]}"/>
-<img src="https://svg.wavedrom.com/{reg: [{name: 'rxtx[7:0]', bits: 8},{'bits': 24}]}"/>
-
-<img src="https://svg.wavedrom.com/{reg: [{name: 'rxtx[7:0]', bits: 8},{'bits': 24},], config: {hspace: 400, bits: 32, lanes: 1 }, options: {hspace: 400, bits: 32, lanes: 1}}"/>
-
-
 CTRL_RESET
-<img src="https://svg.wavedrom.com/{'reg': [{'name': 'soc_rst',  'type': 4, 'bits': 1},{'name': 'cpu_rst',  'bits': 1},{'bits': 30}], 'config': {'hspace': 400, 'bits': 32, 'lanes': 4 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 4}}"/>
+<p><img src="https://svg.wavedrom.com/{'reg': [{'name': 'soc_rst',  'type': 4, 'bits': 1},{'name': 'cpu_rst',  'bits': 1},{'bits': 30}], 'config': {'hspace': 400, 'bits': 32, 'lanes': 4 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 4}}"/></p>
 
 CTRL_SCRATCH
 <img src="https://svg.wavedrom.com/{'reg': [{'name': 'scratch[31:0]', 'attr': 'reset: 305419896', 'bits': 32}], 'config': {'hspace': 400, 'bits': 32, 'lanes': 1 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 1}}"/>
