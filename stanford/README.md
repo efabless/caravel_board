@@ -90,11 +90,11 @@ TOOLCHAIN_PATH variable in the Makefile to point to the location for your tools.
 Also make sure you have a current version of python and installed the `pyftdi` library described above.  This is 
 required by the utility for programming the onboard flash.
 
-Run... 
+To start, run... 
 
 > make clean hex
 
-to build the firmware.  The program the flash on the development board...
+to build the firmware.  Program the flash on the development board...
 
 > make flash
 
