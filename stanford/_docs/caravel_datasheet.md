@@ -6,7 +6,7 @@
 <img src="https://svg.wavedrom.com/{reg: [{name: 'rxtx[7:0]', bits: 8},{'bits': 24},], config: {hspace: 400, bits: 32, lanes: 1 }, options: {hspace: 400, bits: 32, lanes: 1}}"/>
 
 
-<img src="https://svg.wavedrom.com/{reg: [{name: soc_rst,  type: 4, bits: 1},{name: cpu_rst,  bits: 1},{bits: 30}], config: {hspace: 400, bits: 32, lanes: 4 }, options: {hspace: 400, bits: 32, lanes: 4}}"/>
+<img src="https://svg.wavedrom.com/{reg: [{name: 'soc_rst',  type: 4, bits: 1},{name: 'cpu_rst',  bits: 1},{bits: 30}], config: {hspace: 400, bits: 32, lanes: 4 }, options: {hspace: 400, bits: 32, lanes: 4}}"/>
 <img src="https://svg.wavedrom.com/{reg: [{name: scratch[31:0], attr: 'reset: 305419896', bits: 32}], config: {hspace: 400, bits: 32, lanes: 1 }, options: {hspace: 400, bits: 32, lanes: 1}}"/>
 <img src="https://svg.wavedrom.com/{reg: [{name: bus_errors[31:0], bits: 32}], config: {hspace: 400, bits: 32, lanes: 1 }, options: {hspace: 400, bits: 32, lanes: 1}}"/>
 <img src="https://svg.wavedrom.com/{reg: [{name: start,  type: 4, bits: 1},{bits: 7},{name: length,  bits: 8},{bits: 16}], config: {hspace: 400, bits: 32, lanes: 4 }, options: {hspace: 400, bits: 32, lanes: 4}}"/>
