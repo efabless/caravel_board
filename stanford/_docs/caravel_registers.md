@@ -193,9 +193,9 @@ SPI Loopback Mode.
 
 
 
-| Field | Name | Description                                               |
-|-------|------|-----------------------------------------------------------|
-| [0]   | MODE | 0 - Normal operation. Loopback operation (MOSI to MISO).  |
+| Field | Name | Description                                                  |
+|-------|------|--------------------------------------------------------------|
+| [0]   | MODE | 0 = Normal operation. 1 = Loopback operation (MOSI to MISO). |
 
 SPI_MASTER_CLK_DIVIDER
 
