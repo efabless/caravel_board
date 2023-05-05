@@ -177,26 +177,10 @@ SPI CS Chip-Select and Mode.
 
 
 
-| Field | Name | Description                                                                                               |
-|-------|------|-----------------------------------------------------------------------------------------------------------|
-| [0]   | SEL  |                                                                                                           |
-|       |      |                                                                                                           |
-|       |      |  -------------- -----------------------------------                                                       |
-|       |      | | Value        | Description                       |                                                      |
-|       |      |                                                                                                           |
-|       |      | | 0b0..001 | Chip 0 selected for SPI Xfer. |                                                      |
-|       |      |  -------------- -----------------------------------                                                       |
-|       |      | | 0b1..000 | Chip N selected for SPI Xfer. |                                                      |
-|       |      |  -------------- -----------------------------------                                                       |
-| [16]  | MODE |                                                                                                           |
-|       |      |                                                                                                           |
-|       |      |  --------- ---------------------------------------------------------------------------------------------  |
-|       |      | | Value   | Description                                                                                 | |
-|       |      |                                                                                                           |
-|       |      | | 0b0 | Normal operation (CS handled by Core).                                                      | |
-|       |      |  --------- ---------------------------------------------------------------------------------------------  |
-|       |      | | 0b1 | Manual operation (CS handled by User, direct recopy of sel), useful for Bulk transfers. | |
-|       |      |  --------- ---------------------------------------------------------------------------------------------  |
+| Field | Name | Description                                                                                                |
+|-------|------|------------------------------------------------------------------------------------------------------------|
+| [0]   | SEL  | Chip 0 selected for SPI Xfer. Chip ``N`` selected for SPI Xfer.                                            |
+| [16]  | MODE | 0 = Normal operation (CS handled by Core). 1 = Manual operation (CS handled by User, direct recopy of ``sel``) |
 
 SPI_MASTER_LOOPBACK
 
@@ -209,17 +193,9 @@ SPI Loopback Mode.
 
 
 
-| Field | Name | Description                                      |
-|-------|------|--------------------------------------------------|
-| [0]   | MODE |                                                  |
-|       |      |                                                  |
-|       |      |  --------- ------------------------------------  |
-|       |      | | Value   | Description                        | |
-|       |      |                                                  |
-|       |      | | 0b0 | Normal operation.                  | |
-|       |      |  --------- ------------------------------------  |
-|       |      | | 0b1 | Loopback operation (MOSI to MISO). | |
-|       |      |  --------- ------------------------------------  |
+| Field | Name | Description                                               |
+|-------|------|-----------------------------------------------------------|
+| [0]   | MODE | 0 - Normal operation. Loopback operation (MOSI to MISO).  |
 
 SPI_MASTER_CLK_DIVIDER
 
