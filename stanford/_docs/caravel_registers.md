@@ -3,49 +3,6 @@ Documentation for Caravel Management SoC
 ========================================
 
 
-
-Modules
-=======
-
-.. toctree::
-:maxdepth: 1
-
-interrupts
-
-Register Groups
-===============
-
-.. toctree::
-:maxdepth: 1
-
-ctrl
-debug_mode
-debug_oeb
-flash_core
-flash_phy
-gpio
-la
-mprj_wb_iena
-spi_enabled
-spi_master
-timer0
-uart
-uart_enabled
-user_irq_0
-user_irq_1
-user_irq_2
-user_irq_3
-user_irq_4
-user_irq_5
-user_irq_ena
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
 CTRL
 ====
 
@@ -436,16 +393,16 @@ UART
 Register Listing for UART
 -------------------------
 
-| Register                                 | Address                             |
-|------------------------------------------|-------------------------------------|
-| UART_RXTX              | 0xf0005800        |
-| UART_TXFULL          | 0xf0005804      |
-| UART_RXEMPTY        | 0xf0005808     |
-| UART_EV_STATUS    | 0xf000580c   |
-| UART_EV_PENDING  | 0xf0005810  |
-| UART_EV_ENABLE    | 0xf0005814   |
-| UART_TXEMPTY        | 0xf0005818     |
-| UART_RXFULL          | 0xf000581c      |
+| Register                   | Address              | C Macro Name       
+|----------------------------|----------------------|--------------------|
+| UART_RXTX                  | 0xf0005800           | reg_uart_data      |
+| UART_TXFULL                | 0xf0005804           | reg_uart_txfull    |
+| UART_RXEMPTY               | 0xf0005808           |
+| UART_EV_STATUS             | 0xf000580c           |
+| UART_EV_PENDING            | 0xf0005810           |
+| UART_EV_ENABLE             | 0xf0005814           | reg_uart_irq_en    |
+| UART_TXEMPTY               | 0xf0005818           |
+| UART_RXFULL                | 0xf000581c           |
 
 UART_RXTX
 
@@ -551,28 +508,6 @@ RX FIFO Full.
 <p><img src="https://svg.wavedrom.com/{'reg': [{'name': 'rxfull', 'bits': 1},{'bits': 31},], 'config': {'hspace': 400, 'bits': 32, 'lanes': 4 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 4}}"/></p>
 
 
-
-JUNK
-====
-
-Register Listing for JUNK
--------------------------
-
-| Register                   | Address                      |
-|----------------------------|------------------------------|
-| JUNK_OUT  | 0xf0003000  |
-
-JUNK_OUT
-
-
-`Address: 0xf0003000 + 0x0 = 0xf0003000`
-
-GPIO Output(s) Control.
-
-<p><img src="https://svg.wavedrom.com/{'reg': [{'name': 'out', 'bits': 1},{'bits': 31},], 'config': {'hspace': 400, 'bits': 32, 'lanes': 4 }, 'options': {'hspace': 400, 'bits': 32, 'lanes': 4}}"/></p>
-
-
-
 TIMER0
 ======
 
@@ -615,16 +550,16 @@ CPU can also do software polling with ``update_value`` and ``value`` to know the
 Register Listing for TIMER0
 ---------------------------
 
-| Register                                         | Address                                 |
-|--------------------------------------------------|-----------------------------------------|
-| TIMER0_LOAD                  | 0xf0005000          |
-| TIMER0_RELOAD              | 0xf0005004        |
-| TIMER0_EN                      | 0xf0005008            |
-| TIMER0_UPDATE_VALUE  | 0xf000500c  |
-| TIMER0_VALUE                | 0xf0005010         |
-| TIMER0_EV_STATUS        | 0xf0005014     |
-| TIMER0_EV_PENDING      | 0xf0005018    |
-| TIMER0_EV_ENABLE        | 0xf000501c     |
+| Register                  | Address              | C Macro Name               |
+|---------------------------|----------------------|----------------------------|
+| TIMER0_LOAD               | 0xf0005000           | reg_timer0_data            |
+| TIMER0_RELOAD             | 0xf0005004           | reg_timer0_data_periodic   |
+| TIMER0_EN                 | 0xf0005008           | reg_timer0_config          |
+| TIMER0_UPDATE_VALUE       | 0xf000500c           | reg_timer0_update          |
+| TIMER0_VALUE              | 0xf0005010           | reg_timer0_value           |
+| TIMER0_EV_STATUS          | 0xf0005014           | 
+| TIMER0_EV_PENDING         | 0xf0005018           |
+| TIMER0_EV_ENABLE          | 0xf000501c           | reg_timer0_irq_en          |
 
 TIMER0_LOAD
 
@@ -857,9 +792,9 @@ UART_ENABLED
 Register Listing for UART_ENABLED
 ---------------------------------
 
-| Register                                   | Address                              |
-|--------------------------------------------|--------------------------------------|
-| UART_ENABLED_OUT  | 0xf0006000  |
+| Register                 | Address               | C Macro Name     |
+|--------------------------|-----------------------|------------------|
+| UART_ENABLED_OUT         | 0xf0006000            | reg_uart_enable  |
 
 UART_ENABLED_OUT
 
