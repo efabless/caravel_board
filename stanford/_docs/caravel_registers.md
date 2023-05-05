@@ -229,30 +229,30 @@ GPIO Output(s) Control.
 
 
 
-LA
+Logic Analyzer
 ==
 
-Register Listing for LA
+Register Listing for Logic Analyzer
 -----------------------
 
-| Register                 | Address                     | C Macro Name    |
-|--------------------------|-----------------------------|-----------------|
-| LA_IEN3  | 0xf0003000  | reg_la3_iena    |
-| LA_IEN2  | 0xf0003004  | reg_la2_iena    |
-| LA_IEN1  | 0xf0003008  | reg_la1_iena    |
-| LA_IEN0  | 0xf000300c  | reg_la0_iena    |
-| LA_OE3    | 0xf0003010   | reg_la3_oenb    |
-| LA_OE2    | 0xf0003014   | reg_la2_oenb    |
-| LA_OE1    | 0xf0003018   | reg_la1_oenb    |
-| LA_OE0    | 0xf000301c   | reg_la0_oenb    |
-| LA_IN3    | 0xf0003020   | reg_la3_data_in |
-| LA_IN2    | 0xf0003024   | reg_la2_data_in |
-| LA_IN1    | 0xf0003028   | reg_la1_data_in |
-| LA_IN0    | 0xf000302c   | reg_la0_data_in |
-| LA_OUT3  | 0xf0003030  | reg_la3_data    |
-| LA_OUT2  | 0xf0003034  | reg_la2_data    |
-| LA_OUT1  | 0xf0003038  | reg_la1_data    |
-| LA_OUT0  | 0xf000303c  | reg_la0_data    |
+| Register               | Address                 | C Macro Name          |
+|------------------------|-------------------------|-----------------------|
+| LA_IEN3                | 0xf0003000              | reg_la3_iena          |
+| LA_IEN2                | 0xf0003004              | reg_la2_iena          |
+| LA_IEN1                | 0xf0003008              | reg_la1_iena          |
+| LA_IEN0                | 0xf000300c              | reg_la0_iena          |
+| LA_OE3                 | 0xf0003010              | reg_la3_oenb          |
+| LA_OE2                 | 0xf0003014              | reg_la2_oenb          |
+| LA_OE1                 | 0xf0003018              | reg_la1_oenb          |
+| LA_OE0                 | 0xf000301c              | reg_la0_oenb          |
+| LA_IN3                 | 0xf0003020              | reg_la3_data_in       |
+| LA_IN2                 | 0xf0003024              | reg_la2_data_in       |
+| LA_IN1                 | 0xf0003028              | reg_la1_data_in       |
+| LA_IN0                 | 0xf000302c              | reg_la0_data_in       |
+| LA_OUT3                | 0xf0003030              | reg_la3_data          |
+| LA_OUT2                | 0xf0003034              | reg_la2_data          |
+| LA_OUT1                | 0xf0003038              | reg_la1_data          |
+| LA_OUT0                | 0xf000303c              | reg_la0_data          |
 
 LA_IEN3
 
