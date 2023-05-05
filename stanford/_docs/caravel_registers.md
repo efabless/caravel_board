@@ -52,11 +52,11 @@ CTRL
 Register Listing for CTRL
 -------------------------
 
-| Register                                 | Address                             |
-|------------------------------------------|-------------------------------------|
-| CTRL_RESET            | 0xf0000000       |
-| CTRL_SCRATCH        | 0xf0000004     |
-| CTRL_BUS_ERRORS  | 0xf0000008  |
+| Register                                 | Address                             | C Macro Name        |
+|------------------------------------------|-------------------------------------|---------------------|
+| CTRL_RESET            | 0xf0000000       | reg_reset |
+| CTRL_SCRATCH        | 0xf0000004     ||
+| CTRL_BUS_ERRORS  | 0xf0000008  ||
 
 CTRL_RESET
 
@@ -103,15 +103,15 @@ SPI_MASTER
 Register Listing for SPI_MASTER
 -------------------------------
 
-| Register                                               | Address                                    | Macro Name  |
-|--------------------------------------------------------|--------------------------------------------|-------------|
-| SPI_MASTER_CONTROL          | 0xf0004800      | reg_spimaster_control |
-| SPI_MASTER_STATUS            | 0xf0004804       | reg_spimaster_status |
-| SPI_MASTER_MOSI                | 0xf0004808         | reg_spimaster_wdata |
-| SPI_MASTER_MISO                | 0xf000480c         | reg_spimaster_rdata |
-| SPI_MASTER_CS                    | 0xf0004810           | reg_spimaster_cs |
-| SPI_MASTER_LOOPBACK        | 0xf0004814     | reg_spimaster_clk_divider |
-| SPI_MASTER_CLK_DIVIDER  | 0xf0004818  | reg_spi_enable |
+| Register                                               | Address                                    | C Macro Name                |
+|--------------------------------------------------------|--------------------------------------------|-----------------------------|
+| SPI_MASTER_CONTROL          | 0xf0004800      | reg_spimaster_control       |
+| SPI_MASTER_STATUS            | 0xf0004804       | reg_spimaster_status        |
+| SPI_MASTER_MOSI                | 0xf0004808         | reg_spimaster_wdata         |
+| SPI_MASTER_MISO                | 0xf000480c         | reg_spimaster_rdata         |
+| SPI_MASTER_CS                    | 0xf0004810           | reg_spimaster_cs            |
+| SPI_MASTER_LOOPBACK        | 0xf0004814     | reg_spimaster_clk_divider   |
+| SPI_MASTER_CLK_DIVIDER  | 0xf0004818  | reg_spi_enable              |
 
 SPI_MASTER_CONTROL
 
@@ -235,24 +235,24 @@ LA
 Register Listing for LA
 -----------------------
 
-| Register                 | Address                     |
-|--------------------------|-----------------------------|
-| LA_IEN3  | 0xf0003000  |
-| LA_IEN2  | 0xf0003004  |
-| LA_IEN1  | 0xf0003008  |
-| LA_IEN0  | 0xf000300c  |
-| LA_OE3    | 0xf0003010   |
-| LA_OE2    | 0xf0003014   |
-| LA_OE1    | 0xf0003018   |
-| LA_OE0    | 0xf000301c   |
-| LA_IN3    | 0xf0003020   |
-| LA_IN2    | 0xf0003024   |
-| LA_IN1    | 0xf0003028   |
-| LA_IN0    | 0xf000302c   |
-| LA_OUT3  | 0xf0003030  |
-| LA_OUT2  | 0xf0003034  |
-| LA_OUT1  | 0xf0003038  |
-| LA_OUT0  | 0xf000303c  |
+| Register                 | Address                     | C Macro Name    |
+|--------------------------|-----------------------------|-----------------|
+| LA_IEN3  | 0xf0003000  | reg_la3_iena    |
+| LA_IEN2  | 0xf0003004  | reg_la2_iena    |
+| LA_IEN1  | 0xf0003008  | reg_la1_iena    |
+| LA_IEN0  | 0xf000300c  | reg_la0_iena    |
+| LA_OE3    | 0xf0003010   | reg_la3_oenb    |
+| LA_OE2    | 0xf0003014   | reg_la2_oenb    |
+| LA_OE1    | 0xf0003018   | reg_la1_oenb    |
+| LA_OE0    | 0xf000301c   | reg_la0_oenb    |
+| LA_IN3    | 0xf0003020   | reg_la3_data_in |
+| LA_IN2    | 0xf0003024   | reg_la2_data_in |
+| LA_IN1    | 0xf0003028   | reg_la1_data_in |
+| LA_IN0    | 0xf000302c   | reg_la0_data_in |
+| LA_OUT3  | 0xf0003030  | reg_la3_data    |
+| LA_OUT2  | 0xf0003034  | reg_la2_data    |
+| LA_OUT1  | 0xf0003038  | reg_la1_data    |
+| LA_OUT0  | 0xf000303c  | reg_la0_data    |
 
 LA_IEN3
 
