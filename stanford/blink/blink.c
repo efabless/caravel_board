@@ -113,6 +113,24 @@ void main()
 
     reg_uart_enable = 1;
 
+    // Configure All LA probes as inputs to the cpu
+	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
+	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
+	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
+
+	// write data to la output
+    //	reg_la0_data = 0x00;
+    //	reg_la1_data = 0x00;
+    //	reg_la2_data = 0x00;
+    //	reg_la3_data = 0x00;
+
+    // read data from la input
+    //	data0 = reg_la0_data;
+    //	data1 = reg_la1_data;
+    //	data2 = reg_la2_data;
+    //	data3 = reg_la3_data;
+
     print("Hello World !!");
 
 	while (1) {
