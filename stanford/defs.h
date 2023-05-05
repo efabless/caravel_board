@@ -145,28 +145,14 @@ extern uint32_t flashio_worker_end;
 #define reg_hkspi_pll_bypass  (*(volatile uint32_t*)0x26100010)
 #define reg_hkspi_irq 	      (*(volatile uint32_t*)0x26100014)
 #define reg_hkspi_reset       (*(volatile uint32_t*)0x26100018)
-#define reg_hkspi_trap 	      (*(volatile uint32_t*)0x26100028)
 #define reg_hkspi_pll_trim    (*(volatile uint32_t*)0x2610001c)
 #define reg_hkspi_pll_source  (*(volatile uint32_t*)0x26100020)
 #define reg_hkspi_pll_divider (*(volatile uint32_t*)0x26100024)
 #define reg_hkspi_disable     (*(volatile uint32_t*)0x26200010)
 
 // User Project Slaves (0x3000_0000)
-#define reg_mprj_slave (*(volatile uint32_t*)0x30000000)
-#define reg_wb_enable	  (*(volatile uint32_t*)0xf0003800)
-
-
-// Flash Control SPI Configuration (2D00_0000)
-#define reg_spictrl (*(volatile uint32_t*)0x2d000000)         
-
-// Bit fields for Flash SPI control
-#define FLASH_BITBANG_IO0	0x00000001
-#define FLASH_BITBANG_IO1	0x00000002
-#define FLASH_BITBANG_CLK	0x00000010
-#define FLASH_BITBANG_CSB	0x00000020
-#define FLASH_BITBANG_OEB0	0x00000100
-#define FLASH_BITBANG_OEB1	0x00000200
-#define FLASH_ENABLE		0x80000000
+#define reg_mprj_slave        (*(volatile uint32_t*) 0x30000000)
+#define reg_wb_enable	      (*(volatile uint32_t*) CSR_MPRJ_WB_IENA_OUT_ADDR)
 
 // Counter-Timer 0 Configuration
 #define reg_timer0_config (*(volatile uint32_t*) CSR_TIMER0_EN_ADDR) // this is enable not config
@@ -192,23 +178,10 @@ extern uint32_t flashio_worker_end;
 #define reg_spimaster_clk_divider   (*(volatile uint32_t*) CSR_SPI_MASTER_CLK_DIVIDER_ADDR)
 #define reg_spi_enable (*(volatile uint32_t*) CSR_SPI_ENABLED_OUT_ADDR)
 
-
-// Bit fields for SPI master configuration
-//#define SPI_MASTER_DIV_MASK	0x00ff
-//#define SPI_MASTER_MLB		0x0100
-//#define SPI_MASTER_INV_CSB	0x0200
-//#define SPI_MASTER_INV_CLK	0x0400
-//#define SPI_MASTER_MODE_1	0x0800
-//#define SPI_MASTER_STREAM	0x1000
-//#define SPI_MASTER_ENABLE	0x2000
-//#define SPI_MASTER_IRQ_ENABLE	0x4000
-//#define SPI_HOUSEKEEPING_CONN	0x8000
-
 // System Area (0x2F00_0000)
-#define reg_power_good    (*(volatile uint32_t*)0x2F000000)
-#define reg_clk_out_dest  (*(volatile uint32_t*)0x2F000004)
-#define reg_trap_out_dest (*(volatile uint32_t*)0x2F000008)
-#define reg_irq_source    (*(volatile uint32_t*)0x2F00000C)
+#define reg_power_good    (*(volatile uint32_t*)0x26200000)
+#define reg_clk_out_dest  (*(volatile uint32_t*)0x26200004)
+#define reg_irq_source    (*(volatile uint32_t*)0x2620000C)
 
 // Bit fields for reg_power_good
 #define USER1_VCCD_POWER_GOOD 0x01
@@ -245,29 +218,23 @@ extern uint32_t flashio_worker_end;
 #define DIGITAL_MODE_MASK 0x1c00
 
 // Useful GPIO mode values
-//#define GPIO_MODE_MGMT_STD_INPUT_NOPULL    0x0403
+#define GPIO_MODE_MGMT_STD_INPUT_NOPULL    0x0403
 #define GPIO_MODE_MGMT_STD_INPUT_PULLDOWN  0x0803
 #define GPIO_MODE_MGMT_STD_INPUT_PULLUP	   0x0c03
-//#define GPIO_MODE_MGMT_STD_OUTPUT	       0x1809
+#define GPIO_MODE_MGMT_STD_OUTPUT	       0x1809
 #define GPIO_MODE_MGMT_STD_BIDIRECTIONAL   0x1801
-//#define GPIO_MODE_MGMT_STD_ANALOG   	   0x000b
+#define GPIO_MODE_MGMT_STD_ANALOG   	   0x000b
 
-//#define GPIO_MODE_USER_STD_INPUT_NOPULL	   0x0402
+#define GPIO_MODE_USER_STD_INPUT_NOPULL	   0x0402
 #define GPIO_MODE_USER_STD_INPUT_PULLDOWN  0x0802
 #define GPIO_MODE_USER_STD_INPUT_PULLUP	   0x0c02
 #define GPIO_MODE_USER_STD_OUTPUT	       0x1808
 #define GPIO_MODE_USER_STD_BIDIRECTIONAL   0x1800
 #define GPIO_MODE_USER_STD_OUT_MONITORED   0x1802
-//#define GPIO_MODE_USER_STD_ANALOG   	   0x000a
+#define GPIO_MODE_USER_STD_ANALOG   	   0x000a
 
 
-#define GPIO_MODE_MGMT_STD_INPUT_NOPULL	    0x1003
-#define GPIO_MODE_MGMT_STD_OUTPUT	        0x1809
-#define GPIO_MODE_MGMT_STD_ANALOG	        0x100b
 
-#define GPIO_MODE_USER_STD_INPUT_NOPULL	    0x0402
-//#define GPIO_MODE_USER_STD_OUTPUT	        0x0c00
-#define GPIO_MODE_USER_STD_ANALOG	        0x0000
 
 // --------------------------------------------------------
 #endif
