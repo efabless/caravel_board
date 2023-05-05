@@ -35,7 +35,7 @@ if __name__ == '__main__':
             while line != '':
                 line = line.strip()
                 if line.startswith("|"):
-                    line = line.replace(":ref:","").replace("`","").replace('=',' ').replace('+',' ').replace('-',' ')
+                    line = line.replace(":ref:","").replace("`","").replace('=',' ').replace('+',' ')
                     line = re.sub(r"<\w*>","",line)
                     print(line)
                     outfile.write(line + "\n")
