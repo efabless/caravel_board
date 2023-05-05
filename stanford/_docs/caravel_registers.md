@@ -832,20 +832,20 @@ The following interrupts are assigned on this system:
 | 6         | USER_IRQ_4  |
 | 7         | USER_IRQ_5  |
 
-GPIO
-====
+Management GPIO
+==============
 
 Register Listing for GPIO
 -------------------------
 
-| Register                       | Address                        |
-|--------------------------------|--------------------------------|
-| GPIO_MODE1  | 0xf0002800  |
-| GPIO_MODE0  | 0xf0002804  |
-| GPIO_IEN      | 0xf0002808    |
-| GPIO_OE        | 0xf000280c     |
-| GPIO_IN        | 0xf0002810     |
-| GPIO_OUT      | 0xf0002814    |
+| Register           | Address               | C Macro Name              |
+|--------------------|-----------------------|---------------------------|
+| GPIO_MODE1         | 0xf0002800            | reg_gpio_mode1            |
+| GPIO_MODE0         | 0xf0002804            | reg_gpio_mode0            |
+| GPIO_IEN           | 0xf0002808            | reg_gpio_ien              |
+| GPIO_OE            | 0xf000280c            | reg_gpio_oe               |
+| GPIO_IN            | 0xf0002810            | reg_gpio_in               |
+| GPIO_OUT           | 0xf0002814            | reg_gpio_out              |
 
 GPIO_MODE1
 
@@ -1323,9 +1323,9 @@ SPI_ENABLED
 Register Listing for SPI_ENABLED
 --------------------------------
 
-| Register                                 | Address                             |
-|------------------------------------------|-------------------------------------|
-| SPI_ENABLED_OUT  | 0xf0004000  |
+| Register                | Address                 | C Macro Name     |
+|-------------------------|-------------------------|------------------|
+| SPI_ENABLED_OUT         | 0xf0004000              | reg_spi_enable   |
 
 SPI_ENABLED_OUT
 
@@ -1365,9 +1365,9 @@ MPRJ_WB_IENA
 Register Listing for MPRJ_WB_IENA
 ---------------------------------
 
-| Register                                   | Address                              |
-|--------------------------------------------|--------------------------------------|
-| MPRJ_WB_IENA_OUT  | 0xf0003800  |
+| Register                  | Address                 | C Macro Name        |
+|---------------------------|-------------------------|---------------------|
+| MPRJ_WB_IENA_OUT          | 0xf0003800              | reg_wb_enable       |
 
 MPRJ_WB_IENA_OUT
 
@@ -1386,14 +1386,14 @@ USER_IRQ_1
 Register Listing for USER_IRQ_1
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_1_IN                  | 0xf0007000          |
-| USER_IRQ_1_MODE              | 0xf0007004        |
-| USER_IRQ_1_EDGE              | 0xf0007008        |
-| USER_IRQ_1_EV_STATUS    | 0xf000700c   |
-| USER_IRQ_1_EV_PENDING  | 0xf0007010  |
-| USER_IRQ_1_EV_ENABLE    | 0xf0007014   |
+| Register                         | Address              | C Macro Name            |
+|----------------------------------|----------------------|-------------------------|
+| USER_IRQ_1_IN                    | 0xf0007000           |  
+| USER_IRQ_1_MODE                  | 0xf0007004           |
+| USER_IRQ_1_EDGE                  | 0xf0007008           |
+| USER_IRQ_1_EV_STATUS             | 0xf000700c           |
+| USER_IRQ_1_EV_PENDING            | 0xf0007010           |
+| USER_IRQ_1_EV_ENABLE             | 0xf0007014           | reg_user1_irq_en        |
 
 USER_IRQ_1_IN
 
@@ -1482,14 +1482,14 @@ USER_IRQ_0
 Register Listing for USER_IRQ_0
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_0_IN                  | 0xf0006800          |
-| USER_IRQ_0_MODE              | 0xf0006804        |
-| USER_IRQ_0_EDGE              | 0xf0006808        |
-| USER_IRQ_0_EV_STATUS    | 0xf000680c   |
-| USER_IRQ_0_EV_PENDING  | 0xf0006810  |
-| USER_IRQ_0_EV_ENABLE    | 0xf0006814   |
+| Register                              | Address                   | C Macro Name          |
+|---------------------------------------|---------------------------|-----------------------|
+| USER_IRQ_0_IN                         | 0xf0006800                |
+| USER_IRQ_0_MODE                       | 0xf0006804                |
+| USER_IRQ_0_EDGE                       | 0xf0006808                |
+| USER_IRQ_0_EV_STATUS                  | 0xf000680c                |
+| USER_IRQ_0_EV_PENDING                 | 0xf0006810                |
+| USER_IRQ_0_EV_ENABLE                  | 0xf0006814                | reg_user0_irq_en      |
 
 USER_IRQ_0_IN
 
