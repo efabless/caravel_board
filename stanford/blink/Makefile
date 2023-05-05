@@ -23,7 +23,7 @@ hex:  ${PATTERN:=.hex}
 
 %.hex: %.elf
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O verilog $< $@
-	sed -i '.orig' -e 's/@1000/@0000/g' $@
+	sed -ie 's/@1000/@0000/g' $@
 
 %.bin: %.elf
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O binary $< $@
