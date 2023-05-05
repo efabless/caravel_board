@@ -919,14 +919,14 @@ USER_IRQ_4
 Register Listing for USER_IRQ_4
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_4_IN                  | 0xf0008800          |
-| USER_IRQ_4_MODE              | 0xf0008804        |
-| USER_IRQ_4_EDGE              | 0xf0008808        |
-| USER_IRQ_4_EV_STATUS    | 0xf000880c   |
-| USER_IRQ_4_EV_PENDING  | 0xf0008810  |
-| USER_IRQ_4_EV_ENABLE    | 0xf0008814   |
+| Register                             | Address                     | C Macro Name              |
+|--------------------------------------|-----------------------------|---------------------------|
+| USER_IRQ_4_IN                        | 0xf0008800                  |
+| USER_IRQ_4_MODE                      | 0xf0008804                  |
+| USER_IRQ_4_EDGE                      | 0xf0008808                  |
+| USER_IRQ_4_EV_STATUS                 | 0xf000880c                  |
+| USER_IRQ_4_EV_PENDING                | 0xf0008810                  |
+| USER_IRQ_4_EV_ENABLE                 | 0xf0008814                  | reg_user4_irq_en          |
 
 USER_IRQ_4_IN
 
@@ -1015,14 +1015,14 @@ USER_IRQ_5
 Register Listing for USER_IRQ_5
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_5_IN                  | 0xf0009000          |
-| USER_IRQ_5_MODE              | 0xf0009004        |
-| USER_IRQ_5_EDGE              | 0xf0009008        |
-| USER_IRQ_5_EV_STATUS    | 0xf000900c   |
-| USER_IRQ_5_EV_PENDING  | 0xf0009010  |
-| USER_IRQ_5_EV_ENABLE    | 0xf0009014   |
+| Register                            | Address                    | C Macro Name           |
+|-------------------------------------|----------------------------|------------------------|
+| USER_IRQ_5_IN                       | 0xf0009000                 |
+| USER_IRQ_5_MODE                     | 0xf0009004                 |
+| USER_IRQ_5_EDGE                     | 0xf0009008                 |
+| USER_IRQ_5_EV_STATUS                | 0xf000900c                 |
+| USER_IRQ_5_EV_PENDING               | 0xf0009010                 |
+| USER_IRQ_5_EV_ENABLE                | 0xf0009014                 | reg_user5_irq_en       |
 
 USER_IRQ_5_IN
 
@@ -1131,14 +1131,14 @@ USER_IRQ_2
 Register Listing for USER_IRQ_2
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_2_IN                  | 0xf0007800          |
-| USER_IRQ_2_MODE              | 0xf0007804        |
-| USER_IRQ_2_EDGE              | 0xf0007808        |
-| USER_IRQ_2_EV_STATUS    | 0xf000780c   |
-| USER_IRQ_2_EV_PENDING  | 0xf0007810  |
-| USER_IRQ_2_EV_ENABLE    | 0xf0007814   |
+| Register                       | Address                 | C Macro Name           |
+|--------------------------------|-------------------------|------------------------|
+| USER_IRQ_2_IN                  | 0xf0007800              |
+| USER_IRQ_2_MODE                | 0xf0007804              |
+| USER_IRQ_2_EDGE                | 0xf0007808              |
+| USER_IRQ_2_EV_STATUS           | 0xf000780c              |
+| USER_IRQ_2_EV_PENDING          | 0xf0007810              |
+| USER_IRQ_2_EV_ENABLE           | 0xf0007814              | reg_user2_irq_en       |
 
 USER_IRQ_2_IN
 
@@ -1227,14 +1227,14 @@ USER_IRQ_3
 Register Listing for USER_IRQ_3
 -------------------------------
 
-| Register                                             | Address                                   |
-|------------------------------------------------------|-------------------------------------------|
-| USER_IRQ_3_IN                  | 0xf0008000          |
-| USER_IRQ_3_MODE              | 0xf0008004        |
-| USER_IRQ_3_EDGE              | 0xf0008008        |
-| USER_IRQ_3_EV_STATUS    | 0xf000800c   |
-| USER_IRQ_3_EV_PENDING  | 0xf0008010  |
-| USER_IRQ_3_EV_ENABLE    | 0xf0008014   |
+| Register                          | Address                    | C Macro Name        |
+|-----------------------------------|----------------------------|---------------------|
+| USER_IRQ_3_IN                     | 0xf0008000                 |
+| USER_IRQ_3_MODE                   | 0xf0008004                 |
+| USER_IRQ_3_EDGE                   | 0xf0008008                 |
+| USER_IRQ_3_EV_STATUS              | 0xf000800c                 |
+| USER_IRQ_3_EV_PENDING             | 0xf0008010                 |
+| USER_IRQ_3_EV_ENABLE              | 0xf0008014                 | reg_user3_irq_en    |
 
 USER_IRQ_3_IN
 
