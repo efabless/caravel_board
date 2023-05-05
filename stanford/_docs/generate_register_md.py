@@ -34,23 +34,35 @@ if __name__ == '__main__':
             line = f.readline()
             while line != '':
                 line = line.strip()
+
                 if line.startswith("|"):
-                    line = line.replace(":ref:","").replace("`","").replace('=',' ').replace('+',' ')
+                    line = line.replace(":ref:","").replace("`","").replace('=',' ').replace('+',' ').replace(":doc:","")
                     line = re.sub(r"<\w*>","",line)
                     print(line)
                     outfile.write(line + "\n")
-                if line.startswith("+="):
+
+                elif line.startswith("+="):
                     line = line.replace('=','-').replace('+','|')
                     print(line)
                     outfile.write(line + "\n")
-                # print(line)
-                if line.startswith(".. wavedrom::"):
-                    wd_code =" "
-                    while not line.startswith(':caption:'):
-                        line = f.readline().strip()
-                    line = line.replace(':caption: ','')
+
+                elif line.startswith("+-"):
+                    pass
+                    # line = line.replace('+','|')
+                    # print(line)
+                    # outfile.write("\n")
+
+                elif line.startswith("`Address:"):
                     print(line)
                     outfile.write(line + "\n")
+
+                elif line.startswith(".. wavedrom::"):
+                    wd_code =" "
+                    # while not line.startswith(':caption:'):
+                    #     line = f.readline().strip()
+                    # line = line.replace(':caption: ','')
+                    # print(line)
+                    # outfile.write(line + "\n")
                     while not line.startswith('{'):
                         line = f.readline().strip()
                     while not line.startswith('}'):
@@ -61,6 +73,13 @@ if __name__ == '__main__':
                     wd_code = '<p><img src="https://svg.wavedrom.com/{' + wd_code.strip() + '"/></p>\n'
                     print(wd_code + "\n")
                     outfile.write(wd_code + "\n")
+
+                elif line.startswith("^^^"):
+                    outfile.write("\n")
+
+                else:
+                    outfile.write(line + "\n")
+
                 line = f.readline()
 
     outfile.close()

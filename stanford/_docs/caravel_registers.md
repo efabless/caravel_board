@@ -782,8 +782,7 @@ SPI PHY settings.
 |---------|-------|-----------------------------------------------------------------------------|
 | [7:0]   | LEN   | SPI Xfer length (in bits).                                                  |
 | [11:8]  | WIDTH | SPI Xfer width (1/2/4/8).                                                   |
-| [23:16] | MASK  | SPI DQ output enable mask (set bits to 1 to enable output drivers on DQ |
-|         |       | lines).                                                                     |
+| [23:16] | MASK  | SPI DQ output enable mask (set bits to 1 to enable output drivers on DQ lines).|
 
 FLASH_CORE_MASTER_RXTX
 
@@ -889,14 +888,14 @@ The following interrupts are assigned on this system:
 
 | Interrupt | Module                         |
 |-----------|--------------------------------|
-| 0         | :doc:TIMER0          |
-| 1         | :doc:UART              |
-| 2         | :doc:USER_IRQ_0  |
-| 3         | :doc:USER_IRQ_1  |
-| 4         | :doc:USER_IRQ_2  |
-| 5         | :doc:USER_IRQ_3  |
-| 6         | :doc:USER_IRQ_4  |
-| 7         | :doc:USER_IRQ_5  |
+| 0         | TIMER0          |
+| 1         | UART              |
+| 2         | USER_IRQ_0  |
+| 3         | USER_IRQ_1  |
+| 4         | USER_IRQ_2  |
+| 5         | USER_IRQ_3  |
+| 6         | USER_IRQ_4  |
+| 7         | USER_IRQ_5  |
 
 GPIO
 ====
