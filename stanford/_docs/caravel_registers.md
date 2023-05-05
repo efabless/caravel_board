@@ -2,6 +2,20 @@
 Documentation for Caravel Management SoC
 ========================================
 
+Memory Regions
+==========
+
+SRAM is implemented in two byte-addressable blocks of synthesized RAM using DFF cells.
+
+| Region         | Address           | Length         |
+|----------------|-------------------|----------------|
+| dff            | 0x00000000        | 0x00000400     |
+| dff2           | 0x00000400        | 0x00000200     |
+| flash          | 0x10000000        | 0x01000000     |
+| housekeeping   | 0x26000000        | 0x00100000     |
+| user project   | 0x30000000        | 0x00300000     |
+| vexriscv csr   | 0xf0000000        | 0x00010000     |
+| vexriscv debug | 0xf00f0000        | 0x00000100     |
 
 CTRL
 ====
@@ -9,11 +23,11 @@ CTRL
 Register Listing for CTRL
 -------------------------
 
-| Register                                 | Address                             | C Macro Name        |
-|------------------------------------------|-------------------------------------|---------------------|
-| CTRL_RESET            | 0xf0000000       | reg_reset |
-| CTRL_SCRATCH        | 0xf0000004     ||
-| CTRL_BUS_ERRORS  | 0xf0000008  ||
+| Register                    | Address                 | C Macro Name      |
+|-----------------------------|-------------------------|-------------------|
+| CTRL_RESET                  | 0xf0000000              | reg_reset         |
+| CTRL_SCRATCH                | 0xf0000004              |
+| CTRL_BUS_ERRORS             | 0xf0000008              |
 
 CTRL_RESET
 
@@ -27,8 +41,8 @@ CTRL_RESET
 
 | Field | Name    | Description                                                            |
 |-------|---------|------------------------------------------------------------------------|
-| [0]   | SOC_RST | Write 1 to this register to reset the full SoC (Pulse Reset)         |
-| [1]   | CPU_RST | Write 1 to this register to reset the CPU(s) of the SoC (Hold Reset) |
+| [0]   | SOC_RST | Write 1 to this register to reset the full SoC (Pulse Reset)           |
+| [1]   | CPU_RST | Write 1 to this register to reset the CPU(s) of the SoC (Hold Reset)   |
 
 CTRL_SCRATCH
 
@@ -60,15 +74,15 @@ SPI_MASTER
 Register Listing for SPI_MASTER
 -------------------------------
 
-| Register                                               | Address                                    | C Macro Name                |
-|--------------------------------------------------------|--------------------------------------------|-----------------------------|
-| SPI_MASTER_CONTROL          | 0xf0004800      | reg_spimaster_control       |
-| SPI_MASTER_STATUS            | 0xf0004804       | reg_spimaster_status        |
-| SPI_MASTER_MOSI                | 0xf0004808         | reg_spimaster_wdata         |
-| SPI_MASTER_MISO                | 0xf000480c         | reg_spimaster_rdata         |
-| SPI_MASTER_CS                    | 0xf0004810           | reg_spimaster_cs            |
-| SPI_MASTER_LOOPBACK        | 0xf0004814     | reg_spimaster_clk_divider   |
-| SPI_MASTER_CLK_DIVIDER  | 0xf0004818  | reg_spi_enable              |
+| Register                          | Address                   | C Macro Name                   |
+|-----------------------------------|---------------------------|--------------------------------|
+| SPI_MASTER_CONTROL                | 0xf0004800                | reg_spimaster_control          |
+| SPI_MASTER_STATUS                 | 0xf0004804                | reg_spimaster_status           |
+| SPI_MASTER_MOSI                   | 0xf0004808                | reg_spimaster_wdata            |
+| SPI_MASTER_MISO                   | 0xf000480c                | reg_spimaster_rdata            |
+| SPI_MASTER_CS                     | 0xf0004810                | reg_spimaster_cs               |
+| SPI_MASTER_LOOPBACK               | 0xf0004814                | reg_spimaster_clk_divider      |
+| SPI_MASTER_CLK_DIVIDER            | 0xf0004818                | reg_spi_enable                 |
 
 SPI_MASTER_CONTROL
 
@@ -81,10 +95,10 @@ SPI Control.
 
 
 
-| Field  | Name   | Description                                 |
-|--------|--------|---------------------------------------------|
-| [0]    | START  | SPI Xfer Start (Write 1 to start Xfer). |
-| [15:8] | LENGTH | SPI Xfer Length (in bits).                  |
+| Field  | Name   | Description                                     |
+|--------|--------|-------------------------------------------------|
+| [0]    | START  | SPI Xfer Start (Write 1 to start Xfer).         |
+| [15:8] | LENGTH | SPI Xfer Length (in bits).                      |
 
 SPI_MASTER_STATUS
 
@@ -97,9 +111,9 @@ SPI Status.
 
 
 
-| Field | Name | Description                         |
-|-------|------|-------------------------------------|
-| [0]   | DONE | SPI Xfer Done (when read as 1). |
+| Field | Name | Description                                 |
+|-------|------|---------------------------------------------|
+| [0]   | DONE | SPI Xfer Done (when read as 1).             |
 
 SPI_MASTER_MOSI
 
@@ -393,7 +407,7 @@ UART
 Register Listing for UART
 -------------------------
 
-| Register                   | Address              | C Macro Name       
+| Register                   | Address              | C Macro Name       |
 |----------------------------|----------------------|--------------------|
 | UART_RXTX                  | 0xf0005800           | reg_uart_data      |
 | UART_TXFULL                | 0xf0005804           | reg_uart_txfull    |
