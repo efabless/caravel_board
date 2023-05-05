@@ -103,15 +103,15 @@ SPI_MASTER
 Register Listing for SPI_MASTER
 -------------------------------
 
-| Register                                               | Address                                    |
-|--------------------------------------------------------|--------------------------------------------|
-| SPI_MASTER_CONTROL          | 0xf0004800      |
-| SPI_MASTER_STATUS            | 0xf0004804       |
-| SPI_MASTER_MOSI                | 0xf0004808         |
-| SPI_MASTER_MISO                | 0xf000480c         |
-| SPI_MASTER_CS                    | 0xf0004810           |
-| SPI_MASTER_LOOPBACK        | 0xf0004814     |
-| SPI_MASTER_CLK_DIVIDER  | 0xf0004818  |
+| Register                                               | Address                                    | Macro Name  |
+|--------------------------------------------------------|--------------------------------------------|-------------|
+| SPI_MASTER_CONTROL          | 0xf0004800      | reg_spimaster_control |
+| SPI_MASTER_STATUS            | 0xf0004804       | reg_spimaster_status |
+| SPI_MASTER_MOSI                | 0xf0004808         | reg_spimaster_wdata |
+| SPI_MASTER_MISO                | 0xf000480c         | reg_spimaster_rdata |
+| SPI_MASTER_CS                    | 0xf0004810           | reg_spimaster_cs |
+| SPI_MASTER_LOOPBACK        | 0xf0004814     | reg_spimaster_clk_divider |
+| SPI_MASTER_CLK_DIVIDER  | 0xf0004818  | reg_spi_enable |
 
 SPI_MASTER_CONTROL
 
