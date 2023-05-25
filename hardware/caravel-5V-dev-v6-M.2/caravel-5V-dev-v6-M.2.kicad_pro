@@ -45,7 +45,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.3
+          "min_clearance": 0.0
         }
       },
       "diff_pair_dimensions": [
@@ -53,6 +53,11 @@
           "gap": 0.0,
           "via_gap": 0.0,
           "width": 0.0
+        },
+        {
+          "gap": 0.3,
+          "via_gap": 0.5,
+          "width": 0.3
         }
       ],
       "drc_exclusions": [],
@@ -175,7 +180,8 @@
         0.0,
         0.1524,
         0.254,
-        0.3048
+        0.3048,
+        0.5
       ],
       "via_dimensions": [
         {
@@ -389,7 +395,7 @@
       "different_unit_net": "error",
       "duplicate_reference": "error",
       "duplicate_sheet_names": "error",
-      "endpoint_off_grid": "warning",
+      "endpoint_off_grid": "ignore",
       "extra_units": "error",
       "global_label_dangling": "warning",
       "hier_label_mismatch": "error",
