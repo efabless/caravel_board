@@ -1,4 +1,4 @@
-# Caravel Board Firmware for the Vex Risc-V Processor
+# Caravel Board Firmware for the VexRisc-V Processor
 
 This repo provides firmware examples, flash programming and diagnostic tools for testing
 Open MPW and chipIgnite projects using Caravel on the open-source GF180mcu technology node.  It also provides 
