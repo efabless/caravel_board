@@ -1,8 +1,8 @@
 # Caravel Board Firmware for the Vex Risc-V Processor
 
 This repo provides firmware examples, flash programming and diagnostic tools for testing
-Open MPW and chipIgnite projects using Caravel on the open-source SKY130 technology node.  It also provides schematics, 
-layout and gerber files for PCB evaluation and breakout boards.
+Open MPW and chipIgnite projects using Caravel on the open-source GF180mcu technology node.  It also provides 
+schematics, layout and gerber files for PCB evaluation and breakout boards.
 
 The current version of this document can be found at
 
