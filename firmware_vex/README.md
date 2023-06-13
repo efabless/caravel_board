@@ -3,6 +3,14 @@
 This repo provides firmware examples, flash programming and diagnostic tools for testing
 Open MPW and chipIgnite projects using Caravel.  It also provides schematics, layout and gerber files for PCB evaluation and breakout boards.
 
+The current version of this document can be found at
+
+https://github.com/efabless/caravel_board/blob/main/firmware_vex/README.md
+
+or scan the QR code...
+
+<img src="_docs/qr-code.jpeg" alt="qr-code" style="width:200px;"/>
+
 ## Firmware
 
 You will need python 3.6 or later.  
