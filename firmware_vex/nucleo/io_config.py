@@ -5,10 +5,11 @@ from flash import flash_mem
 import sys
 from machine import Pin
 
-VERSION = "io_config -- version 1.2.1"
+VERSION = "io_config -- version 1.2.2"
 config_filename = "gpio_config_def.py"
 debug = False
 # debug=True
+
 
 
 # used as an activity indicator
@@ -114,7 +115,7 @@ def flash_data(test_name, config_stream, first_line=1):
         hex_file.write(f"{i}\n")
     hex_file.close()
 
-    flash(f"{test_name}-tmp.hex")
+    flash(f"{test_name}-tmp.hex", debug)
 
 
 def exec_flash_data(test, test_name, config_stream):
@@ -131,7 +132,7 @@ def exec_flash_data(test, test_name, config_stream):
     test.powerup_sequence()
     erase()
     # test.flash(f"{test_name}.hex")
-    flash(f"{test_name}.hex")
+    flash(f"{test_name}.hex", debug)
     flash_data(test_name, config_stream)
     test.powerup_sequence()
     test.release_reset()
@@ -474,8 +475,8 @@ def run_flash_caravel(v=1.6):
     print("*** flashing Caravel")
     test.apply_reset()
     test.powerup_sequence()
-    erase()
-    if flash(f"firmware.hex"):
+    erase(debug=True)
+    if flash(f"firmware.hex", debug=True):
         print("status Good")
     else:
         print("failed!")
