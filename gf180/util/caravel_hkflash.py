@@ -218,8 +218,12 @@ with open(file_path, mode='r') as f:
     x = f.readline()
     while x != '':
         if x[0] == '@':
-            addr = int(x[1:],16)
+            xparts = x[1:].split(' ', 1)
+            addr = int(xparts[0],16)
             print('setting address to {}'.format(hex(addr)))
+            if len(xparts) > 1:
+                x = xparts[1]
+                continue
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
@@ -298,8 +302,12 @@ with open(file_path, mode='r') as f:
     x = f.readline()
     while x != '':
         if x[0] == '@':
-            addr = int(x[1:],16)
+            xparts = x[1:].split(' ', 1)
+            addr = int(xparts[0],16)
             print('setting address to {}'.format(hex(addr)))
+            if len(xparts) > 1:
+                x = xparts[1]
+                continue
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
