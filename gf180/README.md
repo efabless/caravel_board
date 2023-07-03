@@ -21,7 +21,7 @@ To program Caravel, connect the evaluation board using a USB micro B connector.
 ```bash
 pip3 install pyftdi
 
-cd firmware/blink
+cd gf180/blink
 
 make clean flash
 ```
