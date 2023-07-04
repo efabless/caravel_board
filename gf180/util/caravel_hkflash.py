@@ -229,7 +229,7 @@ with open(file_path, mode='r') as f:
 
         x = f.readline()
 
-        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
+        if nbytes >= 256 or (((addr+nbytes)%256) <= (addr%256) and nbytes > 0) or (x != '' and x[0] == '@' and nbytes > 0):
             total_bytes += nbytes
             # print('\n----------------------\n')
             # print(binascii.hexlify(buf))
@@ -251,11 +251,11 @@ with open(file_path, mode='r') as f:
                 buf = buf[255:]
                 addr += 256
                 nbytes -= 256
-                print("*** over 256 hit")
+                print("*** over 256 hit (FIXME)")
             else:
                 buf = bytearray()
-                addr += 256
-                nbytes =0
+                addr += nbytes
+                nbytes = 0
 
     if nbytes > 0:
         total_bytes += nbytes
