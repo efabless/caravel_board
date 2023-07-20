@@ -10,7 +10,7 @@ PATTERN = gpio_test
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.c ../sections.lds ../start.s ../print_io.c ../print_io.h
-	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
+	$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i_zicsr -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
 	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D gpio_test.elf > gpio_test.lst
 
 %.hex: %.elf
