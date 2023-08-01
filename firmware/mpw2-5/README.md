@@ -6,7 +6,7 @@ layout and gerber files for PCB evaluation and breakout boards.
 
 The current version of this document can be found at
 
-https://github.com/efabless/caravel_board/blob/main/firmware_vex/README.md
+https://github.com/efabless/caravel_board/blob/main/firmware/mpw2-5/README.md
 
 or scan the QR code...
 
