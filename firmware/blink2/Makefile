@@ -30,7 +30,7 @@ all:  ${PATTERN:=.hex}
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.s $(FIRMWARE_PATH)/sections.lds
-	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -O0 -march=rv32i -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $<
+	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -O0 -march=rv32i_zicsr -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $<
 	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D blink2.elf > blink2.lst
 
 %.hex: %.elf

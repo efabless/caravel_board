@@ -4,7 +4,7 @@ LIBS=libc libcompiler_rt libbase libfatfs liblitespi liblitedram libliteeth libl
 TRIPLE=riscv64-unknown-elf
 CPU=vexriscv
 CPUFAMILY=riscv
-CPUFLAGS=-march=rv32i      -mabi=ilp32 -D__vexriscv__
+CPUFLAGS=-march=rv32i_zicsr      -mabi=ilp32 -D__vexriscv__
 CPUENDIANNESS=little
 CLANG=0
 CPU_DIRECTORY=/Users/jeffdi/Projects/caravel_mgmt_soc_litex/venv/lib/python3.9/site-packages/litex/soc/cores/cpu/vexriscv

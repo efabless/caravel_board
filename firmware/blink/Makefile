@@ -16,7 +16,7 @@ PATTERN = blink
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.c ../sections.lds ../start.s
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc -O0 -mabi=ilp32 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc -O0 -mabi=ilp32 -march=rv32i_zicsr -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -D blink.elf > blink.lst
 
 %.hex: %.elf
