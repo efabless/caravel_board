@@ -1,10 +1,11 @@
-# Stanford University - Project Testing
+# chipIgnite testing (including Stanford)
 
-This directory provides instruction and firmware for test project for Stanford University on the chipIgnite 2206 shuttle.
+This directory provides instruction and firmware for testing projects the chipIgnite shuttles including the Stanford
+projects on CI 2206.
 
 The current version of this document along with firmware example and tools can be found at
 
-https://github.com/efabless/caravel_board/tree/main/stanford#readme
+https://github.com/efabless/caravel_board/tree/main/firmware/chipignite#readme
 
 ## Hardware
 
@@ -37,11 +38,11 @@ A serial display can be connected to header J4 and is connected to the Tx serial
 
 The design files for the development board can be found at 
 
-https://github.com/efabless/caravel_board/tree/main/hardware/caravel-dev-v5-M.2
+https://github.com/efabless/caravel_board/tree/main/hardware/development/caravel-dev-v5-M.2
 
 The design files for the M.2 breakout board for Caravel can be found at 
 
-https://github.com/efabless/caravel_board/tree/main/hardware/caravel-M.2-card-QFN
+https://github.com/efabless/caravel_board/tree/main/hardware/breakout/caravel-M.2-card-QFN
 
 ## Firmware
 
@@ -52,7 +53,7 @@ To program Caravel, connect the evaluation board using a USB micro B connector.
 ```bash
 pip3 install pyftdi
 
-cd firmware/blink
+cd firmware/chipignite/blink
 
 make clean flash
 ```
