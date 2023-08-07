@@ -8,8 +8,8 @@ TOOLCHAIN_PATH=/usr/local/bin/
 # On installations using `multilib`, this will be `riscv64` even for compiling to 32-bit targets
 TOOLCHAIN_PREFIX=riscv64-unknown-elf
 #TOOLCHAIN_PREFIX=riscv32
-ARCH=rv132
-#ARCH=rv132_zicsr
+ARCH=rv32i
+#ARCH=rv32i_zicsr
 
 # ---- Test patterns for project raven ----
 
