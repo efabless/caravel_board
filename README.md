@@ -51,10 +51,9 @@ provides menu-driven debug through the housekeeping SPI interface for Caravel.
 
 The current evaluation board for Caravel can be [found here](hardware/development/caravel-dev-v5-M.2)
 
-- The clock is driven by X1 with a frequency of 10MHz. To drive the clock with custom frequnecy, disable X1 through J6 and use the external pin for `xclk`
+- The clock is driven by X1 with a frequency of 10MHz. To drive the clock with custom frequency, disable X1 through J6 and use the external pin for `xclk`
 - The voltage regulator U5 and U6 supply `1.8V` and `3.3V` through J8 and J9. The traces have to be cut if they are supplied externally.
 - `vccd1` is connected to `1.8V` through J3. The trace has to be cut if it is supplied externally
 - `vddio` is connected to `3.3V` through J5. The trace has to be cut if it is supplied externally
 
-The most updated breakout board for Caravel can be found at 
-> QFN   hardware/breakout/caravel-M.2-card-QFN
+The most updated breakout board for Caravel can be found [here](hardware/breakout/caravel-M.2-card-QFN)
