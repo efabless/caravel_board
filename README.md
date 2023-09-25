@@ -5,7 +5,7 @@ Open MPW and chipIgnite projects using Caravel.  It also provides schematics, la
 
 ## MPW-2 & MPW-3 Project Owners
 
-See the README for the the Nucleo automated [test setup here](https://github.com/efabless/caravel_board/tree/main/firmware/mpw2-5/nucleo)
+See the README for the the Nucleo automated [test setup here](firmware/mpw2-5/nucleo)
 
 ## chipIgnite Projects (including Stanford)
 
