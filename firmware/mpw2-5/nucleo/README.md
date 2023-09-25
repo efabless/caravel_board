@@ -1,14 +1,14 @@
 # Caravel Nucleo Hat
 
 This directory provides a diagnostic software for characterizing timing failure patterns between GPIO pads on Caravel 
-for the MPW-2, MPW-3 and related shuttles.
+for the MPW-2 to MPW-5 and related shuttles.
 
 The diagnostic runs on a STM Nucleo development board in combination with a Caravel Hat board that hosts the Caravel 
 part under test.
 
 The current version of this document can be found at
 
-https://github.com/efabless/caravel_board/blob/main/firmware_vex/nucleo/README.md
+https://github.com/efabless/caravel_board/blob/main/firmware/mpw2-5/nucleo/README.md
 
 or scan the QR code...
 
