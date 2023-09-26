@@ -1,14 +1,14 @@
 # Caravel Nucleo Hat
 
 This directory provides a diagnostic software for characterizing timing failure patterns between GPIO pads on Caravel 
-for the MPW-2, MPW-3 and related shuttles.
+for the MPW-2 to MPW-5 and related shuttles.
 
 The diagnostic runs on a STM Nucleo development board in combination with a Caravel Hat board that hosts the Caravel 
 part under test.
 
 The current version of this document can be found at
 
-https://github.com/efabless/caravel_board/blob/main/firmware_vex/nucleo/README.md
+https://github.com/efabless/caravel_board/blob/main/firmware/mpw2-5/nucleo/README.md
 
 or scan the QR code...
 
@@ -58,7 +58,7 @@ or scan the QR code...
 
 ```bash
   git clone https://github.com/efabless/caravel_board.git
-  cd caravel_board/firmware_vex/nucleo
+  cd caravel_board/firmware/mpw2-5/nucleo
   make setup
 ```
 
@@ -127,10 +127,8 @@ After the flash completes, check the version of the software...
 ```bash
 make version
 
-io_config -- version 1.1.0
+io_config -- version 1.2.1
 ```
-
-
 
 ### RUNNING THE DIAGNOSTIC
 
@@ -141,7 +139,7 @@ The PART variable is an ID for the part you are testing defined by
 you.  It will be recorded in the output of the test for future reference.
 
 ```bash
-cd caravel_board/firmware_vex/nucleo
+cd caravel_board/firmware/mpw2-5/nucleo
 
 ## for digital (or analog) projects using Caravel & user_project_wrapper
 make run PART=<part id>
@@ -183,13 +181,13 @@ The following will run a sanity check test using the gpio_config_def.py produced
 To run the sanity check:
 
 ```bash
-cd caravel_board/firmware_vex/nucleo
+cd caravel_board/firmware/mpw2-5/nucleo
 make sanity_check FILE=gpio_config_def.py
 ```
 
 BUILDING YOUR OWN FIRMWARE
 
-The **gpio_test** directory (`caravel_board/firmware_vex/gpio_test`) provides example for creating your own firmware.  
+The **gpio_test** directory (`caravel_board/firmware/mpw2-5/gpio_test`) provides example for creating your own firmware.  
 We recommend you copy this directory as a template to create your own firmware.  After copying the directory, update 
 `gpio_test` to your firmware name in the Makefile.
 
@@ -264,10 +262,10 @@ This is a flowchart that describes the Software, keywords here are Firmware `cod
 
 The software is done in micropython and ran on the nucleo, some of the useful functions that can be used after running `make repl` and importing `io_config` are:
 
-`version` :  displays the version of this code
-`run_poweron(v)` : powers on caravel board using the nucleo, with voltage v (default is 1.6)
-`run_change_power(v)` : changes 1v8 power on caravel board using the nucleo with voltage v and without resetting the 
+* `version` :  displays the version of this code
+* `run_poweron(v)` : powers on caravel board using the nucleo, with voltage v (default is 1.6)
+* `run_change_power(v)` : changes 1v8 power on caravel board using the nucleo with voltage v and without resetting the 
 processor.  This can be used to modify the operating power after configuring IO at a different voltage.
-`run_flash_caravel()` : flashes caravel with firmware.hex on the nucleo filesystem
-`run_sanity_check()` : runs the sanity check on an already existing gpio_config_def file on nucleo filesystem
-`run(part_name, voltage, analog)` : runs the calibration program, analog is a flag that specifies if the project is analog
+* `run_flash_caravel()` : flashes caravel with firmware.hex on the nucleo filesystem
+* `run_sanity_check()` : runs the sanity check on an already existing gpio_config_def file on nucleo filesystem
+* `run(part_name, voltage, analog)` : runs the calibration program, analog is a flag that specifies if the project is analog
