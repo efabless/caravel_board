@@ -1,7 +1,6 @@
-# chipIgnite testing (including Stanford)
+# chipIgnite Bringup Testing
 
-This directory provides instruction and firmware for testing projects the chipIgnite shuttles including the Stanford
-projects on CI 2206.
+This directory provides instruction and firmware for testing projects the chipIgnite shuttles.
 
 The current version of this document along with firmware example and tools can be found at
 
