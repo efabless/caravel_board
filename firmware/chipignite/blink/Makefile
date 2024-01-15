@@ -40,6 +40,9 @@ flash: blink.hex
 flash2: blink.hex
 	python3 ../util/caravel_flash.py blink.hex
 
+print_projectid:
+	python3 ../util/caravel_projectid.py
+
 # ---- Clean ----
 
 clean:
