@@ -123,7 +123,7 @@ product = slave.exchange([CARAVEL_REG_READ, 0x03], 1)
 print("   product    = {:02x}".format(int.from_bytes(product, byteorder='big')))
 
 data = slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
-print("   project ID = {:08x}".format(int('{0:32b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
+print("   project ID = {:08x}".format(int('{:032b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
 # print("   project ID = {:08x}".format(int.from_bytes(data, byteorder='big')))
 
 if int.from_bytes(mfg, byteorder='big') != 0x0456:
