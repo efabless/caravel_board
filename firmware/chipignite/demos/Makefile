@@ -1,7 +1,7 @@
 
 #TOOLCHAIN_PATH=/usr/bin/
-TOOLCHAIN_PATH=/opt/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin/
-#TOOLCHAIN_PATH=/opt/riscv32imc/bin/
+#TOOLCHAIN_PATH=/opt/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin/
+TOOLCHAIN_PATH=/opt/riscv32imc/bin/
 # TOOLCHAIN_PATH=/ef/apps/bin/
 
 # Set the prefix for `riscvXX-unknown-elf-*`
