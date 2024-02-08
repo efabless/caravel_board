@@ -4,6 +4,12 @@
 
   (paper "A3")
 
+  (title_block
+    (title "Clear Chip Development Board")
+    (rev "REV 1A")
+    (company "Efabless")
+  )
+
   (lib_symbols
     (symbol "Caravel_board:DS1086LU" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
       (property "Reference" "U" (at -8.89 17.78 0)
