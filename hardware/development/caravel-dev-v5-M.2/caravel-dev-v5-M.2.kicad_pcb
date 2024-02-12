@@ -6,8 +6,8 @@
 
   (paper "A4")
   (title_block
-    (title "Clear Chip Development Board")
-    (rev "REV 1A")
+    (title "Caravel 3.3V Development Board")
+    (rev "REV 5B")
     (company "Efabless")
   )
 
