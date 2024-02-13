@@ -1,7 +1,6 @@
 .vscode/
-hardware/caravel_FTDI_QFN_test_socket/caravel_FTDI_QFN_test_socket-backups/
-hardware/caravel_pcb_v3_FTDI/caravel_pcb_v3_FTDI_SMD-backups/
-hardware/caravel_breakout_v2/Caravel_breakout_v2-backups/
-hardware/caravel_pcb_v4_FTDI/caravel_pcb_v4_FTDI_flexy-backups/
-hardware/caravel_pcb_v4_FTDI/caravel_pcb_v4_FTDI_SMD-backups/
-hardware/caravel_Nucleo/caravel_Nucleo-backups/
+*-backups
+*.kicad_prl
+*fp-info-cache
+*.bak
+*.lck
