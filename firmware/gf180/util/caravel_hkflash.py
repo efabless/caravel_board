@@ -194,6 +194,7 @@ if jedec[0:1] != bytes.fromhex('ef'):
     print("Winbond SRAM not found")
     sys.exit()
 
+# TODO: Read the chip 1st to find out if some pages already have correct data
 print("Erasing chip...")
 slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
 slave.write([CARAVEL_PASSTHRU, CMD_ERASE_CHIP])
@@ -209,6 +210,10 @@ while (is_busy(slave)):
 print("done")
 print("status = {}".format(hex(get_status(slave))))
 
+print("************************************")
+print("reading file...")
+print("************************************")
+
 buf = bytearray()
 addr = 0
 nbytes = 0
@@ -218,62 +223,56 @@ with open(file_path, mode='r') as f:
     x = f.readline()
     while x != '':
         if x[0] == '@':
-            addr = int(x[1:],16)
+            xparts = x[1:].split(' ',1)
+            addr = int(xparts[0],16)
             print('setting address to {}'.format(hex(addr)))
+            if len(xparts) > 1:
+               x = xparts[1]
+               continue
         else:
-            # print(x)
-            values = bytearray.fromhex(x[0:len(x)-1])
-            buf[nbytes:nbytes] = values
-            nbytes += len(values)
+            values = bytearray.fromhex(x[0:])
+
             # print(binascii.hexlify(values))
+            # print("{} = {} ?".format(addr,total_bytes))
+
+            while addr > total_bytes:
+                buf.append(255)
+                total_bytes += 1
+
+            buf[addr:addr] = values
+            addr += len(values)
+            if addr > total_bytes:
+               total_bytes = addr
 
         x = f.readline()
 
-        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
-            total_bytes += nbytes
-            # print('\n----------------------\n')
-            # print(binascii.hexlify(buf))
-            # print("\ntotal_bytes = {}".format(total_bytes))
-
-            slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-            wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # print(binascii.hexlify(wcmd))
-            # wcmd.extend(buf[0:255])
-            wcmd.extend(buf)
-            slave.exchange(wcmd)
-            while (is_busy(slave)):
-                time.sleep(0.1)
-
-            print("addr {}: flash page write successful".format(hex(addr)))
-
-            if nbytes > 256:
-                buf = buf[255:]
-                addr += 256
-                nbytes -= 256
-                print("*** over 256 hit")
-            else:
-                buf = bytearray()
-                addr += 256
-                nbytes =0
-
-    if nbytes > 0:
-        total_bytes += nbytes
-        # print('\n----------------------\n')
-        # print(binascii.hexlify(buf))
-        # print("\nnbytes = {}".format(nbytes))
-
-        slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
-        wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-        # wcmd = bytearray((CARAVEL_PASSTHRU, CMD_WRITE_ENABLE, CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-        wcmd.extend(buf)
-        slave.exchange(wcmd)
-        while (is_busy(slave)):
-            time.sleep(0.1)
-
-        print("addr {}: flash page write successful".format(hex(addr)))
-
 print("\ntotal_bytes = {}".format(total_bytes))
+
+# to make total_bytes multiple of 256
+while total_bytes & 255:
+    buf.append(255)
+    total_bytes += 1
+
+total_pages = total_bytes>>8
+
+print("total_pages = {}".format(total_pages))
+
+print("************************************")
+print("writing...")
+print("************************************")
+
+i = 0
+while i < total_pages:
+    addr = i<<8
+    i += 1
+    print('setting address to {}'.format(hex(addr)))
+    slave.write([CARAVEL_PASSTHRU, CMD_WRITE_ENABLE])
+    wcmd = bytearray((CARAVEL_PASSTHRU, CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+    wcmd.extend(buf[addr:addr+256])
+    slave.exchange(wcmd)
+    while (is_busy(slave)):
+        time.sleep(0.1)
+    print("addr {}: flash page write successful".format(hex(addr)))
 
 report_status(jedec)
 
@@ -281,10 +280,8 @@ print("************************************")
 print("verifying...")
 print("************************************")
 
-buf = bytearray()
 addr = 0
 nbytes = 0
-total_bytes = 0
 
 while (is_busy(slave)):
     time.sleep(0.5)
@@ -294,65 +291,21 @@ while (is_busy(slave)):
 
 report_status(jedec)
 
-with open(file_path, mode='r') as f:
-    x = f.readline()
-    while x != '':
-        if x[0] == '@':
-            addr = int(x[1:],16)
-            print('setting address to {}'.format(hex(addr)))
-        else:
-            # print(x)
-            values = bytearray.fromhex(x[0:len(x)-1])
-            buf[nbytes:nbytes] = values
-            nbytes += len(values)
-            # print(binascii.hexlify(values))
-
-        x = f.readline()
-
-        if nbytes >= 256 or (x != '' and x[0] == '@' and nbytes > 0):
-
-            total_bytes += nbytes
-            # print('\n----------------------\n')
-            # print(binascii.hexlify(buf))
-            # print("\ntotal_bytes = {}".format(total_bytes))
-
-            read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            # print(binascii.hexlify(read_cmd))
-            buf2 = slave.exchange(read_cmd, nbytes)
-            if buf == buf2:
-                print("addr {}: read compare successful".format(hex(addr)))
-            else:
-                print("addr {}: *** read compare FAILED ***".format(hex(addr)))
-                print(binascii.hexlify(buf))
-                print("<----->")
-                print(binascii.hexlify(buf2))
-
-            if nbytes > 256:
-                buf = buf[255:]
-                addr += 256
-                nbytes -= 256
-                print("*** over 256 hit")
-            else:
-                buf = bytearray()
-                addr += 256
-                nbytes =0
-
-    if nbytes > 0:
-        total_bytes += nbytes
-        # print('\n----------------------\n')
-        # print(binascii.hexlify(buf))
-        # print("\nnbytes = {}".format(nbytes))
-
-        read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-        # print(binascii.hexlify(read_cmd))
-        buf2 = slave.exchange(read_cmd, nbytes)
-        if buf == buf2:
-            print("addr {}: read compare successful".format(hex(addr)))
-        else:
-            print("addr {}: *** read compare FAILED ***".format(hex(addr)))
-            print(binascii.hexlify(buf))
-            print("<----->")
-            print(binascii.hexlify(buf2))
+i = 0
+while i < total_pages:
+    addr = i<<8
+    i += 1
+    print('setting address to {}'.format(hex(addr)))
+    read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+    # print(binascii.hexlify(read_cmd))
+    buf2 = slave.exchange(read_cmd, 256)
+    if buf[addr:addr+256] == buf2:
+        print("addr {}: read compare successful".format(hex(addr)))
+    else:
+        print("addr {}: *** read compare FAILED ***".format(hex(addr)))
+        print(binascii.hexlify(buf[addr:addr+256]))
+        print("<----->")
+        print(binascii.hexlify(buf2))
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
