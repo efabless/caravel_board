@@ -93,7 +93,7 @@ class Led:
 
     def toggle(self):
         self.led = (self.led+1) & 0x1
-        output = 0b000100000000 | self.led << 11
+        output = 0b000100000000 | self.led << 10
         if (self.gpio):
             self.gpio.write(output)
             time.sleep(0.2)
@@ -132,16 +132,18 @@ spi = SpiController(cs_count=2)
 # spi.configure('ftdi://::/1')
 spi.configure(gooddevs[0])
 # slave = spi.get_port(cs=0, freq=12E6, mode=0)  # new caravel board
-slave = spi.get_port(cs=0, freq=1E6, mode=0)  # new caravel board
+# slave = spi.get_port(cs=0, freq=1E6, mode=0)  # new caravel board
+slave = spi.get_port(cs=0, freq=1E5, mode=0)  # new caravel board
 # slave = spi.get_port(cs=1, freq=12E6, mode=0)  # old caravel board
 # slave = spi.get_port(cs=1, freq=6E6, mode=0)
 
 gpio = spi.get_gpio()
 # # gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
-gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
-# # gpio.write(0b000100000000)
-led = Led(gpio)
-# led = Led(None)
+# gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
+gpio.set_direction(0b1111111100000000, 0b0011111100000000)  # (mask, dir)
+gpio.write(0b0010001100000000)
+# led = Led(gpio)
+led = Led(None)
 led.toggle()
 
 # in some cases, you may need to comment or uncomment this line
@@ -364,6 +366,8 @@ slave.write([CARAVEL_REG_WRITE, 0x0b, 0x00])
 led.toggle()
 time.sleep(0.3)
 led.toggle()
+
+input()
 
 spi.terminate()
 

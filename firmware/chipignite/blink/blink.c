@@ -131,7 +131,7 @@ void main()
     //	data2 = reg_la2_data;
     //	data3 = reg_la3_data;
 
-    print("Hello World !!");
+    print("Hello World !!\n");
 
 	while (1) {
 

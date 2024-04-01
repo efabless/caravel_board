@@ -1006,6 +1006,7 @@ Disassembly of section .rodata:
 10000f24:	6c72                	flw	fs8,28(sp)
 10000f26:	2064                	fld	fs1,192(s0)
 10000f28:	2121                	jal	10001330 <_erodata+0x330>
+10000f2a:	000a                	c.slli	zero,0x2
 	...
 
 Disassembly of section .bss:

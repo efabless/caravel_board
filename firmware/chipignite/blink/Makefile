@@ -32,7 +32,8 @@ hex:  ${PATTERN:=.hex}
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-objcopy -O binary $< $@
 
 client: client.c
-	gcc client.c -o client
+	#gcc client.c -o client
+	python3 ./client.py
 
 flash: blink.hex
 	python3 ../util/caravel_hkflash.py blink.hex
