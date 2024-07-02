@@ -1,6 +1,5 @@
 (footprint "FCI_10118193-0001LF" (version 20221018) (generator pcbnew)
   (layer "F.Cu")
-  (attr smd)
   (fp_text reference "REF**" (at -0.67941 -4.48892) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.015)))
     (tstamp e8939333-f83c-47d3-b5bd-55b859a3d3b0)
