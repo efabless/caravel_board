@@ -6,7 +6,14 @@ import time
 
 
 class HKSpi:
-    def __init__(self, ftdi_device: str=None):
+    # Historically, each utility script has its own different GPIO8 (/UART_EN)
+    # initialization state. These uart_enable_mode values retain consistency
+    # with those states, to support users who might rely on this behavior:
+    UART_ENABLE     = 0 # GPIO8 outputs 0
+    UART_DISABLE    = 1 # GPIO8 outputs 1
+    UART_DEFAULT    = 2 # GPIO8 input (floating); the board's pull up/down or J2 decides.
+    # NOTE: Can also pass None to mean "do nothing", i.e. retain existing state.
+    def __init__(self, ftdi_device: str=None, uart_enable_mode: int=None):
         if ftdi_device == None:
             ftdi_device = find_ftdi()
         
@@ -15,12 +22,28 @@ class HKSpi:
 
         self.raw_gpio = self.spi.get_gpio()
         self.gpio = Gpio(self.raw_gpio)
-        self.led = self.gpio.get_pin(10, value=0)
-        self.led2 = self.gpio.get_pin(11, value=0)
+
+        #NOTE: LEDs are active-low.
+        # Caravel Rev 5B board (e.g. commit 0eb8c4c) has the following mapping of:
+        # - D1 = ACBUS2 = GPIO10
+        # - D2 = ACBUS3 = GPIO11
+        # ...but this is reversed for Rev 5A (e.g. commit 28d947e)
+        # and for the so-called "Rev 6B" (5V board, e.g. for GFMPW).
+        # Functionally this makes no differences;
+        # it just might confuse some users looking at the board.
+        # If there were a way to detect the board rev, this could reverse automatically.
+        self.led1 = self.gpio.get_pin(10, value=0, dir=1)
+        self.led2 = self.gpio.get_pin(11, value=0, dir=1)
         # self.mr = self.gpio.get_pin(9)
 
-        # Important, disable UART by driving UART_EN high _before_ opening SPI
-        self.uart_en = self.gpio.get_pin(8)
+        if uart_enable_mode == self.UART_ENABLE:
+            self.uart_enb = self.gpio.get_pin(8, value=0, dir=1)
+        elif uart_enable_mode == self.UART_DISABLE:
+            self.uart_enb = self.gpio.get_pin(8, value=1, dir=1)
+        elif uart_enable_mode == self.UART_DEFAULT:
+            self.uart_enb = self.gpio.get_pin(8, value=1, dir=0)
+        elif uart_enable_mode is not None:
+            raise ValueError(f"Invalid uart_enable_mode: {uart_enable_mode}")
 
         self.slave = self.spi.get_port(cs=0, freq=1E6, mode=0)
 
@@ -66,7 +89,7 @@ class HKSpi:
         return self.slave.exchange([CARAVEL_REG_READ, reg], 1)
     
     def write_reg(self, reg: int, value: int):
-        self.slave.exchange([CARAVEL_REG_WRITE, reg, value], 1)
+        self.slave.exchange([CARAVEL_REG_WRITE, reg, value])
 
     def read_project_id(self):
         data = self.slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
@@ -116,7 +139,7 @@ class HKSpi:
             while (self.is_busy()):
                 time.sleep(0.3)
                 if not quiet: print('.', end='', flush=True)
-                self.led.toggle()
+                self.led1.toggle()
 
             if not quiet: print("done")
             if not quiet: self.print_status()
@@ -139,11 +162,21 @@ class HKSpi:
         self.slave.write([CARAVEL_REG_WRITE, 0x08, 0x03])
         self.slave.write([CARAVEL_REG_WRITE, 0x09, 0x00])
 
-    def dco_trim(self, value: (int,int,int,int)):
-        self.slave.exchange([CARAVEL_REG_WRITE, 0x0d, value[0]])
-        self.slave.exchange([CARAVEL_REG_WRITE, 0x0e, value[1]])
-        self.slave.exchange([CARAVEL_REG_WRITE, 0x0f, value[2]])
-        self.slave.exchange([CARAVEL_REG_WRITE, 0x10, value[3]])
+    # Write the 26 bits of the DCO trim value.
+    # `data` is the exact 26-bit pattern to write,
+    # where 0x3fff_ffff is the maximum trim (slowest clock)
+    # and   0x0000_0000 is the minimum trim (fastest clock).
+    # Note that it's the "population count" of bits set to 1 that determines the trim (not
+    # the binary value itself). This is known as 'thermometer code' or 'unary coding' and
+    # it means there are effectively only 27 distinct values, e.g.
+    # ranging from 0b0 through 0b1, 0b11, 0b111... up to 0b11_1111_1111_1111_1111_1111_1111
+    def dco_trim(self, value: int):
+        #NOTE: DCO trim registers are laid out in little-endian order
+        # with the 0x0d register receiving bits [7:0],
+        # 0x0e gets [15:8], 0x0f gets [23:16], and 0x10 gets [25:24]:
+        bytes_for_regs = list(value.to_bytes(4, byteorder='little'))
+        self.slave.exchange([CARAVEL_STREAM_WRITE, 0x0d] + bytes_for_regs)
+
 
     def __enter__(self):
         return self

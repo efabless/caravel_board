@@ -20,6 +20,7 @@ class Gpio:
     def get_pin(self, index, dir=1, value=1):
         return Pin(self, index, dir, value)
     
+    # For an output GPIO (by index) get its current value:
     def get_output(self, index):
         return (self.out >> index) & 1
     
@@ -32,6 +33,7 @@ class Gpio:
             self.out &= ~(1 << index)
         self.raw_gpio.write(self.out)
 
+    # Set the direction for a given GPIO pin index (1=output, 0=input):
     def set_direction(self, index, dir=1):
         self.mask |= (1 << index)
         if dir:

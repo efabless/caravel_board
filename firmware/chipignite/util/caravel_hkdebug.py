@@ -81,11 +81,11 @@ with HKSpi() as hk:
 
         elif k == '12':
             print("DCO mode full trim...")
-            hk.dco_trim((0xff, 0xff, 0xff, 0xff))
+            hk.dco_trim(0x3fff_ffff)
 
         elif k == '13':
             print("DCO mode zero trim...")
-            hk.dco_trim((0x00, 0x00, 0x00, 0x00))
+            hk.dco_trim(0x0000_0000)
 
         elif k == '14':
             print("Register?")
@@ -94,7 +94,7 @@ with HKSpi() as hk:
             print("Value?")
             v = input()
             val = int(v, 0)
-            hk.write_reg(r, v)
+            hk.write_reg(reg, val)
 
         elif k == 'q':
             print("Exiting...")

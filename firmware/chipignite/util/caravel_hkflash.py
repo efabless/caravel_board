@@ -19,12 +19,12 @@ if not os.path.isfile(file_path):
 
 
 
-with HKSpi() as hk:
+with HKSpi(uart_enable_mode=HKSpi.UART_DISABLE) as hk:
     hk.identify()
     hk.cpu_reset_hold()
 
     time.sleep(0.5)
-    hk.led.toggle()
+    hk.led1.toggle()
 
     print(" ")
     print("Resetting Flash...")
@@ -191,7 +191,7 @@ with HKSpi() as hk:
 
     hk.cpu_reset_release()
 
-    hk.led.toggle()
+    hk.led1.toggle()
     time.sleep(0.3)
-    hk.led.toggle()
+    hk.led1.toggle()
 
