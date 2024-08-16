@@ -1,4 +1,6 @@
 .vscode/
+.DS_Store
+__pycache__
 *-backups
 *.kicad_prl
 *fp-info-cache
