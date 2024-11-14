@@ -58,7 +58,8 @@ class HKSpi:
         
         data = self.slave.exchange([CARAVEL_STREAM_READ, 0x04], 4)
         print("   project ID = {:08x}".format(int('{:032b}'.format(int.from_bytes(data, byteorder='big'))[::-1], 2)))
-        
+        print("   project ID = {:08x}".format(int.from_bytes(data, byteorder='big')))
+
         if int.from_bytes(mfg, byteorder='big') != 0x0456:
             print("Incorrect MFG value, expected 0x0456.")
             exit(2)
