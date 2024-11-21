@@ -14,12 +14,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-TOOLCHAIN_PATH = /opt/riscv32imc/bin
-# TOOLCHAIN_PATH = /ef/apps/bin/
+# Set compilation variables
+include ../../environment.mk
 
 FIRMWARE_PATH = ..
-GCC_PATH?=/ef/apps/bin
-GCC_PREFIX?=riscv32-unknown-elf
 
 .SUFFIXES:
 
@@ -30,11 +28,11 @@ all:  ${PATTERN:=.hex}
 hex:  ${PATTERN:=.hex}
 
 %.elf: %.s $(FIRMWARE_PATH)/sections.lds
-	${TOOLCHAIN_PATH}/${GCC_PREFIX}-gcc -O0 -march=rv32i_zicsr -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $<
-	${TOOLCHAIN_PATH}/riscv32-unknown-elf-objdump -D blink2.elf > blink2.lst
+	${TOOLCHAIN_PATH}${TOOLCHAIN_PREFIX}-unknown-elf-gcc -O0 -march=$(TARGET_ARCH) -mabi=ilp32 -Wl,-Bstatic,-T,$(FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $<
+	${TOOLCHAIN_PATH}${TOOLCHAIN_PREFIX}-unknown-elf-objdump -D blink2.elf > blink2.lst
 
 %.hex: %.elf
-	${TOOLCHAIN_PATH}/${GCC_PREFIX}-objcopy -O verilog $< $@
+	${TOOLCHAIN_PATH}${TOOLCHAIN_PREFIX}-unknown-elf-objcopy -O verilog $< $@
 	# to fix flash base address
 	sed -i '.orig' -e 's/@10000000/@00000000/g' $@
 

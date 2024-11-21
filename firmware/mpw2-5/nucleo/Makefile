@@ -141,14 +141,8 @@ setup: check-python
 
 # ---- targets for building hex file
 
-#TOOLCHAIN_PATH=/foss/tools/riscv-gnu-toolchain-rv32i/217e7f3debe424d61374d31e33a091a630535937/bin/
-TOOLCHAIN_PATH=/usr/local/bin/
-#TOOLCHAIN_PATH=/opt/riscv32imc/bin/
-
-# Set the prefix for `riscvXX-unknown-elf-*`
-# On installations using `multilib`, this will be `riscv64` even for compiling to 32-bit targets
-TOOLCHAIN_PREFIX=riscv64-unknown-elf
-#TOOLCHAIN_PREFIX=riscv32-unknown-linux-gnu
+# Set compilation variables
+include ../../environment.mk
 
 SED_CMD=sed -i'.orig' -e
 #SED_CMD=sed -ie
@@ -163,14 +157,14 @@ hex:  ${PATTERN:=.hex}
 #	python3 ../gpio_config/gpio_config_builder.py
 
 %.elf: %.c ../sections.lds ../crt0_vex.S ./gpio_config_data.c ./send_packet.c
-	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i_zicsr -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
+	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=$(TARGET_ARCH) -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
 
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i_zicsr -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c $<
-	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -s  config_io_o.elf > config_io_o.lst
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=$(TARGET_ARCH) -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c $<
+	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-unknown-elf-objdump -s  config_io_o.elf > config_io_o.lst
 
 %.hex: %.elf
-	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-objcopy -O verilog $< $@
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-objcopy -O verilog $< $@
+	#$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-linux-gnu-objcopy -O verilog $< $@
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-unknown-elf-objcopy -O verilog $< $@
 	$(SED_CMD) 's/@10/@00/g' $@
 	$(SED_CMD) '1,/@00/!d' $@
 
